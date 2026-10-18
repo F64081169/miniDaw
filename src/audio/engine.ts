@@ -60,6 +60,7 @@ class Engine {
       this.graph = new MixGraph(ctx, { meters: true });
       this.graph.sync(getProject(), true);
       this.metroGain = ctx.createGain();
+      this.metroGain.gain.value = getProject().metronome.volume;
       this.metroGain.connect(ctx.destination);
       this.clicks = [true, false].map((accent) => {
         const data = renderClick(ctx.sampleRate, accent);
