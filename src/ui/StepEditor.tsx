@@ -14,7 +14,7 @@ import { onFrame } from './raf';
 import { useEffect } from 'react';
 import * as cmd from './commands';
 
-const ROWS = ['crash', 'ride', 'bell', 'hatO', 'hatC', 'hatP', 'tomH', 'tomM', 'tomL', 'tomF', 'clap', 'snare2', 'snare', 'rim', 'kick', 'tamb', 'shaker', 'cowbell'];
+const ROWS = ['kick', 'snare', 'clap', 'rim', 'snare2', 'hatC', 'hatP', 'hatO', 'tomH', 'tomM', 'tomL', 'tomF', 'crash', 'ride', 'bell', 'tamb', 'shaker', 'cowbell'];
 const STEP = 0.25;
 
 export function StepEditor({ region, track }: { region: MidiRegion; track: Track }) {

@@ -93,7 +93,7 @@ export function BottomPanel() {
         <button type="button" role="tab" aria-selected={panel === 'editor'} className={`tab ${panel === 'editor' ? 'on' : ''}`} onClick={() => st().setUi({ bottomPanel: 'editor' })}>
           <Icon name="editor" size={15} /> 編輯器
         </button>
-        <button type="button" role="tab" aria-selected={panel === 'mixer'} className={`tab ${panel === 'mixer' ? 'on' : ''}`} onClick={() => st().setUi({ bottomPanel: 'mixer' })}>
+        <button type="button" role="tab" aria-selected={panel === 'mixer'} className={`tab ${panel === 'mixer' ? 'on' : ''}`} onClick={() => cmd.showBottom('mixer')}>
           <Icon name="mixer" size={15} /> 混音台
         </button>
         <div className="tb-spacer" />

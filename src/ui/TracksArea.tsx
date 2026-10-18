@@ -37,6 +37,7 @@ import { cloneRegion, findRegion, regionEnd, regionLengthBeats } from '../state/
 import { loadProjectFile } from '../state/persistence';
 import { useDaw } from '../state/store';
 import * as cmd from './commands';
+import { LoadingIndicator } from './ControlBar';
 import { dragPointer } from './controls/controls';
 import { Icon } from './icons';
 import { openContextMenu, MenuButton, type MenuItem } from './menu';
@@ -781,6 +782,7 @@ export function TracksArea() {
           <Icon name="trash" />
         </button>
         <div className="tb-spacer" />
+        <LoadingIndicator />
         <button type="button" className="btn icon-btn" title="縮小" onClick={() => zoom(1 / 1.4)}>
           <Icon name="zoomOut" />
         </button>

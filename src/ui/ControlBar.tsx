@@ -123,7 +123,7 @@ function Lcd() {
   );
 }
 
-function LoadingIndicator() {
+export function LoadingIndicator() {
   const [count, setCount] = useState(0);
   const preparing = useDaw((s) => s.transport.preparing);
   useEffect(() => {
@@ -226,7 +226,6 @@ export function ControlBar() {
         <ToggleButton on={countIn} kind="accent" onClick={cmd.toggleCountIn} title="錄音前預備拍 Count-in">
           <Icon name="countIn" />
         </ToggleButton>
-        <LoadingIndicator />
       </div>
 
       <div className="cb-group cb-right">

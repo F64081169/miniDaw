@@ -199,7 +199,7 @@ function MasterStrip({ height }: { height: number }) {
 
 export function Mixer({ height }: { height: number }) {
   const tracks = useDaw((s) => s.project.tracks);
-  const faderH = Math.max(70, Math.min(240, height - 196));
+  const faderH = Math.max(64, Math.min(240, height - 214));
   return (
     <div className="mixer">
       <div className="mixer-strips">

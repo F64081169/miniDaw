@@ -36,8 +36,15 @@ export function toggleLeft(panel: Exclude<LeftPanel, null>): void {
   st().setUi((u) => ({ leftPanel: u.leftPanel === panel ? null : panel }));
 }
 
+export function showBottom(panel: Exclude<BottomPanel, null>): void {
+  // the mixer needs more height than the editor to show faders comfortably
+  const room = typeof window !== 'undefined' ? window.innerHeight - 300 : 400;
+  st().setUi((u) => ({ bottomPanel: panel, bottomHeight: panel === 'mixer' ? Math.max(u.bottomHeight, Math.min(430, room)) : u.bottomHeight }));
+}
+
 export function toggleBottom(panel: Exclude<BottomPanel, null>): void {
-  st().setUi((u) => ({ bottomPanel: u.bottomPanel === panel ? null : panel }));
+  if (st().ui.bottomPanel === panel) st().setUi({ bottomPanel: null });
+  else showBottom(panel);
 }
 
 export function openEditorFor(regionId: string | null): void {

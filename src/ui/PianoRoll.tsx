@@ -221,19 +221,26 @@ export function PianoRoll({ region, track }: { region: MidiRegion; track: Track 
 
   // initial scroll: centre on the notes (or around C4)
   const regionId = region.id;
-  useLayoutEffect(() => {
-    const centre = () => {
-      const sc = scrollRef.current;
-      if (!sc) return;
-      const pitches = region.notes.map((n) => n.pitch);
-      const mid = pitches.length ? (Math.min(...pitches) + Math.max(...pitches)) / 2 : isDrums ? 42 : 64;
-      sc.scrollTop = Math.max(0, (127 - mid) * rowH - sc.clientHeight / 2);
+  const fitToNotes = useCallback(() => {
+    const sc = scrollRef.current;
+    if (!sc) return;
+    const pitches = region.notes.map((n) => n.pitch);
+    const lo = pitches.length ? Math.min(...pitches) : isDrums ? 36 : 55;
+    const hi = pitches.length ? Math.max(...pitches) : isDrums ? 51 : 72;
+    // zoom rows so the used range fits, then centre it
+    const h = Math.max(7, Math.min(16, Math.floor(sc.clientHeight / (hi - lo + 3))));
+    if (h !== st().ui.editorRowHeight) st().setUi({ editorRowHeight: h });
+    const mid = (lo + hi) / 2;
+    requestAnimationFrame(() => {
+      sc.scrollTop = Math.max(0, (127.5 - mid) * h - sc.clientHeight / 2);
       sc.scrollLeft = 0;
       dirty.current = true;
-    };
-    centre();
+    });
+  }, [region.notes, isDrums]);
+
+  useLayoutEffect(() => {
     // the panel may still be settling its height on the first frame
-    const raf = requestAnimationFrame(centre);
+    const raf = requestAnimationFrame(fitToNotes);
     return () => cancelAnimationFrame(raf);
   }, [regionId]);
 
@@ -576,6 +583,9 @@ export function PianoRoll({ region, track }: { region: MidiRegion; track: Track 
           {selected.length ? `已選 ${selected.length} 個音符 · ` : ''}
           {region.notes.length} 音符 · {Math.round((region.length / bar) * 100) / 100} 小節
         </span>
+        <button type="button" className="btn" title="把所有音符放進畫面" onClick={fitToNotes}>
+          符合音符
+        </button>
         <button type="button" className="btn icon-btn" title="縮小" onClick={() => st().setUi({ editorPxPerBeat: clamp(ppb / 1.4, 12, 800) })}>
           <Icon name="zoomOut" />
         </button>
