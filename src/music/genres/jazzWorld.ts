@@ -54,7 +54,7 @@ export const JAZZ: GenreDef = {
       patch: 'drums.jazz',
       style: 'jazz',
       step: 'drums',
-      mix: { volumeDb: -3, pan: 0, reverb: 0.14, delay: 0 },
+      mix: { volumeDb: -3.5, pan: 0, reverb: 0.14, delay: 0 },
       why: 'Ride 鈸的 spang-a-lang、踩鈸 2、4 拍、很輕的大鼓（feathering）。',
     },
     {
@@ -64,7 +64,7 @@ export const JAZZ: GenreDef = {
       patch: 'bass.upright',
       style: 'walking',
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0.05, reverb: 0.06, delay: 0, lowCut: 30 },
+      mix: { volumeDb: -1.5, pan: 0.05, reverb: 0.06, delay: 0, lowCut: 30 },
       why: 'Walking Bass：每拍一個音，用和弦音、經過音和半音趨近一路走到下一個和弦。',
     },
     {
@@ -75,7 +75,7 @@ export const JAZZ: GenreDef = {
       style: 'jazzComp',
       voicing: 'rootless',
       step: 'harmony',
-      mix: { volumeDb: -5, pan: -0.15, reverb: 0.16, delay: 0, lowCut: 80 },
+      mix: { volumeDb: -4.5, pan: -0.15, reverb: 0.16, delay: 0, lowCut: 80 },
       why: '用不彈根音的 Rootless voicing（3–7–9），在切分的位置 comping。',
     },
     {
@@ -87,7 +87,7 @@ export const JAZZ: GenreDef = {
       range: [62, 84],
       sections: ['verse', 'solo'],
       step: 'melody',
-      mix: { volumeDb: 0, pan: 0.25, reverb: 0.2, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -4.5, pan: 0.25, reverb: 0.2, delay: 0, lowCut: 150 },
       why: '顫音琴吹奏主題與即興，你也可以錄下自己的樂器 Solo。',
     },
   ],
@@ -170,7 +170,7 @@ export const BOSSA: GenreDef = {
       style: 'bossaGuitar',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -4.5, pan: -0.15, reverb: 0.14, delay: 0, lowCut: 60 },
+      mix: { volumeDb: -2, pan: -0.15, reverb: 0.14, delay: 0, lowCut: 60 },
       why: 'Bossa 的靈魂：拇指 1、3 拍彈低音，手指在切分位置彈和弦。',
     },
     {
@@ -190,7 +190,7 @@ export const BOSSA: GenreDef = {
       patch: 'bass.upright',
       style: 'bossa',
       step: 'bass',
-      mix: { volumeDb: -7.5, pan: 0, reverb: 0.05, delay: 0, lowCut: 30 },
+      mix: { volumeDb: -6, pan: 0, reverb: 0.05, delay: 0, lowCut: 30 },
       why: '根音—五度的二拍子律動，換和弦前常常「提前」半拍。',
     },
     {
@@ -203,7 +203,7 @@ export const BOSSA: GenreDef = {
       range: [55, 79],
       sections: ['chorus', 'solo'],
       step: 'layers',
-      mix: { volumeDb: -11.5, pan: 0.3, reverb: 0.2, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -7, pan: 0.3, reverb: 0.2, delay: 0, lowCut: 150 },
       why: 'B 段加一層輕柔的鋼琴長音和弦，讓畫面更溫暖。',
     },
     {
@@ -215,7 +215,7 @@ export const BOSSA: GenreDef = {
       range: [62, 81],
       sections: ['verse', 'chorus', 'solo'],
       step: 'melody',
-      mix: { volumeDb: 0.5, pan: 0.2, reverb: 0.2, delay: 0.08, lowCut: 150 },
+      mix: { volumeDb: -6.5, pan: 0.2, reverb: 0.2, delay: 0.08, lowCut: 150 },
       why: '用顫音琴示範輕柔的旋律；Bossa 的人聲通常很輕、像耳語。',
     },
   ],
@@ -298,7 +298,7 @@ export const FUNK: GenreDef = {
       patch: 'drums.studio',
       style: 'funk',
       step: 'drums',
-      mix: { volumeDb: -5, pan: 0, reverb: 0.06, delay: 0, comp: { threshold: -16, ratio: 4, attack: 10, release: 100, makeup: 3 } },
+      mix: { volumeDb: 0.5, pan: 0, reverb: 0.06, delay: 0, comp: { threshold: -16, ratio: 4, attack: 10, release: 100, makeup: 3 } },
       why: '16 分音符 Hi-Hat、小鼓鬼音、切分的大鼓，重拍在第一拍。',
     },
     {
@@ -308,7 +308,7 @@ export const FUNK: GenreDef = {
       patch: 'bass.pick',
       style: 'funk',
       step: 'bass',
-      mix: { volumeDb: -4.5, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 5, attack: 5, release: 100, makeup: 4 } },
+      mix: { volumeDb: -4, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 5, attack: 5, release: 100, makeup: 4 } },
       why: '16 分音符切分、八度跳躍與鬼音（悶音），是 Funk 的主角之一。',
     },
     {
@@ -319,7 +319,7 @@ export const FUNK: GenreDef = {
       style: 'funkChop',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -5.5, pan: -0.5, reverb: 0.08, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -8.5, pan: -0.5, reverb: 0.08, delay: 0, lowCut: 150 },
       why: 'Chicken Scratch：16 分音符的悶音刷弦夾雜短促的九和弦。',
     },
     {
@@ -330,7 +330,7 @@ export const FUNK: GenreDef = {
       style: 'stabs',
       sections: ['verse', 'chorus'],
       step: 'layers',
-      mix: { volumeDb: -8.5, pan: 0.45, reverb: 0.1, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -13, pan: 0.45, reverb: 0.1, delay: 0, lowCut: 150 },
       why: '反拍的短和弦，和吉他左右互相填空。',
     },
     {
@@ -341,7 +341,7 @@ export const FUNK: GenreDef = {
       style: 'brassStabs',
       sections: ['chorus'],
       step: 'melody',
-      mix: { volumeDb: -3, pan: 0.15, reverb: 0.15, delay: 0, lowCut: 200 },
+      mix: { volumeDb: -5.5, pan: 0.15, reverb: 0.15, delay: 0, lowCut: 200 },
       why: '副歌的銅管 hits，是 Funk 最有記憶點的部分。',
     },
   ],
@@ -426,7 +426,7 @@ export const CITYPOP: GenreDef = {
       patch: 'drums.studio',
       style: 'citypop',
       step: 'drums',
-      mix: { volumeDb: -4, pan: 0, reverb: 0.1, delay: 0, comp: { threshold: -16, ratio: 3, attack: 12, release: 120, makeup: 2 } },
+      mix: { volumeDb: -3, pan: 0, reverb: 0.1, delay: 0, comp: { threshold: -16, ratio: 3, attack: 12, release: 120, makeup: 2 } },
       why: '16 分音符 Hi-Hat、副歌 Disco 式四四拍與鈴鼓。',
     },
     {
@@ -436,7 +436,7 @@ export const CITYPOP: GenreDef = {
       patch: 'bass.finger',
       style: 'citypop',
       step: 'bass',
-      mix: { volumeDb: -8, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 8, release: 120, makeup: 3 } },
+      mix: { volumeDb: -6, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 8, release: 120, makeup: 3 } },
       why: '跳躍的八度與 16 分音符切分，像 Slap 貝斯一樣有彈性。',
     },
     {
@@ -447,7 +447,7 @@ export const CITYPOP: GenreDef = {
       style: 'citypopComp',
       voicing: 'drop2',
       step: 'harmony',
-      mix: { volumeDb: -9, pan: 0.2, reverb: 0.18, delay: 0, lowCut: 120 },
+      mix: { volumeDb: -11.5, pan: 0.2, reverb: 0.18, delay: 0, lowCut: 120 },
       why: '80 年代 FM 電鋼琴的鐘聲質感，彈出大七和弦的切分節奏。',
     },
     {
@@ -459,7 +459,7 @@ export const CITYPOP: GenreDef = {
       guitar: true,
       sections: ['pre', 'chorus', 'solo'],
       step: 'layers',
-      mix: { volumeDb: -10, pan: -0.5, reverb: 0.1, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -13, pan: -0.5, reverb: 0.1, delay: 0, lowCut: 150 },
       why: '16 分音符的清音刷弦（cutting），讓律動更閃亮。',
     },
     {
@@ -470,7 +470,7 @@ export const CITYPOP: GenreDef = {
       style: 'sustain',
       sections: ['chorus'],
       step: 'layers',
-      mix: { volumeDb: -15, pan: 0.1, reverb: 0.3, delay: 0, lowCut: 200 },
+      mix: { volumeDb: -16.5, pan: 0.1, reverb: 0.3, delay: 0, lowCut: 200 },
       why: '副歌的弦樂長音，華麗又懷舊。',
     },
     {
@@ -482,7 +482,7 @@ export const CITYPOP: GenreDef = {
       range: [62, 81],
       sections: ['verse', 'pre', 'chorus', 'solo'],
       step: 'melody',
-      mix: { volumeDb: -4, pan: 0, reverb: 0.2, delay: 0.12, lowCut: 150 },
+      mix: { volumeDb: -5, pan: 0, reverb: 0.2, delay: 0.12, lowCut: 150 },
       why: '切分、輕快的旋律；Solo 段也可以換成薩克斯風風格。',
     },
   ],
@@ -565,7 +565,7 @@ export const REGGAE: GenreDef = {
       patch: 'drums.studio',
       style: 'reggae',
       step: 'drums',
-      mix: { volumeDb: -2.5, pan: 0, reverb: 0.1, delay: 0.05 },
+      mix: { volumeDb: -0.5, pan: 0, reverb: 0.1, delay: 0.05 },
       why: 'One Drop：大鼓與邊擊都在第 3 拍；副歌改成 Steppers（四四拍大鼓）。',
     },
     {
@@ -575,7 +575,7 @@ export const REGGAE: GenreDef = {
       patch: 'bass.finger',
       style: 'reggae',
       step: 'bass',
-      mix: { volumeDb: -6, pan: 0, reverb: 0, delay: 0, lowCut: 30, eq: { lowGain: 3, lowFreq: 90, highCut: 4000 } },
+      mix: { volumeDb: -5.5, pan: 0, reverb: 0, delay: 0, lowCut: 30, eq: { lowGain: 3, lowFreq: 90, highCut: 4000 } },
       why: '又低又厚、帶旋律性的貝斯，是雷鬼最重要的樂器。',
     },
     {
@@ -586,7 +586,7 @@ export const REGGAE: GenreDef = {
       style: 'skank',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -5.5, pan: -0.4, reverb: 0.1, delay: 0.15, lowCut: 250 },
+      mix: { volumeDb: -9, pan: -0.4, reverb: 0.1, delay: 0.15, lowCut: 250 },
       why: '在每拍的反拍短促地刷高音弦和弦（Skank）。',
     },
     {
@@ -609,7 +609,7 @@ export const REGGAE: GenreDef = {
       range: [62, 79],
       sections: ['verse', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -4.5, pan: 0, reverb: 0.15, delay: 0.25, lowCut: 150 },
+      mix: { volumeDb: -5, pan: 0, reverb: 0.15, delay: 0.25, lowCut: 150 },
       why: '放鬆的旋律示範，加上 Dub 式的 delay。',
     },
   ],

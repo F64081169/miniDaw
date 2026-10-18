@@ -319,6 +319,31 @@ export const PATCHES: PatchDef[] = [
     level: 14.5,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
+  {
+    id: 'eg.metal',
+    name: '金屬節奏吉他',
+    nameEn: 'Metal Rhythm Guitar',
+    category: 'eguitar',
+    description: '高增益、收得很緊的低把位強力和弦，適合金屬與硬搖滾的節奏吉他（悶音 chug、gallop）。',
+    gmProgram: 30,
+    range: [33, 76],
+    engine: 'sampled',
+    samples: { set: 'emily', release: 0.05, maxVoices: 24 },
+    sampled: {
+      spec: {
+        type: 'string',
+        model: { duration: 4, t60Low: 6, t60High: 2.5, brightness: 0.74, pickPos: 0.1, exciteCutoff: 7000, pickupPos: 0.09, pickNoise: 0.35, polarization: 0.2, body: 'electric' },
+      },
+      zoneStep: 2,
+      release: 0.05,
+      retrigger: 'cut',
+      maxVoices: 24,
+    },
+    chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 3 }, room: { decay: 0.8, damping: 0.6 } },
+    controls: [c('tone', 0.45), c('drive', 0.85), c('room', 0.12)],
+    level: 0,
+    trackColor: CATEGORY_INFO.eguitar.color,
+  },
 
   // ---------------------------------------------------------------- acoustic guitar
   {
