@@ -137,18 +137,24 @@ function applyStructureDraft(d: Draft<Project>, g: GenreDef, s: CoachState): voi
   });
 }
 
+/** Tracks created by the coach are tagged "<genre>:<role>" so each genre only reuses its own tracks. */
+export function roleTag(g: GenreDef, role: RoleDef): string {
+  return `${g.id}:${role.id}`;
+}
+
 function applyRoleDraft(d: Draft<Project>, g: GenreDef, s: CoachState, role: RoleDef): void {
   const p = d as unknown as Project;
   const regions = regionsForRole(p, g, s, role);
-  let t = d.tracks.find((x) => x.role === role.id);
+  const tag = roleTag(g, role);
+  let t = d.tracks.find((x) => x.role === tag);
   if (!t) {
-    const nt = createInstrumentTrack(role.patch, role.name, role.id);
+    const nt = createInstrumentTrack(role.patch, role.name, tag);
     nt.mixer.volumeDb = role.mix.volumeDb;
     nt.mixer.pan = role.mix.pan;
     nt.mixer.sends = { reverb: role.mix.reverb, delay: role.mix.delay };
     // order tracks the way the genre lists its roles
-    const order = g.roles.map((r) => r.id);
-    const myIdx = order.indexOf(role.id);
+    const order = g.roles.map((r) => roleTag(g, r));
+    const myIdx = order.indexOf(tag);
     let insertAt = d.tracks.length;
     for (let i = 0; i < d.tracks.length; i++) {
       const ri = order.indexOf(d.tracks[i].role ?? '');
@@ -175,7 +181,7 @@ function ensureInsert(t: Draft<Track>, type: InsertEffect['type']): Draft<Insert
 
 function applyMixDraft(d: Draft<Project>, g: GenreDef): void {
   for (const role of g.roles) {
-    const t = d.tracks.find((x) => x.role === role.id);
+    const t = d.tracks.find((x) => x.role === roleTag(g, role));
     if (!t) continue;
     const m = role.mix;
     t.mixer.volumeDb = m.volumeDb;
@@ -277,6 +283,8 @@ export function applyAll(): void {
   if (!cur) return;
   const { g, s } = cur;
   useDaw.getState().update(`${g.name}：一鍵生成編曲`, (d) => {
+    // replace tracks the coach generated for other genres; the user's own tracks stay
+    d.tracks = d.tracks.filter((t) => !t.role || t.role.startsWith(`${g.id}:`));
     applySetupDraft(d, g, s);
     applyStructureDraft(d, g, s);
     for (const role of g.roles) applyRoleDraft(d, g, s, role);
@@ -299,9 +307,9 @@ export interface CoachStep {
   done: (p: Project) => boolean;
 }
 
-function roleTracksFilled(p: Project, roles: RoleDef[]): boolean {
+function roleTracksFilled(p: Project, g: GenreDef, roles: RoleDef[]): boolean {
   if (!roles.length) return false;
-  return roles.every((r) => p.tracks.some((t) => t.role === r.id && t.regions.some((x) => x.kind === 'midi' && x.notes.length > 0)));
+  return roles.every((r) => p.tracks.some((t) => t.role === roleTag(g, r) && t.regions.some((x) => x.kind === 'midi' && x.notes.length > 0)));
 }
 
 export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
@@ -330,8 +338,8 @@ export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
       auto: true,
       done: (p) => p.markers.filter((m) => m.section).length >= 2,
     },
-    { id: 'drums', title: '鼓組節奏', body: g.steps.drums, roles: by('drums'), actionLabel: '生成鼓組', auto: true, done: (p) => roleTracksFilled(p, by('drums')) },
-    { id: 'bass', title: '貝斯線', body: g.steps.bass, roles: by('bass'), actionLabel: '生成貝斯', auto: true, done: (p) => roleTracksFilled(p, by('bass')) },
+    { id: 'drums', title: '鼓組節奏', body: g.steps.drums, roles: by('drums'), actionLabel: '生成鼓組', auto: true, done: (p) => roleTracksFilled(p, g, by('drums')) },
+    { id: 'bass', title: '貝斯線', body: g.steps.bass, roles: by('bass'), actionLabel: '生成貝斯', auto: true, done: (p) => roleTracksFilled(p, g, by('bass')) },
     {
       id: 'harmony',
       title: '和弦與和聲',
@@ -339,10 +347,10 @@ export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
       roles: by('harmony'),
       actionLabel: '生成和弦',
       auto: true,
-      done: (p) => roleTracksFilled(p, by('harmony')),
+      done: (p) => roleTracksFilled(p, g, by('harmony')),
     },
   ];
-  if (by('layers').length) steps.push({ id: 'layers', title: '加入配器層次', body: g.steps.layers, roles: by('layers'), actionLabel: '生成配器層', auto: true, done: (p) => roleTracksFilled(p, by('layers')) });
+  if (by('layers').length) steps.push({ id: 'layers', title: '加入配器層次', body: g.steps.layers, roles: by('layers'), actionLabel: '生成配器層', auto: true, done: (p) => roleTracksFilled(p, g, by('layers')) });
   steps.push(
     {
       id: 'melody',
@@ -351,7 +359,7 @@ export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
       roles: by('melody'),
       actionLabel: by('melody').length ? '生成旋律靈感' : undefined,
       auto: by('melody').length > 0,
-      done: (p) => roleTracksFilled(p, by('melody')) || p.tracks.some((t) => t.kind === 'audio' && t.regions.length > 0),
+      done: (p) => roleTracksFilled(p, g, by('melody')) || p.tracks.some((t) => t.kind === 'audio' && t.regions.length > 0),
     },
     { id: 'arrange', title: '編曲動態檢查', body: g.steps.arrange, roles: [], auto: false, done: manual('arrange') },
     { id: 'mix', title: '混音', body: g.steps.mix, roles: [], actionLabel: '套用混音建議', auto: true, done: manual('mix') },

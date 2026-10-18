@@ -119,9 +119,9 @@ export function createProject(name = '未命名專案'): Project {
 export function createStarterProject(): Project {
   const p = createProject('我的第一首歌');
   p.tracks = [
-    createInstrumentTrack('drums.studio', '鼓組', 'drums'),
-    createInstrumentTrack('bass.finger', '貝斯', 'bass'),
-    createInstrumentTrack('piano.grand', '鋼琴', 'chords'),
+    createInstrumentTrack('drums.studio', '鼓組'),
+    createInstrumentTrack('bass.finger', '貝斯'),
+    createInstrumentTrack('piano.grand', '鋼琴'),
     createAudioTrack('人聲'),
   ];
   return p;

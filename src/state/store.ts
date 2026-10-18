@@ -43,7 +43,7 @@ export interface UiState {
   scaleGuide: boolean;
   dialog: Dialog | null;
   toasts: Toast[];
-  theme: 'dark' | 'light';
+  theme: 'auto' | 'dark' | 'light';
   typingOctave: number;
   typingVelocity: number;
   recordOffsetMs: number;
@@ -122,17 +122,17 @@ const defaultUi: UiState = {
   snap: 'smart',
   leftPanel: 'library',
   bottomPanel: null,
-  bottomHeight: 300,
+  bottomHeight: 340,
   coachOpen: true,
   typingOpen: false,
   tool: 'pointer',
   editorPxPerBeat: 90,
   editorRowHeight: 14,
-  editorView: 'roll',
+  editorView: 'step',
   scaleGuide: true,
   dialog: null,
   toasts: [],
-  theme: 'dark',
+  theme: 'auto',
   typingOctave: 4,
   typingVelocity: 96,
   recordOffsetMs: 0,
