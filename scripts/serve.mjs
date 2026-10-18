@@ -3,11 +3,9 @@ import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
-const root = process.argv[2] ?? 'dist';
-const port = Number(process.argv[3] ?? 4173);
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.wav': 'audio/wav' };
 
-export function serve() {
+export function serve(root = 'dist', port = 4173) {
   return new Promise((resolve) => {
     const server = createServer(async (req, res) => {
       try {
@@ -28,6 +26,8 @@ export function serve() {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  await serve();
+  const root = process.argv[2] ?? 'dist';
+  const port = Number(process.argv[3] ?? 4173);
+  await serve(root, port);
   console.log(`serving ${root} on http://localhost:${port}`);
 }
