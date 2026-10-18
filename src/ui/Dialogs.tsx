@@ -12,6 +12,7 @@ import { saveFile, safeFilename } from '../core/files';
 import { beatsPerBar, formatClock } from '../core/time';
 import { zipFiles } from '../core/zip';
 import { gainToDb } from '../core/util';
+import GROOVES from '../music/grooves/gmd.json';
 import { exportMidi } from '../music/midifile';
 import { addAudioTrack, addInstrumentTrack, renameMarker, renameRegion, renameTrack, setMetronome, setProjectName } from '../state/actions';
 import { useDaw, type Dialog } from '../state/store';
@@ -425,6 +426,7 @@ function RenameDialog({ d, onClose }: { d: Extract<Dialog, { type: 'rename' }>; 
 const LICENSE_NAMES: Record<string, { label: string; url: string }> = {
   'CC0-1.0': { label: 'CC0 1.0（公有領域）', url: 'https://creativecommons.org/publicdomain/zero/1.0/' },
   'CC-BY-3.0': { label: 'CC BY 3.0（需署名）', url: 'https://creativecommons.org/licenses/by/3.0/' },
+  'CC-BY-4.0': { label: 'CC BY 4.0（需署名）', url: 'https://creativecommons.org/licenses/by/4.0/' },
   MIT: { label: 'MIT', url: 'https://opensource.org/license/mit' },
 };
 
@@ -465,6 +467,40 @@ function CreditsDialog({ onClose }: { onClose: () => void }) {
           );
         })}
       </ul>
+      <h3 className="credits-heading">編曲素材與參考</h3>
+      <ul className="credits">
+        <li>
+          <strong>{GROOVES.source.split(' — ')[0]}</strong>
+          <span className="muted"> — {GROOVES.source.split(' — ')[1]}</span>
+          <div className="small">
+            <a href={LICENSE_NAMES[GROOVES.license].url} target="_blank" rel="noreferrer">
+              {LICENSE_NAMES[GROOVES.license].label}
+            </a>
+            {' · '}
+            <a href={GROOVES.url} target="_blank" rel="noreferrer">
+              來源
+            </a>
+            <span className="muted">
+              {' '}
+              · 編曲教練的鼓組律動與過門取自職業鼓手的演奏。修改：擷取兩小節律動與一小節過門、時間改以拍為單位並對齊節拍器、依鼓件調整力度、對應到 General MIDI 鼓件。
+            </span>
+          </div>
+        </li>
+        <li>
+          <strong>Open Music Theory</strong>
+          <span className="muted"> — Kris P. Shaffer, Bryn Hughes, Brian Moseley（Hybrid Pedagogy Publishing）</span>
+          <div className="small">
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+              CC BY-SA 4.0
+            </a>
+            {' · '}
+            <a href="https://openmusictheory.github.io" target="_blank" rel="noreferrer">
+              來源
+            </a>
+            <span className="muted"> · 旋律產生器依其樂句結構、裝飾音與流行歌曲式章節的原則撰寫（未收錄其文字內容）。</span>
+          </div>
+        </li>
+      </ul>
       <details className="small">
         <summary>FluidR3 GM SoundFont 的 MIT 授權全文</summary>
         <pre className="license-text">{MIT_NOTICE}</pre>
@@ -477,7 +513,7 @@ function WelcomeDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="歡迎來到 miniDaw" onClose={onClose} className="welcome">
       <p>
-        這是一個在瀏覽器裡運作的數位音樂工作站：可以錄音、用節拍器與預備拍、多軌編曲、混音，並內建鼓組、鋼琴、電鋼琴、電吉他、木吉他、貝斯等 31 種合成音色。右邊的<strong>編曲教練</strong>會依照你選的曲風，一步一步帶你完成一首歌。
+        這是一個在瀏覽器裡運作的數位音樂工作站：可以錄音、用節拍器與預備拍、多軌編曲、混音，並內建鼓組、鋼琴、電鋼琴、電吉他、木吉他、貝斯等 32 種音色（多數是真實樂器的錄音取樣）。右邊的<strong>編曲教練</strong>會依照你選的曲風，一步一步帶你完成一首歌。
       </p>
       <p className="muted">目前載入的是一首「流行」示範編曲，按空白鍵就能播放。</p>
       <div className="welcome-actions">

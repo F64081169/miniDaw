@@ -2746,6 +2746,10 @@ fieldset.field {
 .credits a {
   color: var(--accent);
 }
+.credits-heading {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
 .license-text {
   white-space: pre-wrap;
   font-size: 11px;

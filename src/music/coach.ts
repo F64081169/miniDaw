@@ -12,7 +12,7 @@ import { useDaw } from '../state/store';
 import { generateBass, type BassStyle } from './generate/bass';
 import { SECTION_ENERGY, SECTION_LABEL, type GenNote, type SectionCtx } from './generate/common';
 import { generateComp, type CompStyle } from './generate/comp';
-import { generateDrums, kickPositions } from './generate/drums';
+import { HUMAN_FEEL, generateDrums, kickPositions } from './generate/drums';
 import { generateMelody, type MelodyStyle } from './generate/melody';
 import { getGenre } from './genres';
 import type { GenreDef, RoleDef, StepId } from './genres/types';
@@ -77,6 +77,11 @@ function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: Coach
   });
 }
 
+const HUMAN_DRUMS_NOTE =
+  '這組鼓是職業鼓手的真實演奏（Groove MIDI Dataset），保留了鼓手的重音與微小的前後推拉：安靜的段落改用邊擊或拿掉小鼓，副歌換成同一位鼓手較滿的版本，過門也取自同一段演奏。';
+const MELODY_NOTE =
+  '示範旋律照作曲原則寫：4 小節一句、由 2 小節的動機發展；強拍放和弦音、其他音一步一步走；副歌比主歌高、Hook 重複；樂句之間留換氣的空間。照著它的節奏填詞或哼唱，再換成你自己的版本。';
+
 function drumRoleOf(g: GenreDef): RoleDef | undefined {
   return g.roles.find((r) => r.kind === 'drums');
 }
@@ -87,7 +92,7 @@ export function notesForRole(g: GenreDef, role: RoleDef, ctx: SectionCtx): GenNo
       return generateDrums(role.style, ctx);
     case 'bass': {
       const drum = drumRoleOf(g);
-      const kicks = drum ? kickPositions(drum.style, ctx) : [];
+      const kicks = drum ? kickPositions(drum.style, ctx, 60) : [];
       return generateBass(role.style as BassStyle, ctx, kicks);
     }
     case 'comp': {
@@ -338,7 +343,15 @@ export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
       auto: true,
       done: (p) => p.markers.filter((m) => m.section).length >= 2,
     },
-    { id: 'drums', title: '鼓組節奏', body: g.steps.drums, roles: by('drums'), actionLabel: '生成鼓組', auto: true, done: (p) => roleTracksFilled(p, g, by('drums')) },
+    {
+      id: 'drums',
+      title: '鼓組節奏',
+      body: HUMAN_FEEL[drumRoleOf(g)?.style ?? ''] ? `${g.steps.drums}\n\n${HUMAN_DRUMS_NOTE}` : g.steps.drums,
+      roles: by('drums'),
+      actionLabel: '生成鼓組',
+      auto: true,
+      done: (p) => roleTracksFilled(p, g, by('drums')),
+    },
     { id: 'bass', title: '貝斯線', body: g.steps.bass, roles: by('bass'), actionLabel: '生成貝斯', auto: true, done: (p) => roleTracksFilled(p, g, by('bass')) },
     {
       id: 'harmony',
@@ -355,7 +368,7 @@ export function buildSteps(g: GenreDef, s: CoachState): CoachStep[] {
     {
       id: 'melody',
       title: '旋律與主唱',
-      body: g.steps.melody,
+      body: by('melody').length ? `${g.steps.melody}\n\n${MELODY_NOTE}` : g.steps.melody,
       roles: by('melody'),
       actionLabel: by('melody').length ? '生成旋律靈感' : undefined,
       auto: by('melody').length > 0,
