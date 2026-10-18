@@ -54,7 +54,7 @@ export const HIPHOP: GenreDef = {
       patch: 'drums.studio',
       style: 'boombap',
       step: 'drums',
-      mix: { volumeDb: -1, pan: 0, reverb: 0.05, delay: 0, comp: { threshold: -16, ratio: 4, attack: 12, release: 120, makeup: 4 }, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 9000, wow: 0, noise: 0, drive: 0.35 } }] },
+      mix: { volumeDb: -6, pan: 0, reverb: 0.05, delay: 0, comp: { threshold: -16, ratio: 4, attack: 12, release: 120, makeup: 4 }, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 9000, wow: 0, noise: 0, drive: 0.35 } }] },
       why: '厚實的大鼓與響亮的小鼓，16 分音符帶 swing，是饒舌的舞台。',
     },
     {
@@ -64,7 +64,7 @@ export const HIPHOP: GenreDef = {
       patch: 'bass.upright',
       style: 'lofi',
       step: 'bass',
-      mix: { volumeDb: -3, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 10, release: 150, makeup: 3 } },
+      mix: { volumeDb: -2, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 10, release: 150, makeup: 3 } },
       why: '低沉的木質貝斯跟著大鼓走，帶著爵士味。',
     },
     {
@@ -75,7 +75,7 @@ export const HIPHOP: GenreDef = {
       style: 'lofiChords',
       voicing: 'drop2',
       step: 'harmony',
-      mix: { volumeDb: -8, pan: 0.1, reverb: 0.15, delay: 0, lowCut: 120, inserts: [{ type: 'lofi', params: { bits: 10, lowpass: 4500, wow: 0.35, noise: 0.3, drive: 0.3 } }] },
+      mix: { volumeDb: -4, pan: 0.1, reverb: 0.15, delay: 0, lowCut: 120, inserts: [{ type: 'lofi', params: { bits: 10, lowpass: 4500, wow: 0.35, noise: 0.3, drive: 0.3 } }] },
       why: '加上 Lo-Fi 效果的電鋼琴七和弦，模擬「從黑膠取樣」的質感。',
     },
     {
@@ -86,7 +86,7 @@ export const HIPHOP: GenreDef = {
       style: 'brassStabs',
       sections: ['chorus'],
       step: 'layers',
-      mix: { volumeDb: -13, pan: -0.3, reverb: 0.2, delay: 0.1, lowCut: 200, inserts: [{ type: 'lofi', params: { bits: 11, lowpass: 5000, wow: 0.2, noise: 0, drive: 0.3 } }] },
+      mix: { volumeDb: -11, pan: -0.3, reverb: 0.2, delay: 0.1, lowCut: 200, inserts: [{ type: 'lofi', params: { bits: 11, lowpass: 5000, wow: 0.2, noise: 0, drive: 0.3 } }] },
       why: 'Hook 段加一點銅管短音，像經典嘻哈取樣的點綴。',
     },
     {
@@ -98,7 +98,7 @@ export const HIPHOP: GenreDef = {
       range: [64, 84],
       sections: ['chorus'],
       step: 'melody',
-      mix: { volumeDb: -10, pan: 0.25, reverb: 0.25, delay: 0.15, lowCut: 200 },
+      mix: { volumeDb: 1.5, pan: 0.25, reverb: 0.25, delay: 0.15, lowCut: 200 },
       why: 'Hook 的旋律記憶點；主歌留給饒舌。',
     },
   ],
@@ -181,7 +181,7 @@ export const TRAP: GenreDef = {
       style: 'trap',
       sections: ['chorus', 'verse', 'outro', 'bridge', 'pre'],
       step: 'drums',
-      mix: { volumeDb: -3, pan: 0, reverb: 0.04, delay: 0 },
+      mix: { volumeDb: -2.5, pan: 0, reverb: 0.04, delay: 0 },
       why: '第 3 拍的拍手／小鼓（半拍感）與 32 分音符、三連音的 Hi-Hat 滾奏。',
     },
     {
@@ -192,7 +192,7 @@ export const TRAP: GenreDef = {
       style: 'trap808',
       sections: ['chorus', 'verse', 'outro', 'bridge', 'pre'],
       step: 'bass',
-      mix: { volumeDb: -3, pan: 0, reverb: 0, delay: 0, lowCut: 25 },
+      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 25 },
       why: '跟著大鼓位置的 808 長音，音符重疊的地方會自動滑音（glide）。',
     },
     {
@@ -203,7 +203,7 @@ export const TRAP: GenreDef = {
       style: 'trap',
       range: [67, 91],
       step: 'harmony',
-      mix: { volumeDb: -9, pan: 0.15, reverb: 0.3, delay: 0.18, lowCut: 250 },
+      mix: { volumeDb: -4.5, pan: 0.15, reverb: 0.3, delay: 0.18, lowCut: 250 },
       why: 'Trap 的「旋律循環」才是和聲主角：陰暗的鐘聲，加上 delay 拉出空間。',
     },
     {
@@ -216,7 +216,7 @@ export const TRAP: GenreDef = {
       range: [48, 76],
       sections: ['chorus', 'intro', 'outro'],
       step: 'layers',
-      mix: { volumeDb: -14, pan: -0.2, reverb: 0.35, delay: 0, lowCut: 220 },
+      mix: { volumeDb: -13.5, pan: -0.2, reverb: 0.35, delay: 0, lowCut: 220 },
       why: 'Hook 段墊一層弦樂長音，增加電影感。',
     },
     {
@@ -228,7 +228,7 @@ export const TRAP: GenreDef = {
       range: [60, 79],
       sections: ['chorus'],
       step: 'melody',
-      mix: { volumeDb: -14, pan: -0.25, reverb: 0.3, delay: 0.1, lowCut: 200 },
+      mix: { volumeDb: -8, pan: -0.25, reverb: 0.3, delay: 0.1, lowCut: 200 },
       why: 'Hook 再加一條低八度的鋼琴對位，讓副歌更豐富。',
     },
   ],
@@ -309,7 +309,7 @@ export const LOFI: GenreDef = {
       patch: 'drums.lofi',
       style: 'lofi',
       step: 'drums',
-      mix: { volumeDb: -4, pan: 0, reverb: 0.06, delay: 0, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 6500, wow: 0, noise: 0, drive: 0.25 } }] },
+      mix: { volumeDb: -5.5, pan: 0, reverb: 0.06, delay: 0, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 6500, wow: 0, noise: 0, drive: 0.25 } }] },
       why: '搖擺感很重的 16 分音符、力度輕的大鼓小鼓。',
     },
     {
@@ -331,7 +331,7 @@ export const LOFI: GenreDef = {
       style: 'lofiChords',
       voicing: 'drop2',
       step: 'harmony',
-      mix: { volumeDb: -6, pan: 0, reverb: 0.2, delay: 0, lowCut: 100, inserts: [{ type: 'lofi', params: { bits: 10, lowpass: 4200, wow: 0.45, noise: 0.35, drive: 0.3 } }] },
+      mix: { volumeDb: -4.5, pan: 0, reverb: 0.2, delay: 0, lowCut: 100, inserts: [{ type: 'lofi', params: { bits: 10, lowpass: 4200, wow: 0.45, noise: 0.35, drive: 0.3 } }] },
       why: 'Lo-fi 的靈魂：七和弦稍微延後、輕輕滾奏（一個音一個音進來），加上錄音帶抖動。',
     },
     {
@@ -343,7 +343,7 @@ export const LOFI: GenreDef = {
       range: [64, 84],
       sections: ['chorus'],
       step: 'melody',
-      mix: { volumeDb: -11, pan: 0.3, reverb: 0.3, delay: 0.18, lowCut: 200, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 5000, wow: 0.3, noise: 0, drive: 0.2 } }] },
+      mix: { volumeDb: -1.5, pan: 0.3, reverb: 0.3, delay: 0.18, lowCut: 200, inserts: [{ type: 'lofi', params: { bits: 12, lowpass: 5000, wow: 0.3, noise: 0, drive: 0.2 } }] },
       why: 'B 段的簡單旋律，像是背景裡哼著的小調子。',
     },
     {
@@ -354,7 +354,7 @@ export const LOFI: GenreDef = {
       style: 'arpeggio',
       sections: ['chorus'],
       step: 'layers',
-      mix: { volumeDb: -14, pan: -0.3, reverb: 0.3, delay: 0, lowCut: 150, inserts: [{ type: 'lofi', params: { bits: 11, lowpass: 4500, wow: 0.3, noise: 0, drive: 0.2 } }] },
+      mix: { volumeDb: -10.5, pan: -0.3, reverb: 0.3, delay: 0, lowCut: 150, inserts: [{ type: 'lofi', params: { bits: 11, lowpass: 4500, wow: 0.3, noise: 0, drive: 0.2 } }] },
       why: 'B 段加一層柔音鋼琴分解和弦，讓畫面更溫柔。',
     },
   ],
@@ -450,7 +450,7 @@ export const RNB: GenreDef = {
       patch: 'bass.finger',
       style: 'rnb',
       step: 'bass',
-      mix: { volumeDb: -4, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 12, release: 160, makeup: 3 } },
+      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 12, release: 160, makeup: 3 } },
       why: '旋律化的貝斯：八度跳躍、鬼音與往下一個和弦的滑動。',
     },
     {
@@ -472,7 +472,7 @@ export const RNB: GenreDef = {
       style: 'sustain',
       sections: ['pre', 'chorus', 'bridge'],
       step: 'layers',
-      mix: { volumeDb: -16, pan: 0, reverb: 0.3, delay: 0, lowCut: 200 },
+      mix: { volumeDb: -15.5, pan: 0, reverb: 0.3, delay: 0, lowCut: 200 },
       why: '副歌墊一層柔軟的 Pad，空氣感更足。',
     },
     {
@@ -484,7 +484,7 @@ export const RNB: GenreDef = {
       range: [60, 79],
       sections: ['verse', 'pre', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -10, pan: 0, reverb: 0.2, delay: 0.12, lowCut: 150 },
+      mix: { volumeDb: -4, pan: 0, reverb: 0.2, delay: 0.12, lowCut: 150 },
       why: '切分的 R&B 旋律示範；正式版本最好用人聲並加上和聲。',
     },
   ],
@@ -566,7 +566,7 @@ export const HOUSE: GenreDef = {
       patch: 'drums.909',
       style: 'house',
       step: 'drums',
-      mix: { volumeDb: -2, pan: 0, reverb: 0.04, delay: 0 },
+      mix: { volumeDb: -2.5, pan: 0, reverb: 0.04, delay: 0 },
       why: 'Four-on-the-floor 大鼓、2、4 拍拍手、反拍開鈸，是 House 的心跳。',
     },
     {
@@ -577,7 +577,7 @@ export const HOUSE: GenreDef = {
       style: 'house',
       sections: ['verse', 'drop', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30, inserts: [{ type: 'pump', params: { depth: 0.55, release: 0.4, division: 1 } }] },
+      mix: { volumeDb: -2.5, pan: 0, reverb: 0, delay: 0, lowCut: 30, inserts: [{ type: 'pump', params: { depth: 0.55, release: 0.4, division: 1 } }] },
       why: '貝斯放在反拍（the "and"），和大鼓錯開，形成彈跳的律動。',
     },
     {
@@ -599,7 +599,7 @@ export const HOUSE: GenreDef = {
       style: 'sustain',
       sections: ['intro', 'breakdown', 'build', 'drop'],
       step: 'layers',
-      mix: { volumeDb: -14, pan: 0, reverb: 0.3, delay: 0, lowCut: 200, inserts: [{ type: 'pump', params: { depth: 0.65, release: 0.5, division: 1 } }] },
+      mix: { volumeDb: -12.5, pan: 0, reverb: 0.3, delay: 0, lowCut: 200, inserts: [{ type: 'pump', params: { depth: 0.65, release: 0.5, division: 1 } }] },
       why: '跟著大鼓抽吸的 Pad，製造 House 的「呼吸感」。',
     },
     {
@@ -611,7 +611,7 @@ export const HOUSE: GenreDef = {
       range: [64, 86],
       sections: ['drop'],
       step: 'melody',
-      mix: { volumeDb: -10, pan: 0, reverb: 0.2, delay: 0.2, lowCut: 200, inserts: [{ type: 'pump', params: { depth: 0.4, release: 0.4, division: 1 } }] },
+      mix: { volumeDb: 1.5, pan: 0, reverb: 0.2, delay: 0.2, lowCut: 200, inserts: [{ type: 'pump', params: { depth: 0.4, release: 0.4, division: 1 } }] },
       why: 'Drop 段的撥音 Hook，加上 delay 讓它在空間中跳動。',
     },
   ],
@@ -695,7 +695,7 @@ export const EDM: GenreDef = {
       patch: 'drums.909',
       style: 'edm',
       step: 'drums',
-      mix: { volumeDb: -2, pan: 0, reverb: 0.05, delay: 0 },
+      mix: { volumeDb: -3.5, pan: 0, reverb: 0.05, delay: 0 },
       why: '主歌簡單、Build-up 小鼓滾奏、Drop 四四拍大鼓全開。',
     },
     {
@@ -706,7 +706,7 @@ export const EDM: GenreDef = {
       style: 'edm',
       sections: ['verse', 'drop', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30, inserts: [{ type: 'pump', params: { depth: 0.7, release: 0.45, division: 1 } }] },
+      mix: { volumeDb: -3, pan: 0, reverb: 0, delay: 0, lowCut: 30, inserts: [{ type: 'pump', params: { depth: 0.7, release: 0.45, division: 1 } }] },
       why: 'Drop 時用反拍脈衝的貝斯，搭配強烈的側鏈抽吸。',
     },
     {
@@ -717,7 +717,7 @@ export const EDM: GenreDef = {
       style: 'blockQuarter',
       sections: ['intro', 'verse', 'build'],
       step: 'harmony',
-      mix: { volumeDb: -8, pan: 0, reverb: 0.2, delay: 0, lowCut: 120 },
+      mix: { volumeDb: -2, pan: 0, reverb: 0.2, delay: 0, lowCut: 120 },
       why: '主歌用鋼琴和弦鋪陳，Drop 再交給 Supersaw。',
     },
     {
@@ -728,7 +728,7 @@ export const EDM: GenreDef = {
       style: 'supersaw',
       sections: ['build', 'drop'],
       step: 'layers',
-      mix: { volumeDb: -9, pan: 0, reverb: 0.22, delay: 0, lowCut: 180, inserts: [{ type: 'pump', params: { depth: 0.75, release: 0.5, division: 1 } }] },
+      mix: { volumeDb: -6, pan: 0, reverb: 0.22, delay: 0, lowCut: 180, inserts: [{ type: 'pump', params: { depth: 0.75, release: 0.5, division: 1 } }] },
       why: '寬廣厚重的 Supersaw 和弦配上強烈側鏈抽吸，是 Drop 的招牌。',
     },
     {
@@ -740,7 +740,7 @@ export const EDM: GenreDef = {
       range: [60, 88],
       sections: ['verse', 'drop'],
       step: 'layers',
-      mix: { volumeDb: -14, pan: 0.2, reverb: 0.2, delay: 0.15, lowCut: 250, inserts: [{ type: 'pump', params: { depth: 0.5, release: 0.4, division: 1 } }] },
+      mix: { volumeDb: -13.5, pan: 0.2, reverb: 0.2, delay: 0.15, lowCut: 250, inserts: [{ type: 'pump', params: { depth: 0.5, release: 0.4, division: 1 } }] },
       why: '16 分音符琶音增加動能與細節。',
     },
     {
@@ -752,7 +752,7 @@ export const EDM: GenreDef = {
       range: [64, 88],
       sections: ['drop'],
       step: 'melody',
-      mix: { volumeDb: -9, pan: 0, reverb: 0.2, delay: 0.18, lowCut: 250 },
+      mix: { volumeDb: -3.5, pan: 0, reverb: 0.2, delay: 0.18, lowCut: 250 },
       why: 'Drop 的主旋律 Hook，要簡單、重複、好記。',
     },
   ],
@@ -835,7 +835,7 @@ export const SYNTHWAVE: GenreDef = {
       patch: 'drums.808',
       style: 'synthwave',
       step: 'drums',
-      mix: { volumeDb: -3, pan: 0, reverb: 0.22, delay: 0 },
+      mix: { volumeDb: -4, pan: 0, reverb: 0.22, delay: 0 },
       why: '機械般的四四拍、大殘響小鼓（80 年代 gated reverb 的感覺）。',
     },
     {
@@ -845,7 +845,7 @@ export const SYNTHWAVE: GenreDef = {
       patch: 'bass.synth',
       style: 'synthwave',
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
+      mix: { volumeDb: -4.5, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
       why: '一直不停的 8 分音符脈衝，是 Synthwave 的引擎。',
     },
     {
@@ -857,7 +857,7 @@ export const SYNTHWAVE: GenreDef = {
       range: [60, 88],
       sections: ['verse', 'chorus', 'bridge'],
       step: 'harmony',
-      mix: { volumeDb: -11, pan: -0.25, reverb: 0.2, delay: 0.25, lowCut: 250 },
+      mix: { volumeDb: -8.5, pan: -0.25, reverb: 0.2, delay: 0.25, lowCut: 250 },
       why: '16 分音符的和弦琶音，加上 delay 製造閃爍的霓虹感。',
     },
     {
@@ -879,7 +879,7 @@ export const SYNTHWAVE: GenreDef = {
       range: [64, 86],
       sections: ['chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -8, pan: 0, reverb: 0.25, delay: 0.25, lowCut: 200 },
+      mix: { volumeDb: -3, pan: 0, reverb: 0.25, delay: 0.25, lowCut: 200 },
       why: '有滑音與抖音的主奏合成器，大量 delay 與殘響。',
     },
   ],

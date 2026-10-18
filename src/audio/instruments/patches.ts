@@ -69,25 +69,30 @@ const drumKit = (id: string, kit: string, name: string, nameEn: string, descript
 
 export const PATCHES: PatchDef[] = [
   // ---------------------------------------------------------------- drums
-  drumKit('drums.studio', 'studio', '錄音室鼓組', 'Studio Kit', '溫暖自然的原聲鼓，適合流行、抒情、R&B。'),
+  drumKit('drums.studio', 'studio', '錄音室鼓組', 'Studio Kit', '溫暖自然的原聲鼓，適合流行、抒情、R&B。', { level: -3.5 }),
   drumKit('drums.rock', 'rock', '搖滾鼓組', 'Rock Kit', '大鼓更深、小鼓更有爆發力，適合搖滾、龐克、金屬。', {
     chain: { punch: true, room: { decay: 1.3, damping: 0.45 } },
     controls: [c('tone', 0.75), c('punch', 0.6), c('room', 0.35), c('velocity', 0.8)],
+    level: -4.5,
   }),
   drumKit('drums.jazz', 'jazz', '爵士刷鼓', 'Jazz Brushes', '鼓刷小鼓與柔和疊音鈸，適合爵士、巴薩諾瓦。', {
     controls: [c('tone', 0.6), c('punch', 0.15), c('room', 0.3), c('velocity', 0.9)],
+    level: -3,
   }),
   drumKit('drums.808', 'tr808', '808 電子鼓', 'TR-808 Kit', '長尾音大鼓與金屬感 Hi-Hat，嘻哈、Trap 的靈魂。', {
     chain: { punch: true, room: { decay: 0.6, damping: 0.6 } },
     controls: [c('tone', 0.8), c('punch', 0.3), c('room', 0.1), c('velocity', 0.6)],
+    level: -3.5,
   }),
   drumKit('drums.909', 'tr909', '909 浩室鼓', 'TR-909 Kit', '有打擊感的電子大鼓與清脆拍手，House、Techno、EDM 必備。', {
     chain: { punch: true, room: { decay: 0.6, damping: 0.6 } },
     controls: [c('tone', 0.8), c('punch', 0.5), c('room', 0.12), c('velocity', 0.6)],
+    level: -4.5,
   }),
   drumKit('drums.lofi', 'lofi', 'Lo-fi 鼓組', 'Lo-Fi Kit', '降低取樣精度、溫暖飽和的復古鼓聲，適合 Lo-fi Hip-Hop。', {
     chain: { punch: true, saturate: true, room: { decay: 0.7, damping: 0.75 } },
     controls: [c('tone', 0.5), c('punch', 0.45), c('room', 0.2), c('drive', 0.35), c('velocity', 0.7)],
+    level: -5.5,
   }),
 
   // ---------------------------------------------------------------- piano
@@ -110,7 +115,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.4, damping: 0.5 } },
     controls: [c('tone', 0.75), c('room', 0.3), c('release', 0.42), c('velocity', 0.85)],
-    level: 0,
+    level: -3,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -132,7 +137,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.1, damping: 0.4 } },
     controls: [c('tone', 0.85), c('room', 0.25), c('release', 0.38), c('velocity', 0.75)],
-    level: -1,
+    level: -2.5,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -154,7 +159,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.6, damping: 0.7 } },
     controls: [c('tone', 0.55), c('room', 0.4), c('release', 0.5), c('velocity', 0.8)],
-    level: 1,
+    level: -3.5,
     trackColor: CATEGORY_INFO.piano.color,
   },
 
@@ -178,7 +183,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 4.5, stereo: true }, amp: { drive: 0.15, cabinet: 'none', presence: 0 }, room: { decay: 1.0, damping: 0.55 } },
     controls: [c('tone', 0.65), c('tremolo', 0.35), c('rate', 0.42), c('drive', 0.2), c('room', 0.2)],
-    level: 0,
+    level: -1.5,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -200,7 +205,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.75), c('chorus', 0.45), c('room', 0.3), c('release', 0.35)],
-    level: -1,
+    level: -4.5,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -222,7 +227,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.5, stereo: false }, amp: { drive: 0.3, cabinet: 'none', presence: 0 }, room: { decay: 0.9, damping: 0.55 } },
     controls: [c('tone', 0.6), c('tremolo', 0.25), c('rate', 0.5), c('drive', 0.35), c('room', 0.2)],
-    level: 0,
+    level: -2,
     trackColor: CATEGORY_INFO.epiano.color,
   },
 
@@ -248,7 +253,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.06, cabinet: 'guitar', presence: 2 }, chorus: true, room: { decay: 0.9, damping: 0.5 } },
     controls: [c('tone', 0.6), c('drive', 0.12), c('chorus', 0.25), c('room', 0.2)],
-    level: 0,
+    level: -0.5,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -272,7 +277,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.45, cabinet: 'guitar', presence: 3 }, room: { decay: 1.0, damping: 0.5 } },
     controls: [c('tone', 0.55), c('drive', 0.5), c('room', 0.18)],
-    level: -2,
+    level: -5.5,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -296,7 +301,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 4 }, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.5), c('drive', 0.85), c('room', 0.2)],
-    level: -4,
+    level: -2,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
 
@@ -322,7 +327,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.0, damping: 0.45 } },
     controls: [c('tone', 0.65), c('body', 0.5), c('width', 0.5), c('room', 0.25)],
-    level: 0,
+    level: -1,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
   {
@@ -346,7 +351,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.55), c('body', 0.55), c('width', 0.4), c('room', 0.25)],
-    level: 1,
+    level: 0.5,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
 
@@ -372,7 +377,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.12, cabinet: 'bass', presence: 0 } },
     controls: [c('tone', 0.5), c('drive', 0.15), c('release', 0.25), c('velocity', 0.7)],
-    level: 0,
+    level: 6.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -396,7 +401,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.3, cabinet: 'bass', presence: 2 } },
     controls: [c('tone', 0.62), c('drive', 0.3), c('release', 0.22), c('velocity', 0.7)],
-    level: -1,
+    level: 3.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -420,7 +425,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 0.8, damping: 0.6 } },
     controls: [c('tone', 0.45), c('room', 0.18), c('release', 0.3), c('velocity', 0.8)],
-    level: 2,
+    level: -0.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -445,7 +450,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { saturate: true },
     controls: [c('cutoff', 0.5), c('resonance', 0.5), c('drive', 0.3), c('glide', 0)],
-    level: -2,
+    level: -3,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -471,7 +476,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { saturate: true },
     controls: [c('decay', 0.55), c('drive', 0.4), c('glide', 0.5), c('tone', 0.6)],
-    level: 0,
+    level: -6,
     trackColor: CATEGORY_INFO.bass.color,
   },
 
@@ -495,7 +500,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { rotary: true, saturate: true, room: { decay: 1.2, damping: 0.5 } },
     controls: [c('tone', 0.6), c('rotary', 0.2), c('drive', 0.3), c('room', 0.2)],
-    level: -2,
+    level: -5.5,
     trackColor: CATEGORY_INFO.organ.color,
   },
   {
@@ -520,7 +525,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 2.2, damping: 0.45 } },
     controls: [c('attack', 0.42), c('release', 0.5), c('tone', 0.62), c('room', 0.45)],
-    level: -3,
+    level: -7,
     trackColor: CATEGORY_INFO.strings.color,
   },
   {
@@ -544,7 +549,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, width: true, room: { decay: 2.8, damping: 0.4 } },
     controls: [c('attack', 0.62), c('release', 0.68), c('cutoff', 0.5), c('chorus', 0.5), c('room', 0.5)],
-    level: -4,
+    level: -9,
     trackColor: CATEGORY_INFO.synth.color,
   },
   {
@@ -567,7 +572,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, width: true, room: { decay: 1.8, damping: 0.4 } },
     controls: [c('cutoff', 0.5), c('attack', 0.12), c('release', 0.45), c('width', 0.7), c('room', 0.3)],
-    level: -5,
+    level: -4.5,
     trackColor: CATEGORY_INFO.synth.color,
   },
   {
@@ -590,7 +595,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { width: true, room: { decay: 1.5, damping: 0.4 } },
     controls: [c('cutoff', 0.5), c('decay', 0.5), c('width', 0.6), c('room', 0.35)],
-    level: -3,
+    level: 0.5,
     trackColor: CATEGORY_INFO.synth.color,
   },
   {
@@ -616,7 +621,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.2, damping: 0.45 } },
     controls: [c('cutoff', 0.5), c('resonance', 0.5), c('glide', 0.4), c('room', 0.25)],
-    level: -4,
+    level: -4.5,
     trackColor: CATEGORY_INFO.synth.color,
   },
   {
@@ -641,7 +646,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.65), c('attack', 0.2), c('release', 0.3), c('room', 0.35)],
-    level: -3,
+    level: -5,
     trackColor: CATEGORY_INFO.brass.color,
   },
   {
@@ -663,7 +668,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.2, stereo: false }, room: { decay: 1.6, damping: 0.45 } },
     controls: [c('tremolo', 0.4), c('rate', 0.5), c('tone', 0.65), c('room', 0.35)],
-    level: -1,
+    level: -5.5,
     trackColor: CATEGORY_INFO.mallet.color,
   },
   {
@@ -685,7 +690,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 2.0, damping: 0.35 } },
     controls: [c('tone', 0.7), c('release', 0.55), c('room', 0.45)],
-    level: -3,
+    level: -0.5,
     trackColor: CATEGORY_INFO.mallet.color,
   },
 ];

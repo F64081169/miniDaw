@@ -61,7 +61,7 @@ export const POP: GenreDef = {
       patch: 'drums.studio',
       style: 'pop',
       step: 'drums',
-      mix: { volumeDb: -3, pan: 0, reverb: 0.07, delay: 0, comp: { threshold: -16, ratio: 3, attack: 15, release: 120, makeup: 2 } },
+      mix: { volumeDb: -4, pan: 0, reverb: 0.07, delay: 0, comp: { threshold: -16, ratio: 3, attack: 15, release: 120, makeup: 2 } },
       why: '2、4 拍的小鼓（backbeat）是流行歌的骨架；副歌加入開鈸與拍手讓能量提升。',
     },
     {
@@ -72,7 +72,7 @@ export const POP: GenreDef = {
       style: 'popSync',
       sections: ['verse', 'pre', 'chorus', 'bridge', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -4, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 10, release: 150, makeup: 3 } },
+      mix: { volumeDb: -6.5, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 4, attack: 10, release: 150, makeup: 3 } },
       why: '以根音為主、用 3-3-2 切分節奏和大鼓咬合，讓和弦更穩、律動更明確。',
     },
     {
@@ -94,7 +94,7 @@ export const POP: GenreDef = {
       guitar: true,
       sections: ['verse', 'pre', 'chorus', 'bridge'],
       step: 'layers',
-      mix: { volumeDb: -10, pan: -0.38, reverb: 0.12, delay: 0, lowCut: 110 },
+      mix: { volumeDb: -15, pan: -0.38, reverb: 0.12, delay: 0, lowCut: 110 },
       why: '刷弦提供 8 分音符的動能，和鋼琴左右分開讓畫面更寬。',
     },
     {
@@ -105,7 +105,7 @@ export const POP: GenreDef = {
       style: 'sustain',
       sections: ['pre', 'chorus', 'bridge'],
       step: 'layers',
-      mix: { volumeDb: -15, pan: 0, reverb: 0.3, delay: 0, lowCut: 200 },
+      mix: { volumeDb: -13, pan: 0, reverb: 0.3, delay: 0, lowCut: 200 },
       why: '只在導歌與副歌出現的長音墊底，讓副歌「變大」的秘密武器。',
     },
     {
@@ -117,7 +117,7 @@ export const POP: GenreDef = {
       range: [62, 81],
       sections: ['verse', 'pre', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -8, pan: 0, reverb: 0.18, delay: 0.12, lowCut: 150 },
+      mix: { volumeDb: -3.5, pan: 0, reverb: 0.18, delay: 0.12, lowCut: 150 },
       why: '幫你先抓一條「人聲的位置」，之後可以換成自己錄的歌聲。',
     },
   ],
@@ -135,7 +135,7 @@ export const POP: GenreDef = {
     layers: '加上木吉他刷弦（D-DU-UDU）與只在導歌、副歌出現的 Pad。吉他放左邊、鋼琴略偏右，空間一下就打開了。',
     melody: '副歌旋律最好「重複」：同一個 2 小節動機出現 3 次，第 4 次做變化收尾。強拍落在和弦內音、長音停在根音或三音最穩定。先用合成器當示範，再換成你的人聲。',
     arrange: '檢查每一段的「能量」：前奏只留鋼琴與輕鼓、主歌拿掉 Pad、導歌鼓開始加密、副歌全部打開、橋段可以突然減少樂器，最後一次副歌再更滿。',
-    mix: '一鍵套用：鼓 −3 dB、貝斯 −4 dB、鋼琴 −7 dB、吉他偏左、Pad 很小聲墊底；鼓與貝斯加壓縮器；除了貝斯和大鼓，其他樂器都切掉 100 Hz 以下低頻，混音會乾淨很多。',
+    mix: '一鍵套用：主旋律和鼓組最突出、貝斯緊跟在後，鋼琴與吉他退一步並左右分開，Pad 很小聲墊底；鼓與貝斯加壓縮器；除了貝斯和大鼓，其他樂器都切掉 100 Hz 以下低頻，混音會乾淨很多。',
   },
   tips: [
     '副歌前一小節可以讓鼓和貝斯停半小節（stop），副歌進來時更有爆發力。',
@@ -207,7 +207,7 @@ export const MANDOPOP: GenreDef = {
       patch: 'piano.grand',
       style: 'balladPiano',
       step: 'harmony',
-      mix: { volumeDb: -5, pan: 0.05, reverb: 0.22, delay: 0, lowCut: 60 },
+      mix: { volumeDb: -2, pan: 0.05, reverb: 0.22, delay: 0, lowCut: 60 },
       why: '鋼琴分解和弦是華語抒情的靈魂，從頭到尾撐住整首歌的情緒。',
     },
     {
@@ -218,7 +218,7 @@ export const MANDOPOP: GenreDef = {
       style: 'mandopop',
       sections: ['pre', 'chorus', 'bridge', 'verse'],
       step: 'drums',
-      mix: { volumeDb: -5, pan: 0, reverb: 0.12, delay: 0, comp: { threshold: -18, ratio: 2.5, attack: 20, release: 150, makeup: 2 } },
+      mix: { volumeDb: -6, pan: 0, reverb: 0.12, delay: 0, comp: { threshold: -18, ratio: 2.5, attack: 20, release: 150, makeup: 2 } },
       why: '抒情歌的鼓要「省」：第一段主歌常常不放鼓，副歌才完整進來。',
     },
     {
@@ -229,7 +229,7 @@ export const MANDOPOP: GenreDef = {
       style: 'rootQuarter',
       sections: ['verse', 'pre', 'chorus', 'bridge', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 3, attack: 15, release: 160, makeup: 2 } },
+      mix: { volumeDb: -6.5, pan: 0, reverb: 0, delay: 0, lowCut: 30, comp: { threshold: -20, ratio: 3, attack: 15, release: 160, makeup: 2 } },
       why: '跟著鋼琴的低音線條（特別是卡農的下行低音），用長音讓整體更厚實。',
     },
     {
@@ -242,7 +242,7 @@ export const MANDOPOP: GenreDef = {
       range: [52, 84],
       sections: ['pre', 'chorus', 'bridge', 'outro'],
       step: 'layers',
-      mix: { volumeDb: -11, pan: -0.15, reverb: 0.35, delay: 0, lowCut: 150 },
+      mix: { volumeDb: -12, pan: -0.15, reverb: 0.35, delay: 0, lowCut: 150 },
       why: '副歌鋪上弦樂，情緒立刻放大；橋段可以讓弦樂獨自撐住。',
     },
     {
@@ -254,7 +254,7 @@ export const MANDOPOP: GenreDef = {
       guitar: true,
       sections: ['verse', 'bridge'],
       step: 'layers',
-      mix: { volumeDb: -12, pan: -0.45, reverb: 0.18, delay: 0, lowCut: 120 },
+      mix: { volumeDb: -6.5, pan: -0.45, reverb: 0.18, delay: 0, lowCut: 120 },
       why: '主歌用木吉他分解和弦點綴，和鋼琴互相呼應。',
     },
     {
@@ -266,7 +266,7 @@ export const MANDOPOP: GenreDef = {
       range: [60, 79],
       sections: ['verse', 'pre', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -7, pan: 0, reverb: 0.25, delay: 0.08, lowCut: 150 },
+      mix: { volumeDb: 0.5, pan: 0, reverb: 0.25, delay: 0.08, lowCut: 150 },
       why: '先用柔音鋼琴模擬人聲旋律，抓出歌唱的音域與段落。',
     },
   ],
@@ -354,7 +354,7 @@ export const BALLAD: GenreDef = {
       patch: 'piano.grand',
       style: 'balladPiano',
       step: 'harmony',
-      mix: { volumeDb: -4, pan: 0, reverb: 0.25, delay: 0, lowCut: 50 },
+      mix: { volumeDb: -2, pan: 0, reverb: 0.25, delay: 0, lowCut: 50 },
       why: '整首歌的主角：分解和弦帶出流動感，副歌加上和弦長音更飽滿。',
     },
     {
@@ -365,7 +365,7 @@ export const BALLAD: GenreDef = {
       style: 'sustain',
       sections: ['pre', 'chorus', 'bridge', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -6, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
+      mix: { volumeDb: -6.5, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
       why: '慢歌的貝斯用長音，第一段主歌甚至可以不出現，讓開場更親密。',
     },
     {
@@ -376,7 +376,7 @@ export const BALLAD: GenreDef = {
       style: 'ballad',
       sections: ['chorus', 'bridge'],
       step: 'drums',
-      mix: { volumeDb: -6, pan: 0, reverb: 0.18, delay: 0 },
+      mix: { volumeDb: -7, pan: 0, reverb: 0.18, delay: 0 },
       why: '只在副歌與橋段出現的鼓組，製造「情緒爆發」的對比。',
     },
     {
@@ -389,7 +389,7 @@ export const BALLAD: GenreDef = {
       range: [52, 86],
       sections: ['pre', 'chorus', 'bridge', 'outro'],
       step: 'layers',
-      mix: { volumeDb: -10, pan: 0.15, reverb: 0.4, delay: 0, lowCut: 140 },
+      mix: { volumeDb: -11, pan: 0.15, reverb: 0.4, delay: 0, lowCut: 140 },
       why: '弦樂長音讓副歌像電影配樂一樣展開。',
     },
     {
@@ -401,7 +401,7 @@ export const BALLAD: GenreDef = {
       range: [60, 79],
       sections: ['verse', 'pre', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -6, pan: 0, reverb: 0.25, delay: 0.1, lowCut: 150 },
+      mix: { volumeDb: 0, pan: 0, reverb: 0.25, delay: 0.1, lowCut: 150 },
       why: '用柔音鋼琴示範歌唱旋律，長音多、節奏寬鬆。',
     },
   ],
@@ -487,7 +487,7 @@ export const ROCK: GenreDef = {
       patch: 'drums.rock',
       style: 'rock',
       step: 'drums',
-      mix: { volumeDb: -2, pan: 0, reverb: 0.1, delay: 0, comp: { threshold: -14, ratio: 4, attack: 8, release: 100, makeup: 3 } },
+      mix: { volumeDb: -6, pan: 0, reverb: 0.1, delay: 0, comp: { threshold: -14, ratio: 4, attack: 8, release: 100, makeup: 3 } },
       why: '重重的 2、4 拍小鼓與 8 分音符 Hi-Hat；副歌改打 Ride 讓聲音更開闊。',
     },
     {
@@ -497,7 +497,7 @@ export const ROCK: GenreDef = {
       patch: 'bass.pick',
       style: 'root8',
       step: 'bass',
-      mix: { volumeDb: -4, pan: 0, reverb: 0, delay: 0, lowCut: 35, comp: { threshold: -18, ratio: 4, attack: 8, release: 120, makeup: 3 } },
+      mix: { volumeDb: -8.5, pan: 0, reverb: 0, delay: 0, lowCut: 35, comp: { threshold: -18, ratio: 4, attack: 8, release: 120, makeup: 3 } },
       why: '彈片撥奏的 8 分音符根音，和大鼓一起推動整個樂團往前。',
     },
     {
@@ -508,7 +508,7 @@ export const ROCK: GenreDef = {
       style: 'powerChords',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -8, pan: -0.7, reverb: 0.08, delay: 0, lowCut: 90 },
+      mix: { volumeDb: -6.5, pan: -0.7, reverb: 0.08, delay: 0, lowCut: 90 },
       why: '強力和弦（根音＋五度）在主歌用悶音 8 分音符、副歌放開長音。',
     },
     {
@@ -520,7 +520,7 @@ export const ROCK: GenreDef = {
       guitar: true,
       sections: ['chorus', 'solo', 'outro'],
       step: 'layers',
-      mix: { volumeDb: -8, pan: 0.7, reverb: 0.08, delay: 0, lowCut: 90 },
+      mix: { volumeDb: -6.5, pan: 0.7, reverb: 0.08, delay: 0, lowCut: 90 },
       why: '「雙軌吉他」：同樣的段落再錄一次放右邊，副歌立刻變成一道牆。',
     },
     {
@@ -532,7 +532,7 @@ export const ROCK: GenreDef = {
       range: [62, 86],
       sections: ['solo', 'chorus'],
       step: 'melody',
-      mix: { volumeDb: -9, pan: 0.15, reverb: 0.15, delay: 0.15, lowCut: 150 },
+      mix: { volumeDb: 1.5, pan: 0.15, reverb: 0.15, delay: 0.15, lowCut: 150 },
       why: '用五聲音階寫出主奏吉他的旋律與 Solo。',
     },
   ],
@@ -618,7 +618,7 @@ export const METAL: GenreDef = {
       patch: 'drums.rock',
       style: 'metal',
       step: 'drums',
-      mix: { volumeDb: -2, pan: 0, reverb: 0.08, delay: 0, comp: { threshold: -14, ratio: 5, attack: 5, release: 80, makeup: 3 } },
+      mix: { volumeDb: -6.5, pan: 0, reverb: 0.08, delay: 0, comp: { threshold: -14, ratio: 5, attack: 5, release: 80, makeup: 3 } },
       why: '主歌用 gallop（8 分＋兩個 16 分）大鼓、副歌雙踏 16 分音符與每拍碎音鈸。',
     },
     {
@@ -628,7 +628,7 @@ export const METAL: GenreDef = {
       patch: 'bass.pick',
       style: 'metal',
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 35, comp: { threshold: -18, ratio: 5, attack: 5, release: 100, makeup: 3 }, inserts: [{ type: 'drive', params: { drive: 0.35, tone: 3500, mix: 0.6, output: -2 } }] },
+      mix: { volumeDb: -6.5, pan: 0, reverb: 0, delay: 0, lowCut: 35, comp: { threshold: -18, ratio: 5, attack: 5, release: 100, makeup: 3 }, inserts: [{ type: 'drive', params: { drive: 0.35, tone: 3500, mix: 0.6, output: -2 } }] },
       why: '和大鼓位置完全同步的低音，加一點破音讓它和吉他融合。',
     },
     {
@@ -639,7 +639,7 @@ export const METAL: GenreDef = {
       style: 'metalChug',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -8, pan: -0.75, reverb: 0.05, delay: 0, lowCut: 80 },
+      mix: { volumeDb: -14.5, pan: -0.75, reverb: 0.05, delay: 0, lowCut: 80 },
       why: '跟著大鼓節奏的悶音 chug，副歌在換和弦時放開長音。',
     },
     {
@@ -650,7 +650,7 @@ export const METAL: GenreDef = {
       style: 'metalChug',
       guitar: true,
       step: 'layers',
-      mix: { volumeDb: -8, pan: 0.75, reverb: 0.05, delay: 0, lowCut: 80 },
+      mix: { volumeDb: -14.5, pan: 0.75, reverb: 0.05, delay: 0, lowCut: 80 },
       why: '雙軌吉他是金屬「厚度」的來源，一定要左右各一。',
     },
     {
@@ -661,7 +661,7 @@ export const METAL: GenreDef = {
       style: 'sustain',
       sections: ['chorus', 'breakdown', 'outro'],
       step: 'layers',
-      mix: { volumeDb: -14, pan: 0, reverb: 0.35, delay: 0, lowCut: 200 },
+      mix: { volumeDb: -15.5, pan: 0, reverb: 0.35, delay: 0, lowCut: 200 },
       why: '在副歌墊上弦樂，讓金屬多一點史詩、交響的感覺。',
     },
     {
@@ -673,7 +673,7 @@ export const METAL: GenreDef = {
       range: [64, 88],
       sections: ['solo'],
       step: 'melody',
-      mix: { volumeDb: -9, pan: 0, reverb: 0.18, delay: 0.18, lowCut: 200 },
+      mix: { volumeDb: -1, pan: 0, reverb: 0.18, delay: 0.18, lowCut: 200 },
       why: 'Solo 段的主奏吉他旋律。',
     },
   ],
@@ -759,7 +759,7 @@ export const COUNTRY: GenreDef = {
       style: 'strumCountry',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -5, pan: -0.25, reverb: 0.14, delay: 0, lowCut: 80 },
+      mix: { volumeDb: -5.5, pan: -0.25, reverb: 0.14, delay: 0, lowCut: 80 },
       why: 'Boom-chick 伴奏：拇指彈低音（根音／五度），其他手指刷高音弦。',
     },
     {
@@ -770,7 +770,7 @@ export const COUNTRY: GenreDef = {
       style: 'country',
       sections: ['verse', 'chorus', 'bridge', 'outro'],
       step: 'drums',
-      mix: { volumeDb: -5, pan: 0, reverb: 0.1, delay: 0 },
+      mix: { volumeDb: -4.5, pan: 0, reverb: 0.1, delay: 0 },
       why: '簡單的 2、4 拍與鈴鼓，副歌換 Ride 更開朗。',
     },
     {
@@ -781,7 +781,7 @@ export const COUNTRY: GenreDef = {
       style: 'country',
       sections: ['verse', 'chorus', 'bridge', 'outro'],
       step: 'bass',
-      mix: { volumeDb: -5, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
+      mix: { volumeDb: -7.5, pan: 0, reverb: 0, delay: 0, lowCut: 30 },
       why: '根音與五度在 1、3 拍交替，換和弦前用經過音「走」過去（walk-up）。',
     },
     {
@@ -793,7 +793,7 @@ export const COUNTRY: GenreDef = {
       guitar: true,
       sections: ['chorus', 'bridge'],
       step: 'layers',
-      mix: { volumeDb: -11, pan: 0.45, reverb: 0.16, delay: 0, lowCut: 120 },
+      mix: { volumeDb: -8, pan: 0.45, reverb: 0.16, delay: 0, lowCut: 120 },
       why: '第二把吉他用指彈分解和弦，和刷弦吉他左右呼應。',
     },
     {
@@ -805,7 +805,7 @@ export const COUNTRY: GenreDef = {
       range: [60, 79],
       sections: ['verse', 'chorus', 'bridge'],
       step: 'melody',
-      mix: { volumeDb: -9, pan: 0.1, reverb: 0.15, delay: 0.1, lowCut: 150 },
+      mix: { volumeDb: 2, pan: 0.1, reverb: 0.15, delay: 0.1, lowCut: 150 },
       why: '用清音電吉他模擬鄉村味的主旋律（五聲音階）。',
     },
   ],

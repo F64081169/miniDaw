@@ -24,8 +24,8 @@ import './ui/styles.css';
   openExport: () => useDaw.getState().setUi({ dialog: { type: 'export' } }),
   state: () => useDaw.getState(),
   renderStats: () => ({ pending: renderService.pendingCount() }),
-  /** Mix-balance analysis (development aid): bounces the first chorus of a generated genre arrangement. */
-  analyzeGenre: async (id: string) => (await import('./debug/analyze')).analyzeGenre(id),
+  /** Mix-balance analysis tools (development aid, loaded on demand). */
+  debug: () => import('./debug/analyze'),
 };
 
 async function boot(): Promise<void> {
