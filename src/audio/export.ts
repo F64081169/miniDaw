@@ -45,9 +45,7 @@ export async function bounce(project: Project, o: BounceOptions): Promise<AudioB
   for (const t of p.tracks) {
     const inst = graph.instrument(t.id);
     if (!inst) continue;
-    const pitches = new Set<number>();
-    for (const r of t.regions) if (r.kind === 'midi') for (const n of r.notes) pitches.add(n.pitch);
-    jobs.push(...inst.jobsFor(pitches));
+    jobs.push(...inst.jobsFor(t.regions.flatMap((r) => (r.kind === 'midi' ? r.notes : []))));
   }
   await renderService.ensureAll(jobs);
 

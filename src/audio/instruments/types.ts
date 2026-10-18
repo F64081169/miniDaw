@@ -95,7 +95,7 @@ export interface SampledDef {
   zoneStep: number;
   release: number; // seconds (damper)
   attack?: number;
-  velFilter?: [number, number]; // lowpass cutoff at velocity 1 … 127
+  layers?: 1 | 2; // velocity layers (default 2: soft + hard)
   panSpread?: number; // pitch-dependent pan width
   retrigger?: 'cut' | 'overlap';
   maxVoices?: number;

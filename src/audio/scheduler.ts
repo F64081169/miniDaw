@@ -39,7 +39,10 @@ export function scheduleRange(p: Project, g: MixGraph, o: RangeOpts): void {
   }
   const nb0 = Math.max(o.b0, o.notesFrom);
   if (nb0 < o.b1) {
+    const solo = p.tracks.some((t) => t.mixer.solo);
     for (const tr of p.tracks) {
+      // silent tracks cost nothing: no voices are created for them
+      if (tr.mixer.mute || (solo && !tr.mixer.solo)) continue;
       if (tr.kind === 'instrument') {
         const inst = g.instrument(tr.id);
         if (!inst) continue;

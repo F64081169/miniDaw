@@ -118,8 +118,10 @@ describe('patches', () => {
     for (const p of PATCHES) {
       if (p.engine !== 'sampled') continue;
       for (const pitch of [p.range[0], p.range[1]]) {
-        const buf = runJob({ kind: 'zone', spec: p.sampled!.spec, pitch, sr: SR, seed: 1 });
-        assertSane(buf);
+        for (const layer of [0, 1] as const) {
+          const buf = runJob({ kind: 'zone', spec: p.sampled!.spec, pitch, sr: SR, seed: 1, layer });
+          assertSane(buf);
+        }
       }
     }
   });

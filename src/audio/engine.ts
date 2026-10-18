@@ -2,14 +2,14 @@
 // runs the transport, metronome, live input (musical typing / MIDI) and recording.
 
 import { beatsPerBar, floorToGrid } from '../core/time';
-import type { Project, Track } from '../core/types';
+import type { Note, Project, Track } from '../core/types';
 import { clamp, debounce, uid } from '../core/util';
 import { createAudioRegion, createMidiRegion } from '../state/project';
 import { getProject, useDaw } from '../state/store';
 import { audioPool } from './audioPool';
 import { renderClick } from './dsp/misc';
 import type { RenderJob } from './dsp/render';
-import { createInstrument, type Instrument, type VoiceHandle } from './instruments/instrument';
+import { createInstrument, rangeNotes, type Instrument, type VoiceHandle } from './instruments/instrument';
 import { defaultParams, getPatch } from './instruments/patches';
 import { MixGraph } from './mixer';
 import { AudioRecorder } from './recorder';
@@ -142,15 +142,15 @@ class Engine {
     for (const t of p.tracks) {
       const inst = this.graph.instrument(t.id);
       if (!inst) continue;
-      const pitches = new Set<number>();
+      const notes: Note[] = [];
       for (const r of t.regions) {
         if (r.kind !== 'midi') continue;
         for (const n of r.notes) {
           const b = r.start + n.start;
-          if (b + n.duration >= from && b < to) pitches.add(n.pitch);
+          if (b + n.duration >= from && b < to) notes.push(n);
         }
       }
-      jobs.push(...inst.jobsFor(pitches));
+      jobs.push(...inst.jobsFor(notes));
     }
     return jobs;
   }
@@ -171,7 +171,7 @@ class Engine {
     const range: number[] = [];
     const [lo, hi] = inst.patch.range;
     for (let p = Math.max(lo, 36); p <= Math.min(hi, 84); p++) range.push(p);
-    renderService.prefetch(inst.jobsFor(range));
+    renderService.prefetch(inst.jobsFor(rangeNotes(range)));
   }
 
   private async prepare(from: number, to: number): Promise<void> {
@@ -451,7 +451,7 @@ class Engine {
     const inst = createInstrument(ctx, patch, defaultParams(patch));
     inst.output.connect(this.graph!.master.input);
     this.previewInst = inst;
-    await Promise.race([renderService.ensureAll(inst.jobsFor(phrase.map((n) => n.pitch))), new Promise((r) => setTimeout(r, 3000))]);
+    await Promise.race([renderService.ensureAll(inst.jobsFor(phrase.map((n) => ({ pitch: n.pitch, velocity: n.vel })))), new Promise((r) => setTimeout(r, 3000))]);
     if (this.previewInst !== inst) return;
     const spb = 60 / bpm;
     const t0 = ctx.currentTime + 0.05;

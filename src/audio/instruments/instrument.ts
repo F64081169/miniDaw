@@ -2,10 +2,22 @@
 
 import { clamp, mtof } from '../../core/util';
 import { DRUM_BY_NOTE, PIECE_PAN, type DrumPiece } from '../dsp/drums';
-import type { RenderJob } from '../dsp/render';
+import { LAYER_SPLIT, type Layer, type RenderJob } from '../dsp/render';
 import { renderService } from '../renderService';
 import { InstrumentChain, mapControl } from './chain';
 import type { PatchDef, SynthDef } from './types';
+
+export interface NoteLike {
+  pitch: number;
+  velocity: number;
+}
+
+/** All playable layers for a pitch range (warm-up for live playing). */
+export function rangeNotes(pitches: Iterable<number>): NoteLike[] {
+  const out: NoteLike[] = [];
+  for (const p of pitches) out.push({ pitch: p, velocity: 40 }, { pitch: p, velocity: 110 });
+  return out;
+}
 
 export interface VoiceHandle {
   release(time: number): void;
@@ -21,8 +33,8 @@ export interface Instrument {
   /** Fade out everything (transport stop). */
   allNotesOff(time?: number): void;
   setParams(params: Record<string, number>): void;
-  /** Render jobs needed for the given pitches (empty for synths). */
-  jobsFor(pitches: Iterable<number>): RenderJob[];
+  /** Render jobs needed to play these notes (empty for synths). */
+  jobsFor(notes: Iterable<NoteLike>): RenderJob[];
   dispose(): void;
 }
 
@@ -51,12 +63,24 @@ class SampledInstrument implements Instrument {
   private chain: InstrumentChain;
   private voices: SVoice[] = [];
   private params: Record<string, number> = {};
+  private panBuses: GainNode[] = [];
 
   constructor(ctx: BaseAudioContext, patch: PatchDef) {
     this.ctx = ctx;
     this.patch = patch;
     this.chain = new InstrumentChain(ctx, patch);
     this.output = this.chain.output;
+    // a few shared pan positions instead of a StereoPannerNode per voice
+    const spread = patch.sampled?.panSpread ?? 0;
+    if (spread > 0) {
+      for (const pos of [-1, -0.5, 0, 0.5, 1]) {
+        const g = ctx.createGain();
+        const pan = ctx.createStereoPanner();
+        pan.pan.value = pos * spread;
+        g.connect(pan).connect(this.chain.input);
+        this.panBuses.push(g);
+      }
+    }
   }
 
   private get def() {
@@ -70,14 +94,26 @@ class SampledInstrument implements Instrument {
     return Math.min(hi, lo + Math.round((p - lo) / step) * step);
   }
 
-  private job(zone: number): RenderJob {
-    return { kind: 'zone', spec: this.def.spec, pitch: zone, sr: this.ctx.sampleRate, seed: 1 };
+  private layerOf(velocity: number): Layer {
+    return (this.def.layers ?? 2) === 1 || velocity >= LAYER_SPLIT ? 1 : 0;
   }
 
-  jobsFor(pitches: Iterable<number>): RenderJob[] {
-    const zones = new Set<number>();
-    for (const p of pitches) zones.add(this.zoneOf(p));
-    return [...zones].map((z) => this.job(z));
+  private job(zone: number, layer: Layer): RenderJob {
+    return { kind: 'zone', spec: this.def.spec, pitch: zone, sr: this.ctx.sampleRate, seed: 1, layer };
+  }
+
+  jobsFor(notes: Iterable<NoteLike>): RenderJob[] {
+    const keys = new Set<string>();
+    const out: RenderJob[] = [];
+    for (const n of notes) {
+      const zone = this.zoneOf(n.pitch);
+      const layer = this.layerOf(n.velocity);
+      const k = `${zone}:${layer}`;
+      if (keys.has(k)) continue;
+      keys.add(k);
+      out.push(this.job(zone, layer));
+    }
+    return out;
   }
 
   setParams(params: Record<string, number>): void {
@@ -91,10 +127,16 @@ class SampledInstrument implements Instrument {
     return base * (1 + clamp((60 - pitch) / 60, 0, 0.8));
   }
 
+  private destination(pitch: number): AudioNode {
+    if (!this.panBuses.length) return this.chain.input;
+    const pos = clamp((pitch - 64) / 30, -1, 1);
+    return this.panBuses[Math.round((pos + 1) * 2)];
+  }
+
   private startVoice(pitch: number, velocity: number, time: number): SVoice | null {
     const ctx = this.ctx;
     const zone = this.zoneOf(pitch);
-    const job = this.job(zone);
+    const job = this.job(zone, this.layerOf(velocity));
     const buffer = renderService.get(job) ?? renderService.getSync(job);
     const t = Math.max(time, ctx.currentTime);
     // same-pitch retrigger (a string can only ring once) and polyphony limit
@@ -109,39 +151,18 @@ class SampledInstrument implements Instrument {
     src.buffer = buffer;
     const rate = Math.pow(2, (pitch - zone) / 12);
     src.playbackRate.value = rate;
-    const nodes: AudioNode[] = [src];
-    let head: AudioNode = src;
-    if (this.def.velFilter) {
-      const [lo, hi] = this.def.velFilter;
-      const lp = ctx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.Q.value = 0.5;
-      lp.frequency.value = lo * Math.pow(hi / lo, Math.pow(clamp(velocity, 1, 127) / 127, 0.8));
-      head.connect(lp);
-      head = lp;
-      nodes.push(lp);
-    }
     const vca = ctx.createGain();
     const gain = velocityGain(velocity, this.params.velocity ?? 0.8);
     const attack = this.def.attack ?? 0.002;
     vca.gain.setValueAtTime(0, t);
     vca.gain.linearRampToValueAtTime(gain, t + attack);
-    head.connect(vca);
-    nodes.push(vca);
-    head = vca;
-    if (this.def.panSpread) {
-      const pan = ctx.createStereoPanner();
-      pan.pan.value = clamp(((pitch - 64) / 36) * this.def.panSpread, -1, 1);
-      head.connect(pan);
-      head = pan;
-      nodes.push(pan);
-    }
-    head.connect(this.chain.input);
+    src.connect(vca).connect(this.destination(pitch));
     src.start(t);
     const natural = t + buffer.duration / rate;
-    const voice: SVoice = { src, vca, pitch, start: t, end: Infinity, nodes };
+    const voice: SVoice = { src, vca, pitch, start: t, end: Infinity, nodes: [src, vca] };
     src.onended = () => {
-      for (const n of nodes) n.disconnect();
+      src.disconnect();
+      vca.disconnect();
       const i = this.voices.indexOf(voice);
       if (i >= 0) this.voices.splice(i, 1);
     };
@@ -198,6 +219,7 @@ class SampledInstrument implements Instrument {
   dispose(): void {
     this.allNotesOff();
     this.chain.dispose();
+    this.panBuses.forEach((b) => b.disconnect());
   }
 }
 
@@ -231,17 +253,27 @@ class DrumInstrument implements Instrument {
     this.output = this.chain.output;
   }
 
-  private job(piece: DrumPiece): RenderJob {
-    return { kind: 'drum', kit: this.kit, piece, sr: this.ctx.sampleRate };
+  private layerOf(velocity: number): Layer {
+    return ACOUSTIC_KITS.has(this.kit) && velocity < LAYER_SPLIT ? 0 : 1;
   }
 
-  jobsFor(pitches: Iterable<number>): RenderJob[] {
-    const pieces = new Set<DrumPiece>();
-    for (const p of pitches) {
-      const d = DRUM_BY_NOTE.get(p);
-      if (d) pieces.add(d.piece);
+  private job(piece: DrumPiece, layer: Layer): RenderJob {
+    return { kind: 'drum', kit: this.kit, piece, sr: this.ctx.sampleRate, layer };
+  }
+
+  jobsFor(notes: Iterable<NoteLike>): RenderJob[] {
+    const keys = new Set<string>();
+    const out: RenderJob[] = [];
+    for (const n of notes) {
+      const d = DRUM_BY_NOTE.get(n.pitch);
+      if (!d) continue;
+      const layer = this.layerOf(n.velocity);
+      const k = `${d.piece}:${layer}`;
+      if (keys.has(k)) continue;
+      keys.add(k);
+      out.push(this.job(d.piece, layer));
     }
-    return [...pieces].map((p) => this.job(p));
+    return out;
   }
 
   setParams(params: Record<string, number>): void {
@@ -265,7 +297,7 @@ class DrumInstrument implements Instrument {
     const entry = DRUM_BY_NOTE.get(pitch);
     if (!entry) return null;
     const ctx = this.ctx;
-    const job = this.job(entry.piece);
+    const job = this.job(entry.piece, this.layerOf(velocity));
     const buffer = renderService.get(job) ?? renderService.getSync(job);
     const t = Math.max(time, ctx.currentTime);
     // hi-hat choke group
@@ -288,22 +320,11 @@ class DrumInstrument implements Instrument {
     if (ACOUSTIC_KITS.has(this.kit)) src.detune.value = (Math.random() * 2 - 1) * 9;
     const vca = ctx.createGain();
     vca.gain.value = velocityGain(velocity, this.params.velocity ?? 0.8);
-    let head: AudioNode = src;
-    let lp: BiquadFilterNode | null = null;
-    if (ACOUSTIC_KITS.has(this.kit) && velocity < 115) {
-      lp = ctx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.frequency.value = 2500 * Math.pow(8, clamp(velocity, 1, 127) / 115);
-      lp.Q.value = 0.4;
-      src.connect(lp);
-      head = lp;
-    }
-    head.connect(vca).connect(this.bus(entry.piece));
+    src.connect(vca).connect(this.bus(entry.piece));
     src.start(t);
     const voice: DVoice = { src, vca, piece: entry.piece, start: t, end: t + buffer.duration };
     src.onended = () => {
       src.disconnect();
-      lp?.disconnect();
       vca.disconnect();
       const i = this.voices.indexOf(voice);
       if (i >= 0) this.voices.splice(i, 1);
@@ -462,6 +483,7 @@ class SynthInstrument implements Instrument {
   jobsFor(): RenderJob[] {
     return [];
   }
+
 
   setParams(params: Record<string, number>): void {
     this.params = params;

@@ -6,6 +6,7 @@ import { App } from './ui/App';
 import { loadDemo } from './ui/commands';
 import { applyTheme } from './ui/theme';
 import { addAudioTrack, setLoop, toggleArm } from './state/actions';
+import { renderService } from './audio/renderService';
 import './ui/styles.css';
 
 // Small handle for automated smoke tests and debugging from the console.
@@ -22,6 +23,9 @@ import './ui/styles.css';
   setLoop: (a: number, b: number) => setLoop(a, b),
   openExport: () => useDaw.getState().setUi({ dialog: { type: 'export' } }),
   state: () => useDaw.getState(),
+  renderStats: () => ({ pending: renderService.pendingCount() }),
+  /** Mix-balance analysis (development aid): bounces the first chorus of a generated genre arrangement. */
+  analyzeGenre: async (id: string) => (await import('./debug/analyze')).analyzeGenre(id),
 };
 
 async function boot(): Promise<void> {

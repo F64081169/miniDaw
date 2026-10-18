@@ -444,7 +444,7 @@ export const KITS: Record<string, KitSpec> = {
   },
 };
 
-export function renderDrumPiece(kitId: string, piece: DrumPiece, sr: number, seed = 1): Float32Array {
+export function renderDrumPiece(kitId: string, piece: DrumPiece, sr: number, seed = 1, soft = false): Float32Array {
   const kit = KITS[kitId] ?? KITS.studio;
   const rng = makeRng(seed * 65537 + DRUM_NOTE[piece] * 7 + kitId.length * 131);
   let buf: Float32Array;
@@ -517,6 +517,12 @@ export function renderDrumPiece(kitId: string, piece: DrumPiece, sr: number, see
       if (steps) x = Math.round(x * steps) / steps;
       buf[i] = x;
     }
+  }
+  if (soft) {
+    // a gentle hit has less high-frequency energy and a softer transient
+    const lp1 = new Biquad('lowpass', 3800, 0.6, sr);
+    const lp2 = new Biquad('lowpass', 5200, 0.6, sr);
+    for (let i = 0; i < buf.length; i++) buf[i] = lp2.process(lp1.process(buf[i]));
   }
   const gain = PIECE_GAIN[piece] ?? 0.8;
   normalize(buf, gain);
