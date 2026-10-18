@@ -5,3 +5,5 @@ dist-single
 .DS_Store
 test-results
 artifact
+.cache
+__pycache__

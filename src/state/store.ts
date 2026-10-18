@@ -15,6 +15,7 @@ export type Dialog =
   | { type: 'export' }
   | { type: 'welcome' }
   | { type: 'shortcuts' }
+  | { type: 'credits' }
   | { type: 'fx'; trackId: string | 'master' | 'reverb' | 'delay'; insertId?: string }
   | { type: 'rename'; target: 'track' | 'region' | 'marker' | 'project'; id: string; value: string };
 

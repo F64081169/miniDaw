@@ -69,15 +69,20 @@ const drumKit = (id: string, kit: string, name: string, nameEn: string, descript
 
 export const PATCHES: PatchDef[] = [
   // ---------------------------------------------------------------- drums
-  drumKit('drums.studio', 'studio', '錄音室鼓組', 'Studio Kit', '溫暖自然的原聲鼓，適合流行、抒情、R&B。', { level: -3.5 }),
+  drumKit('drums.studio', 'studio', '錄音室鼓組', 'Studio Kit', '溫暖自然的原聲鼓，適合流行、抒情、R&B。', {
+    kitSets: ['virtuosity', 'perc'],
+    level: 3,
+  }),
   drumKit('drums.rock', 'rock', '搖滾鼓組', 'Rock Kit', '大鼓更深、小鼓更有爆發力，適合搖滾、龐克、金屬。', {
+    kitSets: ['virtuosity', 'perc'],
     chain: { punch: true, room: { decay: 1.3, damping: 0.45 } },
     controls: [c('tone', 0.75), c('punch', 0.6), c('room', 0.35), c('velocity', 0.8)],
-    level: -4.5,
+    level: 2.5,
   }),
   drumKit('drums.jazz', 'jazz', '爵士刷鼓', 'Jazz Brushes', '鼓刷小鼓與柔和疊音鈸，適合爵士、巴薩諾瓦。', {
+    kitSets: ['brushkit', 'perc'],
     controls: [c('tone', 0.6), c('punch', 0.15), c('room', 0.3), c('velocity', 0.9)],
-    level: -3,
+    level: 5.5,
   }),
   drumKit('drums.808', 'tr808', '808 電子鼓', 'TR-808 Kit', '長尾音大鼓與金屬感 Hi-Hat，嘻哈、Trap 的靈魂。', {
     chain: { punch: true, room: { decay: 0.6, damping: 0.6 } },
@@ -90,9 +95,10 @@ export const PATCHES: PatchDef[] = [
     level: -4.5,
   }),
   drumKit('drums.lofi', 'lofi', 'Lo-fi 鼓組', 'Lo-Fi Kit', '降低取樣精度、溫暖飽和的復古鼓聲，適合 Lo-fi Hip-Hop。', {
+    kitSets: ['lofikit', 'perc'],
     chain: { punch: true, saturate: true, room: { decay: 0.7, damping: 0.75 } },
     controls: [c('tone', 0.5), c('punch', 0.45), c('room', 0.2), c('drive', 0.35), c('velocity', 0.7)],
-    level: -5.5,
+    level: 0,
   }),
 
   // ---------------------------------------------------------------- piano
@@ -105,6 +111,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 0,
     range: [21, 108],
     engine: 'sampled',
+    samples: { set: 'salamander', release: 0.38, maxVoices: 64 },
     sampled: {
       spec: { type: 'piano', model: { duration: 6, brightness: 0.55, hammer: 0.5, detune: 1.0 } },
       zoneStep: 3,
@@ -113,9 +120,9 @@ export const PATCHES: PatchDef[] = [
       retrigger: 'overlap',
       maxVoices: 64,
     },
-    chain: { room: { decay: 1.4, damping: 0.5 } },
-    controls: [c('tone', 0.75), c('room', 0.3), c('release', 0.42), c('velocity', 0.85)],
-    level: -3,
+    chain: { room: { decay: 1.2, damping: 0.5 } },
+    controls: [c('tone', 0.92), c('room', 0.22), c('release', 0.42), c('velocity', 0.8)],
+    level: -2,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -127,6 +134,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 1,
     range: [21, 108],
     engine: 'sampled',
+    samples: { set: 'salamander', release: 0.32, maxVoices: 64 },
     sampled: {
       spec: { type: 'piano', model: { duration: 6, brightness: 0.85, hammer: 0.7, detune: 1.25 } },
       zoneStep: 3,
@@ -135,9 +143,9 @@ export const PATCHES: PatchDef[] = [
       retrigger: 'overlap',
       maxVoices: 64,
     },
-    chain: { room: { decay: 1.1, damping: 0.4 } },
-    controls: [c('tone', 0.85), c('room', 0.25), c('release', 0.38), c('velocity', 0.75)],
-    level: -2.5,
+    chain: { bodyEq: true, room: { decay: 1.0, damping: 0.4 } },
+    controls: [c('tone', 1), c('body', 0.3), c('room', 0.18), c('release', 0.38), c('velocity', 0.75)],
+    level: -1.5,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -149,6 +157,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 0,
     range: [21, 108],
     engine: 'sampled',
+    samples: { set: 'upright', release: 0.5, maxVoices: 64 },
     sampled: {
       spec: { type: 'piano', model: { duration: 5, brightness: 0.2, hammer: 0.15, detune: 0.9 } },
       zoneStep: 3,
@@ -157,9 +166,9 @@ export const PATCHES: PatchDef[] = [
       retrigger: 'overlap',
       maxVoices: 64,
     },
-    chain: { room: { decay: 1.6, damping: 0.7 } },
-    controls: [c('tone', 0.55), c('room', 0.4), c('release', 0.5), c('velocity', 0.8)],
-    level: -3.5,
+    chain: { room: { decay: 1.4, damping: 0.7 } },
+    controls: [c('tone', 0.5), c('room', 0.35), c('release', 0.5), c('velocity', 0.85)],
+    level: 1.5,
     trackColor: CATEGORY_INFO.piano.color,
   },
 
@@ -173,6 +182,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 4,
     range: [28, 103],
     engine: 'sampled',
+    samples: { set: 'rhodes', release: 0.25, panSpread: 0.25, maxVoices: 48 },
     sampled: {
       spec: { type: 'epiano', model: { variant: 'tine', duration: 5.5, bark: 0.45, bell: 0.7 } },
       zoneStep: 3,
@@ -183,7 +193,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 4.5, stereo: true }, amp: { drive: 0.15, cabinet: 'none', presence: 0 }, room: { decay: 1.0, damping: 0.55 } },
     controls: [c('tone', 0.65), c('tremolo', 0.35), c('rate', 0.42), c('drive', 0.2), c('room', 0.2)],
-    level: -1.5,
+    level: -0.5,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -195,6 +205,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 5,
     range: [28, 103],
     engine: 'sampled',
+    samples: { set: 'fmpiano', release: 0.3, panSpread: 0.3, maxVoices: 48 },
     sampled: {
       spec: { type: 'epiano', model: { variant: 'dx', duration: 5, bark: 0.3, bell: 0.9 } },
       zoneStep: 3,
@@ -205,7 +216,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.75), c('chorus', 0.45), c('room', 0.3), c('release', 0.35)],
-    level: -4.5,
+    level: -3.5,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -217,6 +228,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 4,
     range: [33, 96],
     engine: 'sampled',
+    samples: { set: 'wurli', release: 0.2, panSpread: 0.15, maxVoices: 48 },
     sampled: {
       spec: { type: 'epiano', model: { variant: 'wurli', duration: 4, bark: 0.55, bell: 0.4 } },
       zoneStep: 3,
@@ -227,7 +239,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.5, stereo: false }, amp: { drive: 0.3, cabinet: 'none', presence: 0 }, room: { decay: 0.9, damping: 0.55 } },
     controls: [c('tone', 0.6), c('tremolo', 0.25), c('rate', 0.5), c('drive', 0.35), c('room', 0.2)],
-    level: -2,
+    level: 2,
     trackColor: CATEGORY_INFO.epiano.color,
   },
 
@@ -241,6 +253,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 27,
     range: [36, 88],
     engine: 'sampled',
+    samples: { set: 'emily', release: 0.09, maxVoices: 24 },
     sampled: {
       spec: {
         type: 'string',
@@ -253,7 +266,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.06, cabinet: 'guitar', presence: 2 }, chorus: true, room: { decay: 0.9, damping: 0.5 } },
     controls: [c('tone', 0.6), c('drive', 0.12), c('chorus', 0.25), c('room', 0.2)],
-    level: -0.5,
+    level: 8,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -265,6 +278,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 29,
     range: [36, 88],
     engine: 'sampled',
+    samples: { set: 'emily', release: 0.08, maxVoices: 24 },
     sampled: {
       spec: {
         type: 'string',
@@ -277,7 +291,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.45, cabinet: 'guitar', presence: 3 }, room: { decay: 1.0, damping: 0.5 } },
     controls: [c('tone', 0.55), c('drive', 0.5), c('room', 0.18)],
-    level: -5.5,
+    level: 6,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -289,6 +303,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 30,
     range: [33, 88],
     engine: 'sampled',
+    samples: { set: 'emily', release: 0.08, maxVoices: 24 },
     sampled: {
       spec: {
         type: 'string',
@@ -301,7 +316,32 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 4 }, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.5), c('drive', 0.85), c('room', 0.2)],
-    level: -2,
+    level: 14.5,
+    trackColor: CATEGORY_INFO.eguitar.color,
+  },
+  {
+    id: 'eg.metal',
+    name: '金屬節奏吉他',
+    nameEn: 'Metal Rhythm Guitar',
+    category: 'eguitar',
+    description: '高增益、收得很緊的低把位強力和弦，適合金屬與硬搖滾的節奏吉他（悶音 chug、gallop）。',
+    gmProgram: 30,
+    range: [33, 76],
+    engine: 'sampled',
+    samples: { set: 'emily', release: 0.05, maxVoices: 24 },
+    sampled: {
+      spec: {
+        type: 'string',
+        model: { duration: 4, t60Low: 6, t60High: 2.5, brightness: 0.74, pickPos: 0.1, exciteCutoff: 7000, pickupPos: 0.09, pickNoise: 0.35, polarization: 0.2, body: 'electric' },
+      },
+      zoneStep: 2,
+      release: 0.05,
+      retrigger: 'cut',
+      maxVoices: 24,
+    },
+    chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 3 }, room: { decay: 0.8, damping: 0.6 } },
+    controls: [c('tone', 0.45), c('drive', 0.85), c('room', 0.12)],
+    level: 0,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
 
@@ -315,6 +355,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 25,
     range: [36, 88],
     engine: 'sampled',
+    samples: { set: 'steel', release: 0.3, maxVoices: 32 },
     sampled: {
       spec: {
         type: 'string',
@@ -327,7 +368,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.0, damping: 0.45 } },
     controls: [c('tone', 0.65), c('body', 0.5), c('width', 0.5), c('room', 0.25)],
-    level: -1,
+    level: -5,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
   {
@@ -339,6 +380,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 24,
     range: [38, 86],
     engine: 'sampled',
+    samples: { set: 'nylon', release: 0.3, maxVoices: 32 },
     sampled: {
       spec: {
         type: 'string',
@@ -351,7 +393,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.55), c('body', 0.55), c('width', 0.4), c('room', 0.25)],
-    level: 0.5,
+    level: -5,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
 
@@ -365,6 +407,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 33,
     range: [28, 67],
     engine: 'sampled',
+    samples: { set: 'fingerbass', release: 0.08, maxVoices: 8 },
     sampled: {
       spec: {
         type: 'string',
@@ -377,7 +420,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.12, cabinet: 'bass', presence: 0 } },
     controls: [c('tone', 0.5), c('drive', 0.15), c('release', 0.25), c('velocity', 0.7)],
-    level: 6.5,
+    level: 4.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -389,6 +432,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 34,
     range: [28, 67],
     engine: 'sampled',
+    samples: { set: 'fingerbass', release: 0.07, maxVoices: 8 },
     sampled: {
       spec: {
         type: 'string',
@@ -413,6 +457,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 32,
     range: [28, 60],
     engine: 'sampled',
+    samples: { set: 'upbass', release: 0.12, maxVoices: 8 },
     sampled: {
       spec: {
         type: 'string',
@@ -425,7 +470,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 0.8, damping: 0.6 } },
     controls: [c('tone', 0.45), c('room', 0.18), c('release', 0.3), c('velocity', 0.8)],
-    level: -0.5,
+    level: 3.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -512,6 +557,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 48,
     range: [28, 100],
     engine: 'synth',
+    samples: { set: 'strings', release: 0.55, retrigger: 'overlap', maxVoices: 32 },
     synth: {
       oscs: [
         { wave: 'sawtooth', octave: 0, detune: -9, gain: 0.3 },
@@ -525,7 +571,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 2.2, damping: 0.45 } },
     controls: [c('attack', 0.42), c('release', 0.5), c('tone', 0.62), c('room', 0.45)],
-    level: -7,
+    level: 3.5,
     trackColor: CATEGORY_INFO.strings.color,
   },
   {
@@ -633,6 +679,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 61,
     range: [40, 88],
     engine: 'synth',
+    samples: { set: 'brass', release: 0.18, shortBelow: 0.4, maxVoices: 24 },
     synth: {
       oscs: [
         { wave: 'sawtooth', octave: 0, detune: -5, gain: 0.38 },
@@ -646,7 +693,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.65), c('attack', 0.2), c('release', 0.3), c('room', 0.35)],
-    level: -5,
+    level: 7,
     trackColor: CATEGORY_INFO.brass.color,
   },
   {
@@ -658,6 +705,7 @@ export const PATCHES: PatchDef[] = [
     gmProgram: 11,
     range: [48, 96],
     engine: 'sampled',
+    samples: { set: 'vibes', release: 0.6, panSpread: 0.3, retrigger: 'overlap', maxVoices: 32 },
     sampled: {
       spec: { type: 'mallet', model: { duration: 4, ratios: [1, 3.984, 10.1], gains: [1, 0.25, 0.06], decay: 3.5, hardness: 0.5 } },
       zoneStep: 3,
@@ -668,7 +716,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.2, stereo: false }, room: { decay: 1.6, damping: 0.45 } },
     controls: [c('tremolo', 0.4), c('rate', 0.5), c('tone', 0.65), c('room', 0.35)],
-    level: -5.5,
+    level: 1,
     trackColor: CATEGORY_INFO.mallet.color,
   },
   {
@@ -678,8 +726,9 @@ export const PATCHES: PatchDef[] = [
     category: 'mallet',
     description: '清亮的鐘聲／鐘琴，Trap 旋律、聖誕感、夢幻流行的常見音色。',
     gmProgram: 9,
-    range: [55, 103],
+    range: [64, 108],
     engine: 'sampled',
+    samples: { set: 'glock', release: 0.8, panSpread: 0.2, retrigger: 'overlap', maxVoices: 24 },
     sampled: {
       spec: { type: 'mallet', model: { duration: 3.5, ratios: [1, 2.756, 5.404, 8.933], gains: [1, 0.45, 0.22, 0.1], decay: 2.6, hardness: 0.75 } },
       zoneStep: 3,
@@ -690,7 +739,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 2.0, damping: 0.35 } },
     controls: [c('tone', 0.7), c('release', 0.55), c('room', 0.45)],
-    level: -0.5,
+    level: 2,
     trackColor: CATEGORY_INFO.mallet.color,
   },
 ];

@@ -106,6 +106,9 @@ function referencePhrase(patchId: string): PhraseNote[] {
   } else if (patchId.startsWith('bass.')) {
     const roots = [40, 43, 38, 41];
     for (const b of bars) for (let i = 0; i < 8; i++) add(roots[b], b * 4 + i / 2, 0.45, 100);
+  } else if (patchId === 'eg.metal') {
+    // palm-muted power chords in eighths, low on the neck
+    for (const b of bars) for (let i = 0; i < 8; i++) for (const p of [40, 47, 52]) add(p + (b % 2) * 3, b * 4 + i / 2, 0.4, 100);
   } else if (['eg.lead', 'synth.lead', 'mallet.bell'].includes(patchId)) {
     const line = [72, 71, 69, 67, 69, 71, 72, 74];
     for (const b of bars) line.forEach((p, i) => add(p - (b % 2) * 2, b * 4 + i / 2, 0.45, 100));
@@ -163,3 +166,4 @@ export function roleNotes(tag: string): PhraseNote[] {
   );
 }
 export { autoMakeup } from '../audio/dsp/compressor';
+export { sampleLibrary, SAMPLE_SETS } from '../audio/samples/library';

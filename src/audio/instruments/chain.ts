@@ -285,7 +285,9 @@ export class InstrumentChain {
       const dv = params.drive !== undefined ? params.drive : this.baseDrive;
       const g = 1 + 30 * dv * dv;
       this.ampShaper.curve = driveCurve(g, 0.08);
-      smooth(this.ampPost.gain, 1 / Math.pow(g, 0.4));
+      // more gain makes the signal louder only until the stage saturates (measured on recorded
+      // guitars): give back most of the gain up to that point so the drive knob changes tone, not level
+      smooth(this.ampPost.gain, Math.pow(Math.min(g, 8.5), -0.65));
     }
     if (this.satShaper && this.satPost) {
       const dv = get('drive', 0.3);

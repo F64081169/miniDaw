@@ -1,5 +1,5 @@
 // Bass line generator: genre-specific rhythms that follow the chords (with approach notes,
-// octave jumps, walking lines, 808 slides locked to the kick, etc.).
+// octave jumps, walking lines, 808 slides and pop / lo-fi / R&B lines locked to the kick, etc.).
 
 import { bassNoteFor, chordPitchClasses, isInScale, nearestPc, type Chord } from '../theory';
 import { chordAtBeat, clipToSection, humanizeNotes, nextChordAfter, rngFor, swingTime, type GenNote, type SectionCtx } from './common';
@@ -269,6 +269,45 @@ function patternBass(style: BassStyle, ctx: SectionCtx, rng: () => number): GenN
   return out;
 }
 
+/** Styles whose bass plays with the kick drum once the song gets going (bass and kick lock). */
+const KICK_LOCKED = new Set<BassStyle>(['popSync', 'lofi', 'rnb']);
+
+/**
+ * Bass on the kick: a root on every kick (and on every chord change), held until the next one;
+ * the note before a chord change leans into it. Ghost-note kicks are left out by the caller.
+ */
+function kickLocked(style: BassStyle, ctx: SectionCtx, kicks: number[], rng: () => number): GenNote[] {
+  const total = ctx.bars * ctx.barBeats;
+  const minGap = style === 'popSync' ? 0.5 : 0.25;
+  const maxLen = style === 'popSync' ? 1.5 : 2;
+  const starts = [...kicks, ...ctx.chords.map((c) => c.start), ...Array.from({ length: ctx.bars }, (_, b) => b * ctx.barBeats)]
+    .filter((t) => t >= 0 && t < total - 1e-6)
+    .sort((a, b) => a - b);
+  const hits: number[] = [];
+  for (const t of starts) {
+    const last = hits[hits.length - 1];
+    if (last === undefined || t - last >= minGap - 1e-6) hits.push(t);
+    else if (ctx.chords.some((c) => Math.abs(c.start - t) < 1e-6)) hits[hits.length - 1] = t; // the chord change wins
+  }
+  const out: GenNote[] = [];
+  let prev: number | null = null;
+  hits.forEach((at, i) => {
+    const ev = chordAtBeat(ctx, at);
+    const root = bassNoteFor(ev.chord, LOW, HIGH, prev);
+    const next = hits[i + 1] ?? total;
+    const nxt = nextChordAfter(ctx, at);
+    const leadsIn = !!nxt && Math.abs(nxt.start - next) < 1e-6 && Math.abs(ev.start - at) > 1e-6;
+    let pitch = root;
+    if (leadsIn && ctx.energy >= 0.8 && rng() < 0.6) pitch = approach(bassNoteFor(nxt.chord, LOW, HIGH, root), ctx, rng);
+    else if (leadsIn && rng() < 0.3) pitch = fifthOf(root);
+    const len = Math.min(maxLen, next - at - 0.08, ev.start + ev.length - at - 0.05);
+    const downbeat = Math.abs(at % ctx.barBeats) < 1e-6;
+    out.push({ pitch, start: at, duration: Math.max(0.2, len), velocity: downbeat ? 108 : pitch === root ? 96 : 90 });
+    prev = root;
+  });
+  return out;
+}
+
 function root8(ctx: SectionCtx, rng: () => number, octaves: boolean): GenNote[] {
   const out: GenNote[] = [];
   let prev: number | null = null;
@@ -402,7 +441,7 @@ export function generateBass(style: BassStyle, ctx: SectionCtx, kicks: number[] 
       notes = ctx.energy > 0.85 ? house(ctx, true) : patternBass('sustain', ctx, rng);
       break;
     default:
-      notes = patternBass(style, ctx, rng);
+      notes = KICK_LOCKED.has(style) && kicks.length && ctx.energy >= 0.45 ? kickLocked(style, ctx, kicks, rng) : patternBass(style, ctx, rng);
   }
   notes = notes.map((n) => ({ ...n, start: swingTime(n.start, ctx.swing, ctx.swingUnit) }));
   notes = humanizeNotes(notes, ctx.humanize * 0.7, rng, style === 'trap808' || style === 'house' || style === 'edm');

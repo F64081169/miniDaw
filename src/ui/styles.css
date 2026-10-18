@@ -2730,3 +2730,30 @@ fieldset.field {
     transition: none !important;
   }
 }
+
+/* ---------------------------------------------------------------- credits */
+.credits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.credits li {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.credits a {
+  color: var(--accent);
+}
+.credits-heading {
+  margin: 18px 0 8px;
+  font-size: 13px;
+}
+.license-text {
+  white-space: pre-wrap;
+  font-size: 11px;
+  color: var(--fg-2);
+  max-height: 220px;
+  overflow: auto;
+}
