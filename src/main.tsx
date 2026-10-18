@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { engine } from './audio/engine';
 import { installAudioUnlock } from './audio/unlock';
+import { registerOffline } from './core/offline';
 import { initAutosave, restoreAutosave, saveAudio } from './state/persistence';
 import { savePrefs, useDaw } from './state/store';
 import { App } from './ui/App';
@@ -29,6 +30,8 @@ import './ui/styles.css';
   /** Mix-balance analysis tools (development aid, loaded on demand). */
   debug: () => import('./debug/analyze'),
 };
+
+registerOffline();
 
 async function boot(): Promise<void> {
   const st = useDaw.getState();

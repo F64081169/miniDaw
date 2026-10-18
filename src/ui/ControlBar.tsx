@@ -14,6 +14,7 @@ import { onFrame } from './raf';
 import type { ScaleMode } from '../core/types';
 import { formatDb } from '../core/util';
 import { renderService } from '../audio/renderService';
+import { installApp, isInstalledApp, OFFLINE_BUILD } from '../core/offline';
 
 const MODE_SHORT: Record<ScaleMode, string> = {
   major: '大調',
@@ -170,6 +171,7 @@ export function ControlBar() {
     { separator: true },
     { label: '設定…', onClick: () => setUi({ dialog: { type: 'settings' } }) },
     { label: '鍵盤快捷鍵', shortcut: '?', onClick: () => setUi({ dialog: { type: 'shortcuts' } }) },
+    ...(OFFLINE_BUILD && !isInstalledApp() ? [{ separator: true }, { label: '安裝到主畫面（離線使用）', onClick: () => void installApp() }] : []),
   ];
 
   return (

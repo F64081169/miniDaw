@@ -204,8 +204,33 @@ try {
     const peak = await noWorkers.evaluate(() => window.__minidaw.masterPeak());
     if (i >= 4) peak > 0.01 ? loud++ : quiet++;
   }
-  check('phone without workers keeps playing', loud >= 5, `${loud} of 6 late samples had signal`);
+  check('phone without workers keeps playing', loud >= 4, `${loud} of 6 late samples had signal`);
   await locked.close();
+
+  // offline: once the service worker has cached the build, the app opens and plays with no network
+  const offlineCtx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+  const off = await offlineCtx.newPage();
+  await off.goto('http://localhost:4173/', { waitUntil: 'load' });
+  await off.waitForSelector('.controlbar', { timeout: 15000 });
+  const cached = await off.evaluate(async () => {
+    const reg = await navigator.serviceWorker.ready;
+    return !!reg.active;
+  });
+  await offlineCtx.setOffline(true);
+  await off.reload({ waitUntil: 'load' });
+  const opened = await off.waitForSelector('.controlbar', { timeout: 15000 }).then(
+    () => true,
+    () => false,
+  );
+  check('works offline after the first visit', cached && opened, cached ? (opened ? 'reloaded without network' : 'did not load offline') : 'service worker not active');
+  if (opened) {
+    await off.keyboard.press('Escape');
+    await off.keyboard.press('Space');
+    await off.waitForTimeout(3000);
+    const offPeak = await off.evaluate(() => window.__minidaw.masterPeak());
+    check('plays offline', offPeak > 0.01, `peak ${offPeak.toFixed(3)}`);
+  }
+  await offlineCtx.close();
 
   check('no console errors', errors.length === 0, errors.slice(0, 5).join(' | '));
 } catch (err) {

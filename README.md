@@ -11,15 +11,35 @@ npm install
 npm run dev          # 開發伺服器，打開終端機顯示的網址
 ```
 
-不想裝 Node？執行 `npm run build:single`，會產生一個完全獨立的 `dist-single/index.html`，直接用 Chrome／Edge／Safari 打開即可使用（錄音需要瀏覽器的麥克風權限）。
-
 | 指令 | 用途 |
 | --- | --- |
 | `npm run dev` | 開發模式 |
-| `npm run build` | 打包到 `dist/`（可放到任何靜態網站主機，例如 GitHub Pages） |
-| `npm run build:single` | 打包成單一 HTML 檔 `dist-single/index.html` |
-| `npm test` | 單元測試（樂理、音色合成調音準確度、曲風生成、檔案格式） |
-| `npm run e2e` | 端到端測試：在無頭 Chromium 裡實際播放、錄音、匯出並截圖（需先 `npm run build`） |
+| `npm run build` | 打包到 `dist/`：可安裝、可離線使用的版本（放到任何 HTTPS 靜態主機，例如 GitHub Pages） |
+| `npm run build:single` | 打包成單一 HTML 檔 `dist-single/index.html`，不需要伺服器 |
+| `npm test` | 單元測試（樂理、音色合成調音準確度、曲風生成、檔案格式、壓縮器模型） |
+| `npm run e2e` | 端到端測試：在無頭 Chromium 裡實際播放、錄音、匯出、模擬手機與離線並截圖（需先 `npm run build`） |
+| `npm run icons` | 重新產生 App 圖示（`public/icons/`） |
+
+## 離線版（不需要網路）
+
+### 安裝到手機或電腦，當成 App 用（推薦）
+
+`npm run build` 產生的版本是 PWA：第一次開啟時會把整個程式存到裝置上，之後沒有網路也能開啟、播放、錄音和匯出，作品存在裝置裡（IndexedDB）。
+
+1. **放到網路上一次**：最簡單是用這個專案的 GitHub Pages —— 在 GitHub 專案的 Settings → Pages → Build and deployment → Source 選「GitHub Actions」，之後每次推到 `main` 都會自動部署（也可以在 Actions 頁面手動執行「Deploy to GitHub Pages」）。網址會是 `https://<帳號>.github.io/<專案名稱>/`。也可以把 `dist/` 放到任何 HTTPS 靜態主機。
+2. **用手機打開網址**，看到「已可離線使用」的提示就完成快取了。
+3. **加入主畫面**：iPhone／iPad 用 Safari 的「分享」→「加入主畫面」；Android 用 Chrome 選單的「安裝應用程式」，或 miniDaw 選單裡的「安裝到主畫面（離線使用）」。
+
+之後從主畫面開啟就像一般 App，沒有網路也能用。有新版本時會在背景下載，下次開啟時套用。
+
+### 單一 HTML 檔（電腦）
+
+`npm run build:single` 會產生一個完全獨立的 `dist-single/index.html`（約 650 KB），複製到任何電腦用 Chrome／Edge／Firefox 直接開啟即可，不需要網路或伺服器（沒有網路時字型會改用系統字型）。
+
+### 手機沒有聲音？
+
+- iPhone／iPad 的側邊靜音開關原本會讓網頁音訊靜音；miniDaw 會向系統要求「播放」音訊模式來避開，若仍沒有聲音，請關閉靜音開關並調高音量。
+- 瀏覽器只允許「點擊之後」才能發出聲音：先點一下畫面或播放鍵即可。
 
 ## 功能
 
@@ -112,4 +132,4 @@ npm run dev          # 開發伺服器，打開終端機顯示的網址
 
 - 音訊片段不做時間伸縮（改速度時錄音不會跟著變長變短）。
 - 尚未支援自動化曲線（automation）與第三方外掛（AU／VST）。
-- 在 claude.ai 預覽環境裡無法使用麥克風；請在本機用 `npm run dev` 或單檔版本錄音。
+- 在 claude.ai 預覽環境裡無法使用麥克風、也不能離線；請用上面的離線版或本機 `npm run dev` 錄音。
