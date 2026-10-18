@@ -3,6 +3,7 @@
 
 import type { ChannelSettings, InsertEffect, Project, Track } from '../core/types';
 import { dbToGain } from '../core/util';
+import { autoMakeup } from './dsp/compressor';
 import { DelayBus, ReverbBus, createInsert, type InsertFx } from './fx/effects';
 import { createInstrument, type Instrument } from './instruments/instrument';
 import { getPatch } from './instruments/patches';
@@ -145,6 +146,8 @@ function softClipCurve(): Float32Array<ArrayBuffer> {
   return c;
 }
 
+const LIMITER_MAKEUP = autoMakeup(-1.5, 0, 20);
+
 export class MasterBus {
   readonly input: GainNode;
   readonly meter: Meter | null;
@@ -189,6 +192,8 @@ export class MasterBus {
       this.limiter.disconnect();
       if (m.limiter) this.gain.connect(this.limiter).connect(this.pre);
       else this.gain.connect(this.pre);
+      // undo the limiter's automatic makeup gain so its ceiling really is the threshold
+      this.pre.gain.value = 0.5 / (m.limiter ? LIMITER_MAKEUP : 1);
     }
   }
 

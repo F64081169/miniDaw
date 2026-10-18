@@ -5,6 +5,7 @@ import { DRUM_MAP, renderDrumPiece, KITS } from '../src/audio/dsp/drums';
 import { renderReverbIR } from '../src/audio/dsp/misc';
 import { PATCHES } from '../src/audio/instruments/patches';
 import { runJob } from '../src/audio/dsp/render';
+import { autoMakeup } from '../src/audio/dsp/compressor';
 import { mtof } from '../src/core/util';
 
 const SR = 48000;
@@ -143,5 +144,23 @@ describe('reverb IR', () => {
     for (let i = 0; i < Math.floor(n / 4); i++) early += l[i] * l[i];
     for (let i = Math.floor((3 * n) / 4); i < n; i++) late += l[i] * l[i];
     expect(early).toBeGreaterThan(late * 10);
+  });
+});
+
+describe('compressor makeup model', () => {
+  it('matches the automatic makeup gain measured from a browser DynamicsCompressorNode', () => {
+    // [threshold dB, knee dB, ratio, makeup dB measured in Chromium]
+    const measured: [number, number, number, number][] = [
+      [-24, 30, 12, 3.66],
+      [-18, 6, 4, 6.952],
+      [-16, 6, 3, 5.331],
+      [-1.5, 0, 20, 0.855],
+      [-30, 6, 6, 13.806],
+      [-8, 6, 1.5, 1.008],
+      [-12, 0, 2, 3.6],
+      [-50, 10, 20, 26.45],
+      [0, 0, 1, 0],
+    ];
+    for (const [th, kn, ra, db] of measured) expect(20 * Math.log10(autoMakeup(th, kn, ra))).toBeCloseTo(db, 1);
   });
 });

@@ -3,6 +3,7 @@
 import type { InsertType } from '../../core/types';
 import { dbToGain } from '../../core/util';
 import { renderVinylNoise } from '../dsp/misc';
+import { autoMakeup } from '../dsp/compressor';
 import { driveCurve, getImpulse } from '../instruments/chain';
 
 export interface InsertFx {
@@ -115,7 +116,8 @@ export class CompFx implements InsertFx {
     smooth(this.input.attack, p.attack / 1000, t);
     smooth(this.input.release, p.release / 1000, t);
     smooth(this.input.knee, p.knee, t);
-    smooth(this.output.gain, dbToGain(p.makeup), t);
+    // the node adds its own makeup gain; take it back out so "makeup" means what it says
+    smooth(this.output.gain, dbToGain(p.makeup) / autoMakeup(p.threshold ?? -18, p.knee ?? 6, p.ratio ?? 3), t);
   }
   dispose(): void {
     this.input.disconnect();
@@ -327,6 +329,7 @@ export class LoFiFx implements InsertFx {
   private flutterLfo: OscillatorNode;
   private wowDepth: GainNode;
   private flutterDepth: GainNode;
+  private makeup: GainNode;
   private noise: AudioBufferSourceNode;
   private noiseGain: GainNode;
   private noiseLevel = 0;
@@ -352,7 +355,8 @@ export class LoFiFx implements InsertFx {
     this.flutterLfo.connect(this.flutterDepth).connect(this.wowDelay.delayTime);
     this.wowLfo.start();
     this.flutterLfo.start();
-    this.input.connect(this.sat).connect(this.crush).connect(this.lp).connect(this.wowDelay).connect(this.output);
+    this.makeup = ctx.createGain();
+    this.input.connect(this.sat).connect(this.crush).connect(this.lp).connect(this.wowDelay).connect(this.makeup).connect(this.output);
     this.noise = ctx.createBufferSource();
     this.noise.buffer = vinylBuffer(ctx);
     this.noise.loop = true;
@@ -363,7 +367,10 @@ export class LoFiFx implements InsertFx {
   }
   setParams(p: Record<string, number>): void {
     const t = this.ctx.currentTime;
-    this.sat.curve = driveCurve(1 + p.drive * 5, 0.06);
+    const g = 1 + p.drive * 5;
+    this.sat.curve = driveCurve(g, 0.06);
+    // the normalised curve boosts quiet signals by about g / tanh(g); give most of it back
+    smooth(this.makeup.gain, Math.pow(Math.tanh(g) / g, 0.8), t);
     this.crush.curve = crushCurve(p.bits);
     smooth(this.lp.frequency, p.lowpass, t);
     smooth(this.wowDepth.gain, p.wow * 0.0022, t);
@@ -379,7 +386,7 @@ export class LoFiFx implements InsertFx {
     this.noise.stop();
     this.wowLfo.stop();
     this.flutterLfo.stop();
-    [this.input, this.output, this.sat, this.crush, this.lp, this.wowDelay, this.wowLfo, this.flutterLfo, this.wowDepth, this.flutterDepth, this.noise, this.noiseGain].forEach((n) =>
+    [this.input, this.output, this.sat, this.crush, this.lp, this.wowDelay, this.makeup, this.wowLfo, this.flutterLfo, this.wowDepth, this.flutterDepth, this.noise, this.noiseGain].forEach((n) =>
       n.disconnect(),
     );
   }

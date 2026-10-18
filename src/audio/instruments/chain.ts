@@ -1,5 +1,6 @@
 // Per-instrument effect chain (amp sim, tremolo, chorus, rotary, tone, body, room …) driven by Smart Controls.
 
+import { autoMakeup } from '../dsp/compressor';
 import { renderReverbIR } from '../dsp/misc';
 import type { ChainDef, PatchDef } from './types';
 
@@ -314,9 +315,15 @@ export class InstrumentChain {
     smooth(this.toneFilter.frequency, Math.min(20000, mapControl.tone(get('tone', 1))), 0.04);
     if (this.comp && this.compMakeup) {
       const v = get('punch', 0.4);
-      smooth(this.comp.threshold, -8 - v * 22);
-      smooth(this.comp.ratio, 1.5 + v * 4.5);
-      smooth(this.compMakeup.gain, 1 + v * 0.9);
+      const threshold = -8 - v * 22;
+      const ratio = 1.5 + v * 4.5;
+      smooth(this.comp.threshold, threshold);
+      smooth(this.comp.ratio, ratio);
+      // replace the node's automatic makeup with one that keeps loudness about steady as punch rises
+      // (fitted to measured loudness of a reference beat; the reduction is the static one at −3 dBFS)
+      const reduction = Math.max(0, -3 - threshold) * (1 - 1 / ratio);
+      const makeupDb = 0.35 * reduction + 0.016 * reduction * reduction;
+      smooth(this.compMakeup.gain, Math.pow(10, makeupDb / 20) / autoMakeup(threshold, 6, ratio));
     }
     if (this.widthWet && this.widthDryPan && this.widthWetPan) {
       const w = get('width', 0.5);
