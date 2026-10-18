@@ -14,6 +14,7 @@ import { defaultParams, getPatch } from './instruments/patches';
 import { MixGraph } from './mixer';
 import { AudioRecorder } from './recorder';
 import { renderService } from './renderService';
+import { sampleLibrary } from './samples/library';
 import { Transport } from './scheduler';
 import { mayBeMutedByRingerSwitch } from './unlock';
 
@@ -58,6 +59,7 @@ class Engine {
     if (!this.ctx) {
       const ctx = new AudioContext({ latencyHint: 'interactive' });
       this.ctx = ctx;
+      sampleLibrary.useContext(ctx);
       this.graph = new MixGraph(ctx, { meters: true });
       this.graph.sync(getProject(), true);
       this.metroGain = ctx.createGain();
@@ -203,11 +205,24 @@ class Engine {
     renderService.prefetch(inst.jobsFor(rangeNotes(range)));
   }
 
+  /** Recorded-sample instruments of the project that are still loading. */
+  private loadingInstruments(p: Project): Promise<void>[] {
+    const out: Promise<void>[] = [];
+    for (const t of p.tracks) {
+      const inst = this.graph?.instrument(t.id);
+      if (inst?.ready && !t.mixer.mute) out.push(inst.ready());
+    }
+    return out;
+  }
+
   private async prepare(from: number, to: number): Promise<void> {
-    const jobs = this.jobsForRange(getProject(), from, to).filter((j) => !renderService.get(j));
-    if (jobs.length === 0) return;
+    const p = getProject();
+    const jobs = this.jobsForRange(p, from, to).filter((j) => !renderService.get(j));
+    const loading = this.loadingInstruments(p);
+    if (jobs.length === 0 && loading.length === 0) return;
     const slow = setTimeout(() => useDaw.getState().setTransport({ preparing: true }), 150);
-    await Promise.race([renderService.ensureAll(jobs), new Promise((r) => setTimeout(r, 4000))]);
+    // downloading recorded instruments can take a moment on a slow connection
+    await Promise.race([Promise.all([renderService.ensureAll(jobs), ...loading]), new Promise((r) => setTimeout(r, 12000))]);
     clearTimeout(slow);
     useDaw.getState().setTransport({ preparing: false });
   }
@@ -480,7 +495,8 @@ class Engine {
     const inst = createInstrument(ctx, patch, defaultParams(patch));
     inst.output.connect(this.graph!.master.input);
     this.previewInst = inst;
-    await Promise.race([renderService.ensureAll(inst.jobsFor(phrase.map((n) => ({ pitch: n.pitch, velocity: n.vel })))), new Promise((r) => setTimeout(r, 3000))]);
+    const jobs = inst.jobsFor(phrase.map((n) => ({ pitch: n.pitch, velocity: n.vel })));
+    await Promise.race([Promise.all([renderService.ensureAll(jobs), inst.ready?.()]), new Promise((r) => setTimeout(r, 8000))]);
     if (this.previewInst !== inst) return;
     const spb = 60 / bpm;
     const t0 = ctx.currentTime + 0.05;

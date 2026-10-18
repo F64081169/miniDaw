@@ -48,6 +48,11 @@ export async function bounce(project: Project, o: BounceOptions): Promise<AudioB
     jobs.push(...inst.jobsFor(t.regions.flatMap((r) => (r.kind === 'midi' ? r.notes : []))));
   }
   await renderService.ensureAll(jobs);
+  // recorded instruments must be loaded (or have fallen back) before rendering
+  await Promise.race([
+    Promise.all(p.tracks.map((t) => graph.instrument(t.id)?.ready?.())),
+    new Promise((r) => setTimeout(r, 60000)),
+  ]);
 
   o.onPhase?.('混音輸出中…');
   for (const fx of graph.activeFx()) fx.onTransport?.(true, 0);

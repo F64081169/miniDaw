@@ -163,3 +163,4 @@ export function roleNotes(tag: string): PhraseNote[] {
   );
 }
 export { autoMakeup } from '../audio/dsp/compressor';
+export { sampleLibrary, SAMPLE_SETS } from '../audio/samples/library';

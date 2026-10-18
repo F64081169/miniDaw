@@ -14,6 +14,7 @@ import { onFrame } from './raf';
 import type { ScaleMode } from '../core/types';
 import { formatDb } from '../core/util';
 import { renderService } from '../audio/renderService';
+import { sampleLibrary } from '../audio/samples/library';
 import { installApp, isInstalledApp, OFFLINE_BUILD } from '../core/offline';
 
 const MODE_SHORT: Record<ScaleMode, string> = {
@@ -125,22 +126,24 @@ function Lcd() {
 }
 
 export function LoadingIndicator() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState({ render: 0, download: 0 });
   const preparing = useDaw((s) => s.transport.preparing);
   useEffect(() => {
-    const update = () => setCount(renderService.pendingCount());
-    const off = renderService.onChange(update);
+    const update = () => setCount({ render: renderService.pendingCount(), download: sampleLibrary.pendingCount() });
+    const offRender = renderService.onChange(update);
+    const offSamples = sampleLibrary.onChange(update);
     const t = setInterval(update, 500);
     return () => {
-      off();
+      offRender();
+      offSamples();
       clearInterval(t);
     };
   }, []);
-  if (!preparing && count === 0) return null;
+  if (!preparing && count.render === 0 && count.download === 0) return null;
   return (
     <div className="loading-pill" role="status">
       <span className="spinner" aria-hidden="true" />
-      {preparing ? '準備音色中…' : `合成音色 ${count}`}
+      {preparing ? '準備音色中…' : count.download > 0 ? `載入音色 ${count.download}` : `合成音色 ${count.render}`}
     </div>
   );
 }
@@ -171,6 +174,7 @@ export function ControlBar() {
     { separator: true },
     { label: '設定…', onClick: () => setUi({ dialog: { type: 'settings' } }) },
     { label: '鍵盤快捷鍵', shortcut: '?', onClick: () => setUi({ dialog: { type: 'shortcuts' } }) },
+    { label: '音色來源與授權', onClick: () => setUi({ dialog: { type: 'credits' } }) },
     ...(OFFLINE_BUILD && !isInstalledApp() ? [{ separator: true }, { label: '安裝到主畫面（離線使用）', onClick: () => void installApp() }] : []),
   ];
 

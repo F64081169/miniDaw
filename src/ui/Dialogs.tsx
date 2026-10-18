@@ -6,6 +6,7 @@ import { bounce, defaultBounceRange, peakOf } from '../audio/export';
 import { FX_DEFS } from '../audio/fx/registry';
 import { CATEGORY_INFO, CATEGORY_ORDER, patchesByCategory } from '../audio/instruments/patches';
 import { listInputDevices } from '../audio/recorder';
+import { SAMPLE_SETS } from '../audio/samples/library';
 import { encodeWav, bufferToChannels, type WavFormat } from '../audio/wav';
 import { saveFile, safeFilename } from '../core/files';
 import { beatsPerBar, formatClock } from '../core/time';
@@ -421,6 +422,57 @@ function RenameDialog({ d, onClose }: { d: Extract<Dialog, { type: 'rename' }>; 
   );
 }
 
+const LICENSE_NAMES: Record<string, { label: string; url: string }> = {
+  'CC0-1.0': { label: 'CC0 1.0（公有領域）', url: 'https://creativecommons.org/publicdomain/zero/1.0/' },
+  'CC-BY-3.0': { label: 'CC BY 3.0（需署名）', url: 'https://creativecommons.org/licenses/by/3.0/' },
+  MIT: { label: 'MIT', url: 'https://opensource.org/license/mit' },
+};
+
+const MIT_NOTICE = `Copyright (c) 2000-2002, 2008 Frank Wen
+Copyright (c) 2012 Benjamin Gleitzman (MIDI.js renders)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.`;
+
+function CreditsDialog({ onClose }: { onClose: () => void }) {
+  const sets = Object.values(SAMPLE_SETS).sort((a, b) => (a.license === b.license ? 0 : a.license === 'CC0-1.0' ? 1 : -1));
+  return (
+    <Modal title="音色來源與授權" onClose={onClose} wide>
+      <p>
+        錄音音色來自以下開放授權的取樣音色庫，感謝這些作者的分享。為了在網頁上使用，取樣都經過修改：挑選音符與力度層、混合麥克風、轉成 44.1 kHz、裁掉起音前的靜音、較長的尾音加上淡出、整組音量標準化，並壓縮成 MP3。管風琴、合成器、合成貝斯與 808／909 鼓機則由 miniDaw 即時合成。
+      </p>
+      <ul className="credits">
+        {sets.map((s) => {
+          const lic = LICENSE_NAMES[s.license] ?? { label: s.license, url: s.source };
+          return (
+            <li key={s.name}>
+              <strong>{s.name}</strong>
+              <span className="muted"> — {s.author}</span>
+              <div className="small">
+                <a href={lic.url} target="_blank" rel="noreferrer">
+                  {lic.label}
+                </a>
+                {' · '}
+                <a href={s.source} target="_blank" rel="noreferrer">
+                  來源
+                </a>
+                {s.notes ? <span className="muted"> · {s.notes}</span> : null}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <details className="small">
+        <summary>FluidR3 GM SoundFont 的 MIT 授權全文</summary>
+        <pre className="license-text">{MIT_NOTICE}</pre>
+      </details>
+    </Modal>
+  );
+}
+
 function WelcomeDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal title="歡迎來到 miniDaw" onClose={onClose} className="welcome">
@@ -482,6 +534,8 @@ export function DialogHost() {
       return <RenameDialog d={dialog} onClose={close} />;
     case 'welcome':
       return <WelcomeDialog onClose={close} />;
+    case 'credits':
+      return <CreditsDialog onClose={close} />;
     case 'fx': {
       if (dialog.trackId === 'master' || dialog.trackId === 'reverb' || dialog.trackId === 'delay' || !dialog.insertId) return null;
       const t = st().project.tracks.find((x) => x.id === dialog.trackId);

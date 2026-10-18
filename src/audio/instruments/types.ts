@@ -102,6 +102,16 @@ export interface SampledDef {
   sustainLoop?: false;
 }
 
+/** Recorded samples for a pitched patch (see src/audio/samples). */
+export interface SamplesDef {
+  set: string;
+  release: number; // seconds after note-off
+  retrigger?: 'cut' | 'overlap';
+  maxVoices?: number;
+  panSpread?: number; // pitch-dependent pan width for mono sets
+  shortBelow?: number; // notes shorter than this (s) use the 'short' articulation
+}
+
 export interface PatchDef {
   id: string;
   name: string; // Traditional Chinese
@@ -114,6 +124,10 @@ export interface PatchDef {
   sampled?: SampledDef;
   synth?: SynthDef;
   kit?: string;
+  /** Recorded samples; the engine above becomes the fallback while they load. */
+  samples?: SamplesDef;
+  /** Recorded drum kit sets, in priority order (later sets fill in missing pieces). */
+  kitSets?: string[];
   chain: ChainDef;
   controls: SmartControl[];
   level: number; // output trim in dB

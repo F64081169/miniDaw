@@ -5,6 +5,7 @@ import { DRUM_BY_NOTE, PIECE_PAN, type DrumPiece } from '../dsp/drums';
 import { LAYER_SPLIT, type Layer, type RenderJob } from '../dsp/render';
 import { renderService } from '../renderService';
 import { InstrumentChain, mapControl } from './chain';
+import { MultiSampleInstrument, SampleKitInstrument } from './multisample';
 import type { PatchDef, SynthDef } from './types';
 
 export interface NoteLike {
@@ -35,6 +36,8 @@ export interface Instrument {
   setParams(params: Record<string, number>): void;
   /** Render jobs needed to play these notes (empty for synths). */
   jobsFor(notes: Iterable<NoteLike>): RenderJob[];
+  /** Resolves when recorded samples are loaded (sample-based instruments only). */
+  ready?(): Promise<void>;
   dispose(): void;
 }
 
@@ -717,13 +720,17 @@ class SynthInstrument implements Instrument {
   }
 }
 
+function createSynthesized(ctx: BaseAudioContext, patch: PatchDef): Instrument {
+  return patch.engine === 'drums' ? new DrumInstrument(ctx, patch) : patch.engine === 'synth' ? new SynthInstrument(ctx, patch) : new SampledInstrument(ctx, patch);
+}
+
 export function createInstrument(ctx: BaseAudioContext, patch: PatchDef, params: Record<string, number>): Instrument {
-  const inst: Instrument =
-    patch.engine === 'drums'
-      ? new DrumInstrument(ctx, patch)
-      : patch.engine === 'synth'
-        ? new SynthInstrument(ctx, patch)
-        : new SampledInstrument(ctx, patch);
+  const synthesized = () => createSynthesized(ctx, patch);
+  const inst: Instrument = patch.samples
+    ? new MultiSampleInstrument(ctx, patch, synthesized)
+    : patch.kitSets
+      ? new SampleKitInstrument(ctx, patch, synthesized)
+      : synthesized();
   inst.setParams(params);
   return inst;
 }
