@@ -3,7 +3,7 @@
 
 import { mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { chromium } from 'playwright-core';
+import { chromium, devices } from 'playwright-core';
 import { serve } from './serve.mjs';
 
 const OUT = 'test-results';
@@ -129,6 +129,83 @@ try {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
   check('no horizontal page overflow at 400px', !overflow);
   await page.screenshot({ path: `${OUT}/10-phone.png` });
+
+  // phone: touch input, an iPhone user agent, and audio that may only start from a gesture
+  const phone = await browser.newContext({ ...devices['iPhone 13'] });
+  await phone.addInitScript(() => {
+    // like mobile browsers, resume() only takes effect while an activation event is being
+    // handled (finger lifted, click, key) and otherwise never settles
+    let inGesture = false;
+    for (const type of ['pointerup', 'touchend', 'mousedown', 'click', 'keydown']) {
+      window.addEventListener(
+        type,
+        (e) => {
+          if (!e.isTrusted || (type === 'pointerup' && e.pointerType === 'mouse')) return;
+          inGesture = true;
+          setTimeout(() => (inGesture = false), 0);
+        },
+        true,
+      );
+    }
+    const resume = AudioContext.prototype.resume;
+    AudioContext.prototype.resume = function () {
+      return inGesture ? resume.call(this) : new Promise(() => undefined);
+    };
+    const Native = window.AudioContext;
+    window.AudioContext = class extends Native {
+      constructor(options) {
+        super(options);
+        void this.suspend();
+      }
+    };
+  });
+  const mobile = await phone.newPage();
+  mobile.on('console', (m) => {
+    if (m.type() === 'error') errors.push(`[phone] ${m.text()}`);
+  });
+  mobile.on('pageerror', (e) => errors.push(`[phone] ${e}`));
+  await mobile.goto('http://localhost:4173/', { waitUntil: 'load' });
+  await mobile.waitForSelector('.welcome', { timeout: 15000 });
+  await mobile.waitForTimeout(800);
+  const before = await mobile.evaluate(() => window.__minidaw.audioState());
+  // any first tap (here: closing the welcome dialog) should unlock sound
+  await mobile.locator('.welcome .modal-head button').tap();
+  await mobile.waitForTimeout(400);
+  const afterTap = await mobile.evaluate(() => window.__minidaw.audioState());
+  check('phone: first tap unlocks audio', before !== 'running' && afterTap === 'running', `${before} → ${afterTap}`);
+  await mobile.locator('.tp-play').tap();
+  await mobile.waitForTimeout(3000);
+  const phoneLevel = await mobile.evaluate(() => window.__minidaw.masterPeak());
+  const phoneLcd = await mobile.locator('.lcd-big').textContent();
+  check('phone: tapping play makes sound', phoneLevel > 0.01, `peak ${phoneLevel.toFixed(3)}, at ${phoneLcd?.trim()}`);
+  await mobile.screenshot({ path: `${OUT}/11-phone-playing.png` });
+
+  // a sandboxed page may block workers without throwing: the transport and the sample
+  // renderer must notice and carry on without them
+  const locked = await browser.newContext({ ...devices['iPhone 13'] });
+  await locked.addInitScript(() => {
+    window.Worker = class {
+      postMessage() {}
+      terminate() {}
+      addEventListener() {}
+      removeEventListener() {}
+    };
+  });
+  const noWorkers = await locked.newPage();
+  noWorkers.on('pageerror', (e) => errors.push(`[no workers] ${e}`));
+  await noWorkers.goto('http://localhost:4173/', { waitUntil: 'load' });
+  await noWorkers.waitForSelector('.welcome', { timeout: 15000 });
+  await noWorkers.waitForTimeout(3500);
+  await noWorkers.locator('.welcome .btn-primary').tap();
+  let quiet = 0;
+  let loud = 0;
+  for (let i = 0; i < 10; i++) {
+    await noWorkers.waitForTimeout(600);
+    const peak = await noWorkers.evaluate(() => window.__minidaw.masterPeak());
+    if (i >= 4) peak > 0.01 ? loud++ : quiet++;
+  }
+  check('phone without workers keeps playing', loud >= 5, `${loud} of 6 late samples had signal`);
+  await locked.close();
 
   check('no console errors', errors.length === 0, errors.slice(0, 5).join(' | '));
 } catch (err) {

@@ -16,6 +16,8 @@ interface Slot {
   worker: Worker;
   busy: Pending | null;
   ids: number;
+  alive: boolean; // has answered at least once
+  watchdog: ReturnType<typeof setTimeout> | null;
 }
 
 const MEMORY_BUDGET = 480 * 1024 * 1024; // bytes of float samples
@@ -42,7 +44,7 @@ export class RenderService {
     try {
       for (let i = 0; i < count; i++) {
         const worker = new RenderWorker();
-        const slot: Slot = { worker, busy: null, ids: 0 };
+        const slot: Slot = { worker, busy: null, ids: 0, alive: false, watchdog: null };
         worker.onmessage = (e: MessageEvent<{ id: number; data?: Float32Array; error?: string }>) => this.onResult(slot, e.data);
         worker.onerror = () => this.dropWorker(slot);
         this.slots.push(slot);
@@ -60,6 +62,11 @@ export class RenderService {
 
   pendingCount(): number {
     return this.queue.length + this.inflight.size;
+  }
+
+  /** Bytes of sample data held in the cache. */
+  get cachedBytes(): number {
+    return this.bytes;
   }
 
   get(job: RenderJob): AudioBuffer | undefined {
@@ -160,6 +167,8 @@ export class RenderService {
       this.inflight.set(p.key, p);
       slot.ids = this.nextId++;
       slot.worker.postMessage({ id: slot.ids, job: p.job });
+      // a worker that never answers (e.g. blocked by a sandboxed page) falls back to this thread
+      if (!slot.alive && !slot.watchdog) slot.watchdog = setTimeout(() => this.dropWorker(slot), 3000);
     }
   }
 
@@ -182,6 +191,9 @@ export class RenderService {
   }
 
   private onResult(slot: Slot, msg: { id: number; data?: Float32Array; error?: string }): void {
+    slot.alive = true;
+    if (slot.watchdog) clearTimeout(slot.watchdog);
+    slot.watchdog = null;
     const p = slot.busy;
     slot.busy = null;
     if (p) {
@@ -198,6 +210,8 @@ export class RenderService {
   }
 
   private dropWorker(slot: Slot): void {
+    if (slot.watchdog) clearTimeout(slot.watchdog);
+    slot.watchdog = null;
     slot.worker.terminate();
     this.slots = this.slots.filter((s) => s !== slot);
     if (slot.busy) {

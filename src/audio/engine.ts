@@ -15,6 +15,7 @@ import { MixGraph } from './mixer';
 import { AudioRecorder } from './recorder';
 import { renderService } from './renderService';
 import { Transport } from './scheduler';
+import { mayBeMutedByRingerSwitch } from './unlock';
 
 interface RecNote {
   trackId: string;
@@ -86,12 +87,39 @@ class Engine {
       });
       this.prefetchProject();
     }
-    if (this.ctx.state === 'suspended') void this.ctx.resume();
+    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed') void this.ctx.resume().catch(() => undefined);
     return this.ctx;
   }
 
   get ready(): boolean {
     return !!this.ctx;
+  }
+
+  /** The AudioContext if it exists (never creates one). */
+  get context(): AudioContext | null {
+    return this.ctx;
+  }
+
+  private ringerTipShown = false;
+
+  /**
+   * Make sure the context is running before scheduling sound. Must start inside the user
+   * gesture; never waits forever (iOS can leave resume() pending when it refuses).
+   */
+  private async wake(ctx: AudioContext): Promise<boolean> {
+    if (ctx.state !== 'running') {
+      await Promise.race([ctx.resume().catch(() => undefined), new Promise((r) => setTimeout(r, 1500))]);
+    }
+    const st = useDaw.getState();
+    if (ctx.state !== 'running') {
+      st.toast('瀏覽器暫停了聲音，請再點一次播放鍵', 'error');
+      return false;
+    }
+    if (!this.ringerTipShown && mayBeMutedByRingerSwitch()) {
+      this.ringerTipShown = true;
+      st.toast('沒有聲音嗎？請關閉 iPhone／iPad 側邊的靜音開關，並調高音量');
+    }
+    return true;
   }
 
   setAudioSaver(fn: AudioSaver): void {
@@ -189,7 +217,7 @@ class Engine {
   async play(from?: number): Promise<void> {
     const ctx = this.ensure();
     if (this.transport?.playing) return;
-    await ctx.resume();
+    if (!(await this.wake(ctx))) return;
     const start = Math.max(0, from ?? useDaw.getState().transport.position);
     const bar = beatsPerBar(getProject().timeSig);
     await this.prepare(start, start + bar * 8);
@@ -239,7 +267,7 @@ class Engine {
 
   async record(): Promise<void> {
     const ctx = this.ensure();
-    await ctx.resume();
+    if (!(await this.wake(ctx))) return;
     const st = useDaw.getState();
     if (this.rec) {
       await this.stop();
@@ -446,7 +474,7 @@ class Engine {
   /** Library audition: plays a short phrase with a patch without touching the project. */
   async auditionPatch(patchId: string, phrase: { pitch: number; start: number; dur: number; vel: number }[], bpm = 100): Promise<void> {
     const ctx = this.ensure();
-    await ctx.resume();
+    if (!(await this.wake(ctx))) return;
     this.stopAudition();
     const patch = getPatch(patchId);
     const inst = createInstrument(ctx, patch, defaultParams(patch));

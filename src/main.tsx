@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { engine } from './audio/engine';
+import { installAudioUnlock } from './audio/unlock';
 import { initAutosave, restoreAutosave, saveAudio } from './state/persistence';
 import { savePrefs, useDaw } from './state/store';
 import { App } from './ui/App';
@@ -23,7 +24,8 @@ import './ui/styles.css';
   setLoop: (a: number, b: number) => setLoop(a, b),
   openExport: () => useDaw.getState().setUi({ dialog: { type: 'export' } }),
   state: () => useDaw.getState(),
-  renderStats: () => ({ pending: renderService.pendingCount() }),
+  renderStats: () => ({ pending: renderService.pendingCount(), megabytes: Math.round(renderService.cachedBytes / 1048576) }),
+  audioState: () => engine.context?.state ?? 'none',
   /** Mix-balance analysis tools (development aid, loaded on demand). */
   debug: () => import('./debug/analyze'),
 };
@@ -51,13 +53,11 @@ async function boot(): Promise<void> {
   // Start the audio engine early (suspended until the first click/key) so instrument
   // sounds are already synthesised in the background when the user presses play.
   setTimeout(() => engine.ensure(), 400);
-  const unlock = () => {
-    void engine.ensure().resume();
-    window.removeEventListener('pointerdown', unlock, true);
-    window.removeEventListener('keydown', unlock, true);
-  };
-  window.addEventListener('pointerdown', unlock, true);
-  window.addEventListener('keydown', unlock, true);
+  // phones and tablets only allow sound to start from certain gestures; keep it unlocked
+  installAudioUnlock(
+    () => engine.ensure(),
+    () => engine.context,
+  );
 }
 
 void boot();

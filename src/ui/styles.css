@@ -2685,7 +2685,12 @@ fieldset.field {
   }
   .lcd-cell {
     padding: 3px 8px;
-    flex: 1;
+    flex: 1 1 0;
+    overflow: hidden;
+  }
+  /* the position readout keeps its full width; the other cells share what is left */
+  .lcd-cell.lcd-pos {
+    flex: 0 0 auto;
   }
   .lcd-big {
     font-size: 14px;

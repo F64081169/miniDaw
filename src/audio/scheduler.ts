@@ -136,6 +136,7 @@ export class Transport {
   private noLoop = false;
   private lastBpm = 0;
   private worker: Worker | null = null;
+  private workerAlive = false;
   private interval: ReturnType<typeof setInterval> | null = null;
   readonly lookahead = 0.12;
 
@@ -144,10 +145,21 @@ export class Transport {
     try {
       const url = URL.createObjectURL(new Blob([TICK_WORKER], { type: 'text/javascript' }));
       this.worker = new Worker(url);
-      this.worker.onmessage = () => this.tick();
+      this.worker.onmessage = () => {
+        this.workerAlive = true;
+        this.tick();
+      };
+      this.worker.onerror = () => this.useTimer();
     } catch {
       this.worker = null;
     }
+  }
+
+  /** Main-thread timer instead of the worker clock (throttled in background tabs, but always works). */
+  private useTimer(): void {
+    this.worker?.terminate();
+    this.worker = null;
+    if (this.playing && !this.interval) this.interval = setInterval(() => this.tick(), 20);
   }
 
   /** Start playback. Returns the context time at which `fromBeat` is reached (after any count-in). */
@@ -167,8 +179,11 @@ export class Transport {
     this.anchors = [{ time: t0, beat: this.nextBeat, spb }];
     for (const fx of this.deps.graph().activeFx()) fx.onTransport?.(true, t0);
     this.tick();
-    if (this.worker) this.worker.postMessage('start');
-    else this.interval = setInterval(() => this.tick(), 20);
+    if (this.worker) {
+      this.worker.postMessage('start');
+      // without ticks only the first lookahead would ever be scheduled: fall back if it stays quiet
+      if (!this.workerAlive) setTimeout(() => !this.workerAlive && this.playing && this.useTimer(), 300);
+    } else this.interval = setInterval(() => this.tick(), 20);
     return t0 + countIn * spb;
   }
 
