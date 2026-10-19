@@ -39,6 +39,7 @@ const CATEGORY_SENDS: Record<PatchCategory, { reverb: number; delay: number; vol
   synth: { reverb: 0.22, delay: 0.08, volumeDb: -7 },
   brass: { reverb: 0.18, delay: 0, volumeDb: -6 },
   mallet: { reverb: 0.25, delay: 0.1, volumeDb: -6 },
+  winds: { reverb: 0.22, delay: 0.06, volumeDb: -5 },
 };
 
 export function createInstrumentTrack(patchId: string, name?: string, role?: string): Track {

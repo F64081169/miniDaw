@@ -7,12 +7,14 @@ import { beatsPerBar } from '../core/time';
 import type { CoachState, InsertEffect, MidiRegion, Project, SectionType, Track } from '../core/types';
 import { hashString, uid } from '../core/util';
 import { sectionColor } from './sections';
+import { CATEGORY_INFO, defaultParams, getPatch } from '../audio/instruments/patches';
 import { createInstrumentTrack, createMidiRegion } from '../state/project';
 import { useDaw } from '../state/store';
+import { breathOf, planSong, shapePart, type Part } from './generate/arrange';
 import { generateBass, type BassStyle } from './generate/bass';
 import { SECTION_ENERGY, SECTION_LABEL, type GenNote, type SectionCtx } from './generate/common';
 import { generateComp, type CompStyle } from './generate/comp';
-import { HUMAN_FEEL, generateDrums, kickPositions } from './generate/drums';
+import { DRUM_STYLES, HUMAN_FEEL, generateDrums, kickPositions } from './generate/drums';
 import { generateMelody, type MelodyStyle } from './generate/melody';
 import { getGenre } from './genres';
 import type { GenreDef, RoleDef, StepId } from './genres/types';
@@ -48,15 +50,14 @@ export function songSections(p: Project, g: GenreDef, s: CoachState): CoachSecti
 function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: CoachSection[]): SectionCtx[] {
   const bar = beatsPerBar(p.timeSig);
   const prog = g.progressions[s.progressionIndex] ?? g.progressions[0];
-  const chorusCount = sections.filter((x) => x.type === 'chorus' || x.type === 'drop').length;
-  let chorusSeen = 0;
+  const seen: Partial<Record<SectionType, number>> = {};
+  const totals: Partial<Record<SectionType, number>> = {};
+  for (const sec of sections) totals[sec.type] = (totals[sec.type] ?? 0) + 1;
   return sections.map((sec, i) => {
+    seen[sec.type] = (seen[sec.type] ?? 0) + 1;
     const chorusLike = sec.type === 'chorus' || sec.type === 'drop';
-    if (chorusLike) chorusSeen++;
     const text = chorusLike && prog.chorus ? prog.chorus : prog.prog;
     const chords = tileProgression(parseProgression(text, s.keyRoot, s.keyMode, bar), sec.bars * bar);
-    // the last chorus gets a little extra energy
-    const lift = chorusLike && chorusSeen === chorusCount && chorusCount > 1 ? 0.05 : 0;
     return {
       section: sec.type,
       bars: sec.bars,
@@ -64,7 +65,7 @@ function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: Coach
       timeSig: p.timeSig,
       chords,
       key: { root: s.keyRoot, mode: s.keyMode },
-      energy: Math.min(1, SECTION_ENERGY[sec.type] + lift),
+      energy: SECTION_ENERGY[sec.type],
       isFirst: i === 0,
       isLast: i === sections.length - 1,
       next: sections[i + 1]?.type ?? null,
@@ -73,8 +74,22 @@ function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: Coach
       humanize: g.humanize,
       seed: hashString(`${g.id}:${sec.type}`),
       bpm: p.bpm,
+      index: i,
+      occurrence: seen[sec.type],
+      occurrences: totals[sec.type],
+      prev: sections[i - 1]?.type ?? null,
     };
   });
+}
+
+/** A part's own version of a section: its seed mixed into the section's (0 keeps the default). */
+function partCtx(ctx: SectionCtx, variation = 0): SectionCtx {
+  return variation ? { ...ctx, seed: hashString(`${ctx.seed}:${variation}`), variation } : ctx;
+}
+
+/** A fresh random seed for a newly generated part. */
+function newSeed(): number {
+  return Math.floor(Math.random() * 0xfffffffe) + 1;
 }
 
 const HUMAN_DRUMS_NOTE =
@@ -86,32 +101,82 @@ function drumRoleOf(g: GenreDef): RoleDef | undefined {
   return g.roles.find((r) => r.kind === 'drums');
 }
 
-export function notesForRole(g: GenreDef, role: RoleDef, ctx: SectionCtx): GenNote[] {
+export function notesForRole(g: GenreDef, role: RoleDef, ctx: SectionCtx, seeds: Record<string, number> = {}): GenNote[] {
+  const own = partCtx(ctx, seeds[role.id]);
+  // parts that lock to the kick follow the drum part as it was generated
+  const drum = drumRoleOf(g);
+  const kicksFor = (minVelocity: number) => (drum ? kickPositions(drum.style, partCtx(ctx, seeds[drum.id]), minVelocity) : []);
   switch (role.kind) {
     case 'drums':
-      return generateDrums(role.style, ctx);
-    case 'bass': {
-      const drum = drumRoleOf(g);
-      const kicks = drum ? kickPositions(drum.style, ctx, 60) : [];
-      return generateBass(role.style as BassStyle, ctx, kicks);
-    }
-    case 'comp': {
-      const drum = drumRoleOf(g);
-      const kicks = drum && role.style === 'metalChug' ? kickPositions(drum.style, ctx) : [];
-      return generateComp(role.style as CompStyle, ctx, { guitar: role.guitar, voicing: role.voicing, range: role.range, kicks });
-    }
+      return generateDrums(role.style, own);
+    case 'bass':
+      return generateBass(role.style as BassStyle, own, kicksFor(60));
+    case 'comp':
+      return generateComp(role.style as CompStyle, own, { guitar: role.guitar, voicing: role.voicing, range: role.range, kicks: role.style === 'metalChug' ? kicksFor(0) : [] });
     case 'melody':
-      return generateMelody(role.style as MelodyStyle, ctx, role.range);
+      return generateMelody(role.style as MelodyStyle, own, role.range);
   }
+}
+
+/** The instruments a part can be played on: the role's own patch first. */
+export function patchOptions(role: RoleDef): string[] {
+  return [role.patch, ...(role.alts ?? []).map((a) => a.patch)];
+}
+
+/** The role's fader for one of its instruments. */
+export function faderFor(role: RoleDef, patchId: string | undefined): number {
+  return role.mix.volumeDb + (role.alts?.find((a) => a.patch === patchId)?.db ?? 0);
+}
+
+/** The instrument this version of the part plays, picked by the part's seed. */
+export function patchForRole(role: RoleDef, seeds: Record<string, number> = {}): string {
+  const options = patchOptions(role);
+  const seed = seeds[role.id];
+  return seed ? options[hashString(`${seed}:patch`) % options.length] : role.patch;
+}
+
+/** Seed of the song-level plan (stops, drop-downs …), rolled by every one-click generation. */
+const SONG_SEED = '@song';
+
+function partOf(role: RoleDef): Part {
+  if (role.kind === 'comp') return role.step === 'layers' ? 'layers' : 'harmony';
+  return role.kind;
+}
+
+/** The instrument that answers the melody in its gaps: horns where the genre has them, else the main chord part. */
+function answerRoleOf(g: GenreDef): RoleDef | undefined {
+  if (!breathOf(g.id).answer) return undefined;
+  return g.roles.find((r) => r.id === 'horns') ?? g.roles.find((r) => r.kind === 'comp' && r.step === 'harmony');
+}
+
+/** Parts that follow the melody (answers in its gaps, octave doubling in a lifted chorus). */
+function followersOf(g: GenreDef): RoleDef[] {
+  const answer = answerRoleOf(g);
+  return g.roles.filter((r) => r === answer || (r.kind === 'comp' && r.style === 'sustain'));
 }
 
 export function regionsForRole(p: Project, g: GenreDef, s: CoachState, role: RoleDef): MidiRegion[] {
   const sections = songSections(p, g, s);
-  const ctxs = sectionContexts(p, g, s, sections);
+  const base = sectionContexts(p, g, s, sections);
+  const plans = planSong(g.id, base, s.seeds?.[SONG_SEED] ?? 0);
+  const ctxs = base.map((c, i) => ({ ...c, energy: plans[i].energy }));
+  const melodyRole = g.roles.find((r) => r.kind === 'melody');
+  const answers = role === answerRoleOf(g);
+  const doubles = role.kind === 'comp' && role.style === 'sustain';
   const out: MidiRegion[] = [];
   sections.forEach((sec, i) => {
     if (role.sections && !role.sections.includes(sec.type)) return;
-    const notes = notesForRole(g, role, ctxs[i]);
+    const raw = notesForRole(g, role, ctxs[i], s.seeds);
+    // answers and doubling follow the melody of the same section
+    const sings = melodyRole && (!melodyRole.sections || melodyRole.sections.includes(sec.type));
+    const melody = sings && (answers || (doubles && plans[i].lift)) ? notesForRole(g, melodyRole, ctxs[i], s.seeds) : undefined;
+    const notes = shapePart(raw, partOf(role), ctxs[i], plans[i], {
+      crash: role.kind === 'drums' && !!DRUM_STYLES[role.style]?.crash,
+      melody,
+      answer: answers,
+      double: doubles,
+      range: role.range ?? (role.guitar ? [52, 76] : [55, 79]),
+    });
     if (!notes.length) return;
     out.push(createMidiRegion(sec.start, sec.bars * ctxs[i].barBeats, notes, sec.label));
   });
@@ -151,10 +216,20 @@ function applyRoleDraft(d: Draft<Project>, g: GenreDef, s: CoachState, role: Rol
   const p = d as unknown as Project;
   const regions = regionsForRole(p, g, s, role);
   const tag = roleTag(g, role);
+  const patch = patchForRole(role, s.seeds);
   let t = d.tracks.find((x) => x.role === tag);
+  if (t?.instrument && t.instrument.patchId !== patch && patchOptions(role).includes(t.instrument.patchId)) {
+    // a new version may bring another of the part's instruments; one the user picked stays
+    const from = getPatch(t.instrument.patchId);
+    const to = getPatch(patch);
+    if (t.color === (from.trackColor ?? CATEGORY_INFO[from.category].color)) t.color = to.trackColor ?? CATEGORY_INFO[to.category].color;
+    t.mixer.volumeDb += faderFor(role, patch) - faderFor(role, from.id);
+    t.instrument.patchId = patch;
+    t.instrument.params = defaultParams(to);
+  }
   if (!t) {
-    const nt = createInstrumentTrack(role.patch, role.name, tag);
-    nt.mixer.volumeDb = role.mix.volumeDb;
+    const nt = createInstrumentTrack(patch, role.name, tag);
+    nt.mixer.volumeDb = faderFor(role, patch);
     nt.mixer.pan = role.mix.pan;
     nt.mixer.sends = { reverb: role.mix.reverb, delay: role.mix.delay };
     // order tracks the way the genre lists its roles
@@ -189,7 +264,7 @@ function applyMixDraft(d: Draft<Project>, g: GenreDef): void {
     const t = d.tracks.find((x) => x.role === roleTag(g, role));
     if (!t) continue;
     const m = role.mix;
-    t.mixer.volumeDb = m.volumeDb;
+    t.mixer.volumeDb = faderFor(role, t.instrument?.patchId);
     t.mixer.pan = m.pan;
     t.mixer.sends = { reverb: m.reverb, delay: m.delay };
     const eq = ensureInsert(t, 'eq');
@@ -269,27 +344,37 @@ export function applyStep(step: StepId): void {
     melody: '生成旋律',
     mix: '套用混音',
   };
+  // generating a part again makes a new version of it
+  const roles = g.roles.filter((r) => r.step === step);
+  const s2: CoachState = { ...s, seeds: { ...s.seeds, ...Object.fromEntries(roles.map((r) => [r.id, newSeed()])) } };
   st.update(`${g.name}：${label[step] ?? step}`, (d) => {
     if (step === 'setup') applySetupDraft(d, g, s);
     else if (step === 'structure') applyStructureDraft(d, g, s);
     else if (step === 'mix') applyMixDraft(d, g);
     else {
       if (d.markers.filter((m) => m.section).length < 2) applyStructureDraft(d, g, s);
-      for (const role of g.roles.filter((r) => r.step === step)) applyRoleDraft(d, g, s, role);
+      for (const role of roles) applyRoleDraft(d, g, s2, role);
+      // parts already following the melody follow the new one (their own version stays)
+      if (step === 'melody') {
+        for (const role of followersOf(g)) if (d.tracks.some((t) => t.role === roleTag(g, role))) applyRoleDraft(d, g, s2, role);
+      }
+      if (d.coach) d.coach.seeds = s2.seeds;
     }
     markDone(d, step);
   });
   st.setUi({ selectedRegionIds: [] });
 }
 
-/** One click: tempo, structure, every role and the mix. */
+/** One click: tempo, structure, every role and the mix — a new version every time. */
 export function applyAll(): void {
   const cur = current();
   if (!cur) return;
-  const { g, s } = cur;
+  const { g } = cur;
+  const s: CoachState = { ...cur.s, seeds: Object.fromEntries([SONG_SEED, ...g.roles.map((r) => r.id)].map((id) => [id, newSeed()])) };
   useDaw.getState().update(`${g.name}：一鍵生成編曲`, (d) => {
     // replace tracks the coach generated for other genres; the user's own tracks stay
     d.tracks = d.tracks.filter((t) => !t.role || t.role.startsWith(`${g.id}:`));
+    if (d.coach) d.coach.seeds = s.seeds;
     applySetupDraft(d, g, s);
     applyStructureDraft(d, g, s);
     for (const role of g.roles) applyRoleDraft(d, g, s, role);

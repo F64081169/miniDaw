@@ -4,7 +4,8 @@
 Fetches only the files it needs from each library's Git repository (partial clone),
 then for every zone: mixes microphones where a library has several, trims the silence
 before the attack, shortens long decays with a fade, normalises the whole set together
-(so velocity layers keep their dynamics) and encodes compact MP3s.
+and encodes compact MP3s. Each zone also gets the gain that evens its loudness out
+against the rest of the set (see even_zones.py).
 
 Writes:
   src/assets/samples/<set>/*.mp3   the audio the app loads
@@ -23,6 +24,8 @@ import sys
 from pathlib import Path
 
 import numpy as np
+
+from even_zones import even_set
 
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / '.cache' / 'sample-src'
@@ -421,6 +424,7 @@ def build_set(id: str) -> dict:
         entries.append(e)
     info = {k: spec[k] for k in ('name', 'author', 'license', 'source', 'notes') if k in spec}
     info.update({'kind': kind, 'zones': entries, 'bytes': total})
+    even_set(info, [(y * gain).mean(axis=0) for y in rendered])
     print(f'{id}: {len(entries)} zones, {total / 1e6:.2f} MB', flush=True)
     return info
 
@@ -649,6 +653,35 @@ def glock():
     # named an octave below sounding pitch
     return [Zone([(r, f, 0)], root=midi(re.search(r'glock_loud_([A-G]#?\d)_01', f).group(1)) + 12)
             for f in r.find(r'Glockenspiel/glock_loud_[A-G]#?\d_01\.wav$')]
+
+
+@define('flute', name='VSCO 2 CE flute (sustain, vibrato)', author='Versilian Studios', license='CC0-1.0',
+        source='https://github.com/sgossner/VSCO-2-CE', channels=1, quality=6, range=(59, 98), fade_s=0.4,
+        max_s=4.0, tail_db=-60)
+def flute():
+    r = repo('sgossner/VSCO-2-CE@SFZ')
+    return sfz_zones(r, 'FluteSusVib.sfz', keep=first_rr)
+
+
+@define('violin', name='VSCO 2 CE solo violin (arco, vibrato)', author='Versilian Studios', license='CC0-1.0',
+        source='https://github.com/sgossner/VSCO-2-CE', channels=1, quality=6, range=(55, 100), fade_s=0.5,
+        max_s=4.0, tail_db=-60, notes='piano and forte layers')
+def violin():
+    r = repo('sgossner/VSCO-2-CE@SFZ')
+    return sfz_zones(r, 'SViolinVib.sfz', keep=first_rr)
+
+
+@define('tenorsax', name='VCSL tenor saxophone (sustain)', author='Versilian Studios (VCSL)', license='CC0-1.0',
+        source='https://github.com/sgossner/VCSL', channels=1, quality=6, range=(44, 82), fade_s=0.3, max_s=3.5,
+        tail_db=-60, notes='non-vibrato sustains, two dynamics')
+def tenorsax():
+    r = repo('sgossner/VCSL')
+    zones = []
+    for f in r.find(r'Tenor Saxophone/Non-Vibrato/BrettTenor_NV_Main_[A-G]#?\d_vl[23]_rr1\.wav$'):
+        m = re.search(r'_Main_([A-G]#?\d)_vl(\d)', f)
+        # named an octave below sounding pitch (C3 = middle C), like the rest of VCSL
+        zones.append(Zone([(r, f, 0)], root=midi(m.group(1)) + 12, layer=int(m.group(2)) - 2, layers=2))
+    return zones
 
 
 # ----------------------------------------------------------------------------- more kits

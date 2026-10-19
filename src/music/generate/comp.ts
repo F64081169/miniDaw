@@ -267,6 +267,8 @@ function metalChug(ctx: SectionCtx, kicks: number[]): GenNote[] {
 export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOptions = {}): GenNote[] {
   const rng = rngFor(ctx, 3);
   const e = ctx.energy;
+  // each version of the song picks one of a style's rhythms (the same in every section)
+  const pick = <T,>(options: T[]): T => options[(ctx.variation ?? 0) % options.length];
   const guitar = !!opts.guitar;
   const keys = (vs: VoicingStyle, range: [number, number]) => (guitar ? guitarVoicer() : keysVoicer(opts, vs, range));
   let notes: GenNote[] = [];
@@ -277,8 +279,12 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       break;
     }
     case 'popPiano': {
-      const v = keys('close', [55, 77]);
-      const rh = e < 0.45 ? 'x.......x.......' : e < 0.8 ? 'x.....x.x.......' : 'X.....x.x.....x.';
+      const v = keys(pick<VoicingStyle>(['close', 'open', 'close']), [55, 77]);
+      const rh = pick([
+        e < 0.45 ? 'x.......x.......' : e < 0.8 ? 'x.....x.x.......' : 'X.....x.x.....x.',
+        e < 0.45 ? 'x...............' : e < 0.8 ? 'x..x..x.x.......' : 'X..x..x.x..x..x.',
+        e < 0.45 ? 'x.......x.......' : e < 0.8 ? 'x...x...x...x...' : 'X.x.x.x.X.x.x.x.',
+      ]);
       notes = patterned(rh, ctx, v, 1.5);
       // left hand octaves
       let prev: number | null = null;
@@ -310,7 +316,7 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       break;
     case 'rnbChords': {
       const v = keys('drop2', [50, 76]);
-      notes = patterned(e < 0.6 ? 'x...............' : 'x......o..x.....', ctx, v, 3, { roll: 0.02 });
+      notes = patterned(pick(e < 0.6 ? ['x...............', 'x.......x.......', 'x...........x...'] : ['x......o..x.....', 'x.....x...x..x..', 'x...x.....x.....']), ctx, v, 3, { roll: 0.02 });
       break;
     }
     case 'stabs':
@@ -325,7 +331,7 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       break;
     case 'funkChop': {
       const v = guitar ? guitarVoicer() : keys('close', [60, 80]);
-      const pat = e < 0.6 ? '....x.......x...' : 'x..mx.m.x.mx..m.';
+      const pat = e < 0.6 ? pick(['....x.......x...', '..x...x...x...x.']) : pick(['x..mx.m.x.mx..m.', 'x.mxm.x.mxm.x.m.', '..x...x...x.x.x.']);
       notes = patterned(pat, ctx, (ev) => v(ev).slice(-4), 0.14, { guitar });
       break;
     }
@@ -337,7 +343,10 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       break;
     case 'strumPop': {
       const v = guitarVoicer();
-      const pat = e < 0.45 ? 'D.......D.......' : e < 0.8 ? 'D...D.U...U.D.U.' : 'D.D.D.UDU.U.D.UD';
+      const pat = pick([
+        e < 0.45 ? 'D.......D.......' : e < 0.8 ? 'D...D.U...U.D.U.' : 'D.D.D.UDU.U.D.UD',
+        e < 0.45 ? 'D.......D...D...' : e < 0.8 ? 'D..D..D.D.U.D.U.' : 'D.UD.UD.D.UD.UDU',
+      ]);
       notes = patterned(pat, ctx, v, 1.8, { guitar: true });
       break;
     }
@@ -349,7 +358,7 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       break;
     case 'powerChords': {
       const v = guitarVoicer(true);
-      notes = e < 0.8 ? patterned('x.x.x.x.x.x.x.x.', ctx, v, 0.4, { guitar: true }) : patterned('X.......X.......', ctx, v, 1.9, { guitar: true });
+      notes = e < 0.8 ? patterned(pick(['x.x.x.x.x.x.x.x.', 'x..x..x.x..x..x.']), ctx, v, 0.4, { guitar: true }) : patterned(pick(['X.......X.......', 'X.....X.X.......']), ctx, v, 1.9, { guitar: true });
       if (e < 0.8) notes = notes.map((n) => ({ ...n, duration: Math.min(n.duration, 0.3), velocity: Math.round(n.velocity * 0.85) }));
       break;
     }
@@ -357,7 +366,7 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       notes = metalChug(ctx, opts.kicks ?? []);
       break;
     case 'citypopComp':
-      notes = patterned(e < 0.6 ? 'x.......x.......' : 'x.....x...x..x..', ctx, keys('drop2', [55, 79]), 1.4);
+      notes = patterned(e < 0.6 ? pick(['x.......x.......', 'x.....x.........']) : pick(['x.....x...x..x..', 'x..x..x...x.x...', 'x...x.x...x...x.']), ctx, keys('drop2', [55, 79]), 1.4);
       break;
     case 'arp16':
       notes = arp16(ctx, rng, opts.range ?? [57, 88]);
@@ -371,7 +380,7 @@ export function generateComp(style: CompStyle, ctx: SectionCtx, opts: CompOption
       notes = patterned(e < 0.8 ? '............x...' : '....x..x......x.', ctx, keys('close', [60, 82]), 0.3);
       break;
     case 'organGospel':
-      notes = e < 0.6 ? sustainChords(ctx, keys('close', [55, 79]), 80) : patterned('x...x.x.x...x.x.', ctx, keys('close', [55, 79]), 0.9);
+      notes = e < 0.6 ? sustainChords(ctx, keys('close', [55, 79]), 80) : patterned(pick(['x...x.x.x...x.x.', 'x..x..x.x..x..x.']), ctx, keys('close', [55, 79]), 0.9);
       break;
   }
   notes = notes.map((n) => ({ ...n, start: swingTime(n.start, ctx.swing, ctx.swingUnit) }));

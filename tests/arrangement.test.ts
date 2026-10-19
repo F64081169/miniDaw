@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { DRUM_NOTE } from '../src/audio/dsp/drums';
-import { defaultCoachState, regionsForRole } from '../src/music/coach';
+import { defaultCoachState, regionsForRole, songSections } from '../src/music/coach';
+import { planSong, shapePart } from '../src/music/generate/arrange';
+import classics from '../src/music/genres/classics.json';
 import { SECTION_ENERGY, type SectionCtx } from '../src/music/generate/common';
 import { HUMAN_FEEL, generateDrums, kickPositions } from '../src/music/generate/drums';
 import { generateMelody } from '../src/music/generate/melody';
@@ -175,6 +177,119 @@ describe('melody writing', () => {
         const regions = regionsForRole(p, g, defaultCoachState(g), role);
         expect(regions.reduce((a, r) => a + r.notes.length, 0)).toBeGreaterThan(8);
       }
+    }
+  });
+});
+
+describe('song shape (breathing)', () => {
+  const genre = (id: string) => GENRES.find((g) => g.id === id)!;
+  const song = (id: string, seeds?: Record<string, number>) => {
+    const g = genre(id);
+    const p = createProject();
+    p.bpm = g.bpm.default;
+    const s = { ...defaultCoachState(g), seeds };
+    const sections = songSections(p, g, s);
+    return { g, p, s, sections, part: (roleId: string) => regionsForRole(p, g, s, g.roles.find((r) => r.id === roleId)!) };
+  };
+
+  it('plans more energy as the song goes on, the last chorus the biggest', () => {
+    const g = genre('pop');
+    const p = createProject();
+    const s = defaultCoachState(g);
+    const sections = songSections(p, g, s);
+    const ctxs = sections.map((sec, i) => ({ ...ctxFor(sec.type, { bars: sec.bars, next: sections[i + 1]?.type ?? null, isLast: i === sections.length - 1 }), occurrence: sections.slice(0, i + 1).filter((x) => x.type === sec.type).length }));
+    const plans = planSong('pop', ctxs, 0);
+    const verses = plans.filter((_, i) => sections[i].type === 'verse');
+    const choruses = plans.filter((_, i) => sections[i].type === 'chorus');
+    expect(verses[0].energy).toBeLessThan(verses[1].energy);
+    expect(choruses[choruses.length - 1].lift).toBe(true);
+    expect(choruses[choruses.length - 1].energy).toBeGreaterThan(choruses[0].energy);
+    const pre = plans[sections.findIndex((x) => x.type === 'pre')];
+    expect(pre.dyn[1]).toBeGreaterThan(pre.dyn[0]); // crescendo into the chorus
+  });
+
+  it('every generation is a new version, and choruses stay the same inside one', () => {
+    const a = song('pop', { drums: 11, lead: 11, '@song': 11 });
+    const b = song('pop', { drums: 22, lead: 22, '@song': 22 });
+    const sig = (r: { notes: { pitch: number; start: number }[] }) => r.notes.map((n) => `${n.pitch}@${n.start.toFixed(2)}`).join(',');
+    expect(a.part('lead').map(sig).join('|')).not.toBe(b.part('lead').map(sig).join('|'));
+    expect(a.part('drums').map(sig).join('|')).not.toBe(b.part('drums').map(sig).join('|'));
+    // the same seeds give the same song
+    expect(a.part('lead').map(sig)).toEqual(song('pop', { drums: 11, lead: 11, '@song': 11 }).part('lead').map(sig));
+    const choruses = a.part('lead').filter((r) => r.name === '副歌');
+    expect(sig(choruses[0])).toBe(sig(choruses[1]));
+  });
+
+  it('the band can stop for a breath before a chorus', () => {
+    const ctx = ctxFor('pre', { bars: 4, next: 'chorus' });
+    const plan = { energy: 0.7, dyn: [1, 1] as [number, number], swell: 0, stop: 15, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false };
+    const notes = generateDrums('pop', ctx);
+    const shaped = shapePart(notes, 'drums', ctx, plan);
+    expect(shaped.every((n) => n.start < 15)).toBe(true);
+    const melody = [{ pitch: 72, start: 15.5, duration: 0.5, velocity: 90 }];
+    expect(shapePart(melody, 'melody', ctx, plan)).toHaveLength(1); // the pickup stays
+  });
+
+  it('the last chorus can start stripped down and open up', () => {
+    const ctx = ctxFor('chorus', { next: null });
+    const plan = { energy: 1, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 4, lift: true, fade: false };
+    const drums = shapePart(generateDrums('pop', ctx), 'drums', ctx, plan, { crash: true });
+    const early = drums.filter((n) => n.start < 12);
+    expect(early.some((n) => n.pitch === DRUM_NOTE.crash)).toBe(false);
+    expect(early.filter((n) => n.pitch === DRUM_NOTE.snare).length).toBeLessThanOrEqual(6); // only the build
+    expect(drums.some((n) => n.pitch === DRUM_NOTE.crash && Math.abs(n.start - 16) < 1e-9)).toBe(true);
+    const layers = shapePart([{ pitch: 60, start: 1, duration: 2, velocity: 80 }, { pitch: 60, start: 17, duration: 2, velocity: 80 }], 'layers', ctx, plan);
+    expect(layers.map((n) => n.start)).toEqual([17]);
+  });
+
+  it('first verses are sparse: drums wait in Mandopop, layers join halfway', () => {
+    const m = song('mandopop');
+    const verse1 = m.sections.find((x) => x.type === 'verse')!;
+    expect(m.part('drums').some((r) => r.start === verse1.start)).toBe(false);
+    const pop = song('pop');
+    const v1 = pop.sections.find((x) => x.type === 'verse')!;
+    const guitar = pop.part('guitar').find((r) => r.start === v1.start)!;
+    expect(Math.min(...guitar.notes.map((n) => n.start))).toBeGreaterThanOrEqual(16);
+  });
+
+  it('an instrument answers the melody in its gaps', () => {
+    const ctx = ctxFor('verse');
+    const plan = { energy: 0.6, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false };
+    // a phrase ending in its second bar, then a rest until bar 4
+    const melody = [
+      { pitch: 72, start: 4, duration: 0.5, velocity: 90 },
+      { pitch: 74, start: 4.5, duration: 0.5, velocity: 90 },
+      { pitch: 76, start: 5, duration: 1, velocity: 90 },
+      { pitch: 74, start: 12, duration: 1, velocity: 90 },
+    ];
+    const shaped = shapePart([], 'harmony', ctx, plan, { melody, answer: true, range: [55, 79] });
+    expect(shaped.filter((n) => n.start >= 6 && n.start < 12).length).toBeGreaterThanOrEqual(2);
+    for (const n of shaped) {
+      // answers only sound while the melody rests
+      expect(melody.some((m) => n.start >= m.start - 1e-9 && n.start < m.start + m.duration)).toBe(false);
+      expect(n.pitch).toBeLessThanOrEqual(79);
+      expect(n.pitch).toBeGreaterThanOrEqual(55);
+    }
+  });
+
+  it('the last section fades out', () => {
+    const ctx = ctxFor('outro', { bars: 4, next: null, isLast: true });
+    const [plan] = planSong('pop', [ctx], 0);
+    const notes = Array.from({ length: 16 }, (_, i) => ({ pitch: 60, start: i, duration: 0.9, velocity: 100 }));
+    const shaped = shapePart(notes, 'harmony', ctx, plan);
+    expect(shaped[shaped.length - 1].velocity).toBeLessThan(shaped[0].velocity - 15);
+  });
+});
+
+describe('classic songs', () => {
+  it.each(GENRES.map((g) => [g.id] as const))('%s has three classic songs to learn from', (id) => {
+    const c = (classics as Record<string, { songs: { title: string; why: string; listen: string[]; sources: string[] }[]; lessons: string[]; verified?: boolean }>)[id];
+    expect(c.songs).toHaveLength(3);
+    expect(c.lessons.length).toBeGreaterThanOrEqual(2);
+    for (const song of c.songs) {
+      expect(song.why.length).toBeGreaterThan(10);
+      expect(song.listen.length).toBeGreaterThanOrEqual(2);
+      if (c.verified !== false) expect(song.sources.length).toBeGreaterThan(0);
     }
   });
 });

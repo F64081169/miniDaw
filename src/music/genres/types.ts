@@ -20,6 +20,9 @@ export interface RoleDef {
   kind: RoleKind;
   name: string;
   patch: string;
+  /** Other instruments that suit the part (every new version plays `patch` or one of these),
+   *  each with the fader change (dB) that makes it sit in the mix like `patch` does. */
+  alts?: { patch: string; db: number }[];
   style: string;
   guitar?: boolean;
   voicing?: VoicingStyle;

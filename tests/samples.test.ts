@@ -33,6 +33,17 @@ describe('sample sets', () => {
     }
   });
 
+  it('pitched sets carry note gains that even them out; kits keep their recorded levels', () => {
+    for (const [id, s] of Object.entries(SAMPLE_SETS)) {
+      const gains = s.zones.map((z) => z.g ?? 0);
+      if (s.kind === 'kit') expect(gains.every((g) => g === 0), id).toBe(true);
+      else {
+        expect(gains.some((g) => g !== 0), id).toBe(true);
+        for (const g of gains) expect(Math.abs(g), id).toBeLessThanOrEqual(24);
+      }
+    }
+  });
+
   it('kits have the core pieces', () => {
     for (const p of PATCHES) {
       if (!p.kitSets) continue;

@@ -128,6 +128,8 @@ export interface CoachState {
   progressionIndex: number;
   structureIndex: number;
   completed: string[]; // step ids ticked by hand
+  /** Random seed of each generated part (by role id): every generation rolls new ones. */
+  seeds?: Record<string, number>;
 }
 
 export interface Project {

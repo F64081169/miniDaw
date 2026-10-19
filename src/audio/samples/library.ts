@@ -12,6 +12,7 @@ export interface SampleZone {
   lo?: number; // key range
   hi?: number;
   a?: string; // articulation ('short' / 'long')
+  g?: number; // gain (dB) that evens the set's zones out, see scripts/samples/even_zones.py
   p?: string; // drum piece (kits)
 }
 

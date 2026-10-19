@@ -11,7 +11,8 @@ export type PatchCategory =
   | 'strings'
   | 'synth'
   | 'brass'
-  | 'mallet';
+  | 'mallet'
+  | 'winds';
 
 export type ControlId =
   | 'tone'

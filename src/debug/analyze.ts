@@ -4,7 +4,9 @@ import { produce } from 'immer';
 import { bounce } from '../audio/export';
 import { defaultFxParams } from '../audio/fx/registry';
 import type { InsertType } from '../core/types';
-import { applyAll, selectGenre } from '../music/coach';
+import { defaultParams, getPatch } from '../audio/instruments/patches';
+import { applyAll, faderFor, patchOptions, selectGenre } from '../music/coach';
+import { getGenre } from '../music/genres';
 import { createInstrumentTrack, createMidiRegion, createProject } from '../state/project';
 import { useDaw } from '../state/store';
 
@@ -55,9 +57,21 @@ export function generate(id: string): void {
   applyAll();
 }
 
-/** Generate a genre arrangement, bounce its first chorus / drop and measure the mix and every track. */
-export async function analyzeGenre(id: string) {
+/** Generate a genre arrangement, bounce its first chorus / drop and measure the mix and every track.
+ *  `alt` plays every part that has alternatives on that one (0: the part's own patch). */
+export async function analyzeGenre(id: string, alt = 0) {
   generate(id);
+  const g = getGenre(id);
+  useDaw.getState().update('measure', (d) => {
+    for (const role of g?.roles ?? []) {
+      const t = d.tracks.find((x) => x.role === `${id}:${role.id}`);
+      const patch = patchOptions(role)[alt] ?? role.patch;
+      if (!t?.instrument || !role.alts) continue;
+      t.instrument.patchId = patch;
+      t.instrument.params = defaultParams(getPatch(patch));
+      t.mixer.volumeDb = faderFor(role, patch);
+    }
+  });
   const p = useDaw.getState().project;
   const chorus = p.markers.find((m) => m.section === 'chorus' || m.section === 'drop') ?? p.markers[0];
   const rangeOf = (m: { start: number; length: number }) => ({ start: m.start, end: m.start + m.length, sampleRate: 48000, tail: 0.3 });
@@ -109,7 +123,7 @@ function referencePhrase(patchId: string): PhraseNote[] {
   } else if (patchId === 'eg.metal') {
     // palm-muted power chords in eighths, low on the neck
     for (const b of bars) for (let i = 0; i < 8; i++) for (const p of [40, 47, 52]) add(p + (b % 2) * 3, b * 4 + i / 2, 0.4, 100);
-  } else if (['eg.lead', 'synth.lead', 'mallet.bell'].includes(patchId)) {
+  } else if (['eg.lead', 'synth.lead', 'synth.softlead', 'mallet.bell', 'wind.flute', 'wind.sax', 'strings.violin'].includes(patchId)) {
     const line = [72, 71, 69, 67, 69, 71, 72, 74];
     for (const b of bars) line.forEach((p, i) => add(p - (b % 2) * 2, b * 4 + i / 2, 0.45, 100));
   } else if (['strings.ensemble', 'synth.pad', 'synth.supersaw'].includes(patchId)) {
@@ -166,4 +180,6 @@ export function roleNotes(tag: string): PhraseNote[] {
   );
 }
 export { autoMakeup } from '../audio/dsp/compressor';
+export { bounce as bounceRange } from '../audio/export';
 export { sampleLibrary, SAMPLE_SETS } from '../audio/samples/library';
+export { defaultParams, getPatch };

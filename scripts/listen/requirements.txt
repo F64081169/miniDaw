@@ -1,0 +1,10 @@
+# Listening tools (scripts/listen/listen.py), Python 3.10+.
+# musicnn 0.1.0 pins numpy<1.17 and "tensorflow"; install it separately without its dependencies:
+#   pip install -r scripts/listen/requirements.txt && pip install --no-deps musicnn==0.1.0
+numpy>=2
+scipy
+soundfile
+librosa
+mosqito==1.2.1
+tensorflow-cpu==2.20.0
+tf-keras==2.20.1

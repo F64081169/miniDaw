@@ -374,11 +374,15 @@ const CYMBALS = new Set(['hatC', 'hatO', 'ride', 'bell', 'hatP']);
 const SNARES = new Set(['snare', 'snare2', 'rim']);
 const BIG_NEXT = new Set<SectionType>(['chorus', 'drop', 'solo']);
 
-/** The performance recorded closest to the song's tempo. */
-function grooveFor(style: string, bpm: number): HumanGroove | null {
+/** The performance recorded closest to the song's tempo; other versions may play another
+ * drummer's take recorded at a nearby tempo. */
+function grooveFor(style: string, bpm: number, variation = 0): HumanGroove | null {
   const grooves = HUMAN[style]?.grooves;
   if (!grooves?.length) return null;
-  return grooves.reduce((a, b) => (Math.abs(Math.log(b.bpm / bpm)) < Math.abs(Math.log(a.bpm / bpm)) ? b : a));
+  const dist = (g: HumanGroove) => Math.abs(Math.log(g.bpm / bpm));
+  const sorted = [...grooves].sort((a, b) => dist(a) - dist(b));
+  const near = sorted.filter((g) => dist(g) < 0.2);
+  return variation && near.length > 1 ? near[variation % near.length] : sorted[0];
 }
 
 /** Hits of one bar (0 or 1) of a two-bar groove, relative to the bar. */
@@ -444,13 +448,13 @@ function openUp(hits: Hit[], bar: number, feel: HumanFeel): Hit[] {
 function humanDrums(styleId: string, ctx: SectionCtx): GenNote[] | null {
   const feel = HUMAN_FEEL[styleId];
   if (!feel || ctx.barBeats !== 4 || ctx.timeSig[1] !== 4) return null;
-  const groove = grooveFor(styleId, ctx.bpm);
+  const groove = grooveFor(styleId, ctx.bpm, ctx.variation);
   if (!groove) return null;
   const style = DRUM_STYLES[styleId];
   const rng = rngFor(ctx, 5);
   const e = ctx.energy;
   const level: Level = feel.levels?.[ctx.section] ?? (ctx.section === 'breakdown' ? 'break' : e < 0.45 ? 'low' : e < 0.8 ? 'mid' : 'high');
-  const big = (level === 'high' && feel.high && grooveFor(feel.high, ctx.bpm)) || groove;
+  const big = (level === 'high' && feel.high && grooveFor(feel.high, ctx.bpm, ctx.variation)) || groove;
   const source = level === 'high' ? big.busy : groove.main;
   const bars = ctx.bars;
   const ending = ctx.isLast && ctx.section === 'outro';
