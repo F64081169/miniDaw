@@ -3,7 +3,7 @@
 // usage: npm run build && node scripts/listen/render.mjs <out-dir> [genre ...]
 //   env SEED=7       random seed of the generation (the same seed gives the same song)
 //       LEAD=<patch> play the lead melody on this patch instead
-//       EXCERPT=1    only the first verse through the end of the first chorus
+//       EXCERPT=1    only the first verse and the first chorus
 //
 // Writes per genre: <genre>.wav (the mix, 48 kHz mono 16-bit), <genre>.lead.wav (the lead alone)
 // and <genre>.json (section map, tracks and patches). scripts/listen/listen.py measures them.
@@ -89,11 +89,12 @@ async function worker() {
         let start = 0;
         let end = Math.max(...p.markers.map((m) => m.start + m.length));
         if (excerpt) {
+          // the first verse and the first chorus (in whichever order the song has them)
           const verse = p.markers.find((m) => m.section === 'verse');
           const chorus = p.markers.find((m) => m.section === 'chorus' || m.section === 'drop');
           if (verse && chorus) {
-            start = verse.start;
-            end = chorus.start + chorus.length;
+            start = Math.min(verse.start, chorus.start);
+            end = Math.max(verse.start + verse.length, chorus.start + chorus.length);
           }
         }
         const enc = (buf) => {

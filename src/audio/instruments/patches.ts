@@ -794,8 +794,9 @@ export const PATCHES: PatchDef[] = [
       maxVoices: 32,
     },
     chain: { room: { decay: 2.0, damping: 0.35 } },
-    controls: [c('tone', 0.7), c('release', 0.55), c('room', 0.45)],
-    level: 0,
+    // a little darker and shorter than the raw glockenspiel, which is piercing as a lead
+    controls: [c('tone', 0.55), c('release', 0.45), c('room', 0.45)],
+    level: 1.2,
     trackColor: CATEGORY_INFO.mallet.color,
   },
   // ---------------------------------------------------------------- winds

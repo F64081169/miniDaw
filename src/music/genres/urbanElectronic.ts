@@ -198,13 +198,14 @@ export const TRAP: GenreDef = {
     {
       id: 'melody',
       kind: 'melody',
-      name: '鐘聲旋律',
+      name: '旋律循環',
       patch: 'mallet.bell',
+      alts: [{ patch: 'wind.flute', db: -6.5 }],
       style: 'trap',
       range: [67, 91],
       step: 'harmony',
-      mix: { volumeDb: -1.5, pan: 0.15, reverb: 0.3, delay: 0.18, lowCut: 250 },
-      why: 'Trap 的「旋律循環」才是和聲主角：陰暗的鐘聲，加上 delay 拉出空間。',
+      mix: { volumeDb: 0.5, pan: 0.15, reverb: 0.3, delay: 0.18, lowCut: 250 },
+      why: 'Trap 的「旋律循環」才是和聲主角：陰暗的鐘聲（有的版本換成長笛），加上 delay 拉出空間。',
     },
     {
       id: 'pad',
@@ -242,7 +243,7 @@ export const TRAP: GenreDef = {
   steps: {
     drums: 'Trap 鼓：拍手／小鼓只在每小節第 3 拍（半拍感）。Hi-Hat 以 8 分音符為底，每兩小節加一次三連音或 32 分音符滾奏（在鋼琴捲簾的 Hi-Hat 列可以看到密集的短音符）。',
     bass: '808 低音跟著大鼓位置，每個音一直延續到下一個大鼓。音符重疊的地方會自動「滑音」──這是 Trap 最帥的地方，你可以在鋼琴捲簾拉長音符讓它和下一個重疊來製造更多滑音。',
-    harmony: 'Trap 的和聲來自旋律循環：鐘聲在高音區彈小調旋律，加上 delay 讓它飄起來。和聲小調的大三和弦 V 會帶來戲劇性。',
+    harmony: 'Trap 的和聲來自旋律循環：鐘聲（或長笛）在高音區彈小調旋律，加上 delay 讓它飄起來。和聲小調的大三和弦 V 會帶來戲劇性。',
     layers: 'Hook 段墊一層陰暗的弦樂長音。主歌通常拿掉 Pad，讓饒舌更清楚。',
     melody: '再加一條低八度的鋼琴對位旋律（只在 Hook）。之後你可以錄下自己的饒舌或旋律唱腔（Melodic rap）。',
     arrange: '前奏只有旋律（不放 808 與鼓），Hook 進來時全部一起下，衝擊力最強。主歌偶爾拿掉 808 一小節，製造呼吸。',
