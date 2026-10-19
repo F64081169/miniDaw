@@ -6,7 +6,9 @@ grooves the arrangement coach plays come from the Groove MIDI Dataset (see the e
 set was **modified** for the web: selected notes / velocity layers / round robins, microphones mixed
 to stereo (drum kits), resampled to 44.1 kHz, silence before the attack trimmed, long decays
 shortened with a fade-out, sustain loops unrolled (Rhodes, steel guitar), each set normalised
-as a whole, and encoded as MP3. The scripts that do this are in `scripts/samples/`.
+as a whole, and encoded as MP3. Each note also carries a playback gain (stored in
+`src/audio/samples/sets.json`) that evens out its loudness against its neighbours, so a melody
+does not jump in level from note to note. The scripts that do this are in `scripts/samples/`.
 
 The app also shows these credits under 「檔案 → 音色來源與授權」.
 
@@ -29,8 +31,8 @@ The app also shows these credits under 「檔案 → 音色來源與授權」.
 | Killer Bass | 指彈／彈片電貝斯 | Karoryfer Samples | https://github.com/sfzinstruments/Discord-SFZ-GM-Bank |
 | Emilyguitar | 電吉他（清音、破音、失真） | D. Smolken / Karoryfer Samples | https://github.com/sfzinstruments/karoryfer.emilyguitar |
 | Rubner double bass (pizzicato) | 低音大提琴 | D. Smolken | https://github.com/sfzinstruments/dsmolken.double-bass |
-| VSCO 2 Community Edition (upright piano, string sections, trumpet, trombone) | 溫暖柔音鋼琴、弦樂合奏、銅管組 | Versilian Studios | https://github.com/sgossner/VSCO-2-CE |
-| Versilian Community Sample Library (TX81Z FM piano, vibraphone, glockenspiel, claps) | 明亮數位電鋼、電顫琴、鐘聲、拍手 | Versilian Studios | https://github.com/sgossner/VCSL |
+| VSCO 2 Community Edition (upright piano, string sections, solo violin, flute, trumpet, trombone) | 溫暖柔音鋼琴、弦樂合奏、小提琴獨奏、長笛、銅管組 | Versilian Studios | https://github.com/sgossner/VSCO-2-CE |
+| Versilian Community Sample Library (TX81Z FM piano, vibraphone, glockenspiel, tenor saxophone, claps) | 明亮數位電鋼、電顫琴、鐘聲、次中音薩克斯風、拍手 | Versilian Studios | https://github.com/sgossner/VCSL |
 
 CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -87,3 +89,10 @@ embellishing-tone and pop-form principles taught in **Open Music Theory** by Kri
 Bryn Hughes and Brian Moseley (Hybrid Pedagogy Publishing,
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)) —
 https://openmusictheory.github.io. No text or examples from the book are included.
+
+The coach's notes on how an arrangement breathes (`src/music/breathing.ts`, used by
+`src/music/generate/arrange.ts`) and its three classic songs per genre
+(`src/music/genres/classics.json`) summarise, in our own words, public songwriting and production
+articles (Open Music Theory, Secrets of Songwriting, Ableton's *Making Music*, Soundfly,
+Sound On Sound, Musical U, Wikipedia and others). The app links every source; no text, audio or
+transcriptions of the songs are included.

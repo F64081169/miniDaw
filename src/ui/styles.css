@@ -2162,9 +2162,56 @@ kbd {
   line-height: 1.65;
 }
 .traits h3,
-.tips h3 {
+.tips h3,
+.classics h3 {
   font-size: 13px;
   margin: 16px 0 8px;
+}
+.classics .lessons {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--fg-2);
+  line-height: 1.65;
+}
+.classic {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+.classic h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  color: var(--gc);
+}
+.classic p {
+  margin: 0 0 6px;
+  line-height: 1.6;
+}
+.classic ul {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  color: var(--fg-2);
+  line-height: 1.6;
+}
+.classic .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.classic .chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--fg-2);
+}
+.classic .chip.auto {
+  border-color: var(--gc);
+  color: var(--fg);
+}
+.classic .sources a {
+  color: var(--accent);
 }
 .prog-list {
   list-style: none;

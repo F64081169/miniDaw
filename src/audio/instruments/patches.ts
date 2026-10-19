@@ -12,6 +12,7 @@ export const CATEGORY_INFO: Record<PatchCategory, { name: string; color: string;
   synth: { name: '合成器', color: '#3ec7c2', icon: 'synth' },
   brass: { name: '銅管', color: '#e8c547', icon: 'brass' },
   mallet: { name: '敲擊樂器', color: '#7fc8ff', icon: 'mallet' },
+  winds: { name: '木管', color: '#b5d46a', icon: 'winds' },
 };
 
 export const CATEGORY_ORDER: PatchCategory[] = [
@@ -26,6 +27,7 @@ export const CATEGORY_ORDER: PatchCategory[] = [
   'synth',
   'brass',
   'mallet',
+  'winds',
 ];
 
 export const CONTROL_LABELS: Record<ControlId, string> = {
@@ -122,7 +124,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.2, damping: 0.5 } },
     controls: [c('tone', 0.92), c('room', 0.22), c('release', 0.42), c('velocity', 0.8)],
-    level: -2,
+    level: -2.6,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -145,7 +147,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, room: { decay: 1.0, damping: 0.4 } },
     controls: [c('tone', 1), c('body', 0.3), c('room', 0.18), c('release', 0.38), c('velocity', 0.75)],
-    level: -1.5,
+    level: -1.9,
     trackColor: CATEGORY_INFO.piano.color,
   },
   {
@@ -168,7 +170,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.4, damping: 0.7 } },
     controls: [c('tone', 0.5), c('room', 0.35), c('release', 0.5), c('velocity', 0.85)],
-    level: 1.5,
+    level: 4.7,
     trackColor: CATEGORY_INFO.piano.color,
   },
 
@@ -193,7 +195,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 4.5, stereo: true }, amp: { drive: 0.15, cabinet: 'none', presence: 0 }, room: { decay: 1.0, damping: 0.55 } },
     controls: [c('tone', 0.65), c('tremolo', 0.35), c('rate', 0.42), c('drive', 0.2), c('room', 0.2)],
-    level: -0.5,
+    level: 0.5,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -216,7 +218,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.75), c('chorus', 0.45), c('room', 0.3), c('release', 0.35)],
-    level: -3.5,
+    level: -6.2,
     trackColor: CATEGORY_INFO.epiano.color,
   },
   {
@@ -239,7 +241,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.5, stereo: false }, amp: { drive: 0.3, cabinet: 'none', presence: 0 }, room: { decay: 0.9, damping: 0.55 } },
     controls: [c('tone', 0.6), c('tremolo', 0.25), c('rate', 0.5), c('drive', 0.35), c('room', 0.2)],
-    level: 2,
+    level: -2.4,
     trackColor: CATEGORY_INFO.epiano.color,
   },
 
@@ -266,7 +268,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.06, cabinet: 'guitar', presence: 2 }, chorus: true, room: { decay: 0.9, damping: 0.5 } },
     controls: [c('tone', 0.6), c('drive', 0.12), c('chorus', 0.25), c('room', 0.2)],
-    level: 8,
+    level: 4.2,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -291,7 +293,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.45, cabinet: 'guitar', presence: 3 }, room: { decay: 1.0, damping: 0.5 } },
     controls: [c('tone', 0.55), c('drive', 0.5), c('room', 0.18)],
-    level: 6,
+    level: 2.4,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -316,7 +318,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 4 }, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.5), c('drive', 0.85), c('room', 0.2)],
-    level: 14.5,
+    level: 2.2,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
   {
@@ -341,7 +343,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 3 }, room: { decay: 0.8, damping: 0.6 } },
     controls: [c('tone', 0.45), c('drive', 0.85), c('room', 0.12)],
-    level: 0,
+    level: -2.8,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
 
@@ -368,7 +370,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.0, damping: 0.45 } },
     controls: [c('tone', 0.65), c('body', 0.5), c('width', 0.5), c('room', 0.25)],
-    level: -5,
+    level: -3.9,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
   {
@@ -393,7 +395,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { bodyEq: true, width: true, room: { decay: 1.1, damping: 0.5 } },
     controls: [c('tone', 0.55), c('body', 0.55), c('width', 0.4), c('room', 0.25)],
-    level: -5,
+    level: -1.1,
     trackColor: CATEGORY_INFO.aguitar.color,
   },
 
@@ -420,7 +422,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.12, cabinet: 'bass', presence: 0 } },
     controls: [c('tone', 0.5), c('drive', 0.15), c('release', 0.25), c('velocity', 0.7)],
-    level: 4.5,
+    level: 7.8,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -445,7 +447,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { amp: { drive: 0.3, cabinet: 'bass', presence: 2 } },
     controls: [c('tone', 0.62), c('drive', 0.3), c('release', 0.22), c('velocity', 0.7)],
-    level: 3.5,
+    level: 6.5,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -470,7 +472,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 0.8, damping: 0.6 } },
     controls: [c('tone', 0.45), c('room', 0.18), c('release', 0.3), c('velocity', 0.8)],
-    level: 3.5,
+    level: 4,
     trackColor: CATEGORY_INFO.bass.color,
   },
   {
@@ -571,7 +573,32 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { chorus: true, room: { decay: 2.2, damping: 0.45 } },
     controls: [c('attack', 0.42), c('release', 0.5), c('tone', 0.62), c('room', 0.45)],
-    level: 3.5,
+    level: 2.9,
+    trackColor: CATEGORY_INFO.strings.color,
+  },
+  {
+    id: 'strings.violin',
+    name: '小提琴獨奏',
+    nameEn: 'Solo Violin',
+    category: 'strings',
+    description: '帶抖音的獨奏小提琴，抒情歌與華語慢歌的主旋律、間奏或副歌對位旋律。',
+    gmProgram: 40,
+    range: [55, 100],
+    engine: 'synth',
+    samples: { set: 'violin', release: 0.35, maxVoices: 6 },
+    synth: {
+      oscs: [
+        { wave: 'sawtooth', octave: 0, detune: -3, gain: 0.32 },
+        { wave: 'sawtooth', octave: 0, detune: 3, gain: 0.32 },
+      ],
+      filter: { type: 'lowpass', cutoff: 2400, q: 0.7, env: 0.5, keyTrack: 0.5, velocity: 0.8, a: 0.12, d: 0.6, s: 0.8, r: 0.4 },
+      amp: { a: 0.08, d: 0.3, s: 0.9, r: 0.35 },
+      vibrato: { rate: 5.6, depth: 14, delay: 0.25 },
+      maxVoices: 6,
+    },
+    chain: { room: { decay: 2, damping: 0.45 } },
+    controls: [c('attack', 0.3), c('release', 0.4), c('tone', 0.6), c('room', 0.45)],
+    level: 2,
     trackColor: CATEGORY_INFO.strings.color,
   },
   {
@@ -649,25 +676,54 @@ export const PATCHES: PatchDef[] = [
     name: '合成主奏',
     nameEn: 'Synth Lead',
     category: 'synth',
-    description: '單音、帶滑音與抖音的主奏合成器，適合旋律線與 Hook。',
+    description: '單音、帶滑音與抖音的主奏合成器，明亮但不刺耳，適合電子樂的旋律線與 Hook。',
     gmProgram: 81,
     range: [36, 100],
     engine: 'synth',
     synth: {
+      // a little triangle under the saw and square rounds the tone; a gentle resonance keeps it from whistling
       oscs: [
-        { wave: 'sawtooth', octave: 0, detune: -4, gain: 0.42 },
-        { wave: 'square', octave: 0, detune: 4, gain: 0.28 },
+        { wave: 'sawtooth', octave: 0, detune: -4, gain: 0.3 },
+        { wave: 'square', octave: 0, detune: 4, gain: 0.14 },
+        { wave: 'triangle', octave: 0, detune: 0, gain: 0.3 },
       ],
-      filter: { type: 'lowpass', cutoff: 2400, q: 3, env: 1.6, keyTrack: 0.6, velocity: 1, a: 0.005, d: 0.35, s: 0.4, r: 0.2 },
-      amp: { a: 0.004, d: 0.2, s: 0.85, r: 0.18 },
-      vibrato: { rate: 5.5, depth: 12, delay: 0.35 },
+      filter: { type: 'lowpass', cutoff: 1900, q: 1, env: 1, keyTrack: 0.5, velocity: 0.8, a: 0.008, d: 0.45, s: 0.5, r: 0.22 },
+      amp: { a: 0.008, d: 0.25, s: 0.85, r: 0.2 },
+      vibrato: { rate: 5.4, depth: 10, delay: 0.3 },
       mono: true,
       glide: 0.05,
       maxVoices: 2,
     },
-    chain: { room: { decay: 1.2, damping: 0.45 } },
-    controls: [c('cutoff', 0.5), c('resonance', 0.5), c('glide', 0.4), c('room', 0.25)],
-    level: -4.5,
+    chain: { chorus: true, room: { decay: 1.3, damping: 0.5 } },
+    controls: [c('cutoff', 0.5), c('resonance', 0.5), c('glide', 0.4), c('chorus', 0.35), c('room', 0.25)],
+    level: -3.6,
+    trackColor: CATEGORY_INFO.synth.color,
+  },
+  {
+    id: 'synth.softlead',
+    name: '柔和合成主奏',
+    nameEn: 'Soft Lead',
+    category: 'synth',
+    description: '圓潤、像口哨又帶點人聲感的主奏，起音柔和、延遲出現抖音，適合流行與 R&B 的示範旋律。',
+    gmProgram: 82,
+    range: [48, 100],
+    engine: 'synth',
+    synth: {
+      oscs: [
+        { wave: 'triangle', octave: 0, detune: 0, gain: 0.5 },
+        { wave: 'square', octave: 0, detune: 5, gain: 0.07 },
+        { wave: 'sine', octave: 1, detune: 0, gain: 0.05 },
+      ],
+      filter: { type: 'lowpass', cutoff: 1500, q: 0.7, env: 0.8, keyTrack: 0.5, velocity: 0.6, a: 0.03, d: 0.5, s: 0.6, r: 0.3 },
+      amp: { a: 0.025, d: 0.3, s: 0.85, r: 0.28 },
+      vibrato: { rate: 5.2, depth: 9, delay: 0.35 },
+      mono: true,
+      glide: 0.035,
+      maxVoices: 2,
+    },
+    chain: { chorus: true, room: { decay: 1.6, damping: 0.5 } },
+    controls: [c('cutoff', 0.45), c('attack', 0.2), c('glide', 0.35), c('chorus', 0.4), c('room', 0.3)],
+    level: -4,
     trackColor: CATEGORY_INFO.synth.color,
   },
   {
@@ -693,7 +749,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { room: { decay: 1.4, damping: 0.45 } },
     controls: [c('tone', 0.65), c('attack', 0.2), c('release', 0.3), c('room', 0.35)],
-    level: 7,
+    level: 8.4,
     trackColor: CATEGORY_INFO.brass.color,
   },
   {
@@ -716,7 +772,7 @@ export const PATCHES: PatchDef[] = [
     },
     chain: { tremolo: { rate: 5.2, stereo: false }, room: { decay: 1.6, damping: 0.45 } },
     controls: [c('tremolo', 0.4), c('rate', 0.5), c('tone', 0.65), c('room', 0.35)],
-    level: 1,
+    level: -0.8,
     trackColor: CATEGORY_INFO.mallet.color,
   },
   {
@@ -738,9 +794,63 @@ export const PATCHES: PatchDef[] = [
       maxVoices: 32,
     },
     chain: { room: { decay: 2.0, damping: 0.35 } },
-    controls: [c('tone', 0.7), c('release', 0.55), c('room', 0.45)],
-    level: 2,
+    // a little darker and shorter than the raw glockenspiel, which is piercing as a lead
+    controls: [c('tone', 0.55), c('release', 0.45), c('room', 0.45)],
+    level: 1.2,
     trackColor: CATEGORY_INFO.mallet.color,
+  },
+  // ---------------------------------------------------------------- winds
+  {
+    id: 'wind.flute',
+    name: '長笛',
+    nameEn: 'Flute',
+    category: 'winds',
+    description: '帶抖音的長笛，氣息柔和、像在唱歌，適合抒情、Bossa、流行的示範旋律與間奏。',
+    gmProgram: 73,
+    range: [59, 98],
+    engine: 'synth',
+    samples: { set: 'flute', release: 0.25, maxVoices: 6 },
+    synth: {
+      oscs: [
+        { wave: 'sine', octave: 0, detune: 0, gain: 0.55 },
+        { wave: 'triangle', octave: 0, detune: 3, gain: 0.2 },
+      ],
+      noise: 0.04,
+      filter: { type: 'lowpass', cutoff: 3200, q: 0.5, env: 0.3, keyTrack: 0.5, velocity: 0.5, a: 0.05, d: 0.4, s: 0.8, r: 0.25 },
+      amp: { a: 0.05, d: 0.2, s: 0.9, r: 0.22 },
+      vibrato: { rate: 5, depth: 8, delay: 0.3 },
+      maxVoices: 6,
+    },
+    chain: { room: { decay: 1.8, damping: 0.5 } },
+    controls: [c('attack', 0.3), c('release', 0.3), c('tone', 0.55), c('room', 0.4)],
+    level: 2.3,
+    trackColor: CATEGORY_INFO.winds.color,
+  },
+  {
+    id: 'wind.sax',
+    name: '次中音薩克斯風',
+    nameEn: 'Tenor Sax',
+    category: 'winds',
+    description: '溫暖帶沙啞的次中音薩克斯風，City Pop、R&B、爵士、Bossa 的招牌旋律聲音。',
+    gmProgram: 66,
+    range: [44, 84],
+    engine: 'synth',
+    samples: { set: 'tenorsax', release: 0.16, maxVoices: 6 },
+    synth: {
+      oscs: [
+        { wave: 'sawtooth', octave: 0, detune: -4, gain: 0.3 },
+        { wave: 'square', octave: 0, detune: 4, gain: 0.18 },
+      ],
+      noise: 0.03,
+      filter: { type: 'lowpass', cutoff: 900, q: 1.2, env: 1.6, keyTrack: 0.5, velocity: 1.2, a: 0.04, d: 0.4, s: 0.6, r: 0.15 },
+      amp: { a: 0.03, d: 0.2, s: 0.9, r: 0.15 },
+      vibrato: { rate: 5, depth: 10, delay: 0.4 },
+      maxVoices: 6,
+    },
+    chain: { room: { decay: 1.5, damping: 0.45 } },
+    controls: [c('attack', 0.25), c('release', 0.25), c('tone', 0.6), c('room', 0.35)],
+    level: -1,
+    trackColor: CATEGORY_INFO.winds.color,
   },
 ];
 

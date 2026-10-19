@@ -5,9 +5,11 @@ import { useMemo, useState } from 'react';
 import { engine } from '../audio/engine';
 import { CATEGORY_INFO, getPatch } from '../audio/instruments/patches';
 import type { CoachState } from '../core/types';
-import { applyAll, applyStep, buildSteps, clearGenre, progressionPreview, progressionSymbols, selectGenre, setCoachOption, toggleStepDone } from '../music/coach';
+import { applyAll, applyStep, buildSteps, clearGenre, patchOptions, progressionPreview, progressionSymbols, selectGenre, setCoachOption, toggleStepDone } from '../music/coach';
+import { BREATHING_GUIDE, BREATHING_SOURCES } from '../music/breathing';
 import { SECTION_LABEL } from '../music/generate/common';
 import { GENRES, getGenre } from '../music/genres';
+import CLASSICS from '../music/genres/classics.json';
 import type { GenreDef, StepId } from '../music/genres/types';
 import { keyName, MODE_LABELS } from '../music/theory';
 import { addAudioTrack, setBpm, toggleArm } from '../state/actions';
@@ -15,6 +17,111 @@ import { useDaw } from '../state/store';
 import { Icon } from './icons';
 
 const st = () => useDaw.getState();
+
+interface ClassicSong {
+  title: string;
+  artist: string;
+  year: number;
+  why: string;
+  listen: string[];
+  techniques: string[];
+  sources: string[];
+}
+interface GenreClassics {
+  songs: ClassicSong[];
+  lessons: string[];
+  verified?: boolean;
+}
+
+/** Arranging techniques the classic songs use, in plain words; ★ = the coach's generator does it too. */
+const TECHNIQUES: [string, string[], boolean][] = [
+  ['逐段加樂器', ['layering-by-section', 'minimal-layering', 'background-layers', 'new-color-each-verse'], true],
+  ['主歌留白', ['sparse-verse', 'restrained-verse', 'space-for-vocal', 'minimal-arrangement', 'sparse-arrangement', 'sparse-accompaniment', 'minimal-elements'], true],
+  ['樂器晚進場', ['drums-enter-late', 'bass-enters-late', 'strings-enter-late', 'second-guitar-enters-later', 'strings-enter-second-half', 'drums-only-in-chorus'], true],
+  ['停頓與抽空', ['stop-before-chorus', 'pre-drop-gap', 'full-stop-reset', 'stop-and-go', 'drop-outs', 'drop-out-mute', 'remove-to-reset', 'stop-time-verse'], true],
+  ['一路推到高潮', ['pre-chorus-build', 'snare-build', 'drum-build', 'build-and-drop', 'build-to-final-chorus', 'slow-build', 'save-the-climax', 'late-climax'], true],
+  ['一問一答', ['call-and-response', 'duet-trading-lines', 'sax-obbligato', 'hook-between-verses'], true],
+  ['副歌加厚', ['counter-melody', 'harmony-vocals', 'pad-lift-chorus', 'final-lift-layer', 'strings-in-chorus', 'backing-vocals-in-chorus', 'stacked-vocals', 'horn-backgrounds'], true],
+  ['淡出結尾', ['fade-out'], true],
+  ['前奏動機', ['riff-intro', 'bass-riff-intro', 'drums-first-intro', 'drum-intro', 'drums-only-intro', 'organ-intro', 'acoustic-intro', 'fingerpicked-intro', 'piano-vocal-opening', 'hook-preview-intro', 'vocal-riff-intro', 'clean-intro', 'filtered-intro', 'intro-vamp', 'written-intro'], false],
+  ['銅管短句', ['horn-stabs', 'horn-riff', 'modal-horn-riff'], false],
+  ['間奏抽空', ['breakdown', 'drum-break'], false],
+  ['獨奏段落', ['solo-section', 'guitar-solo', 'sax-solo', 'melodic-solo', 'head-solos-head'], false],
+  ['循環律動', ['loop-based', 'loop-based-groove', 'sample-loop', 'short-sample-loop', 'static-loop-arrangement'], false],
+  ['動態對比', ['quiet-loud-dynamics', 'subtle-dynamics', 'dynamics-from-vocal', 'live-dynamics'], false],
+  ['濾波掃頻', ['filter-sweep', 'filter-sweep-bass', 'filter-close-before-drop'], false],
+  ['轉調', ['key-change', 'key-change-every-verse'], false],
+  ['乾脆收尾', ['cold-ending', 'a-cappella-ending', 'feedback-ending', 'octave-drop-ending'], false],
+];
+
+function techniqueChips(tags: string[]): { label: string; auto: boolean }[] {
+  return TECHNIQUES.filter(([, ids]) => ids.some((id) => tags.includes(id))).map(([label, , auto]) => ({ label, auto }));
+}
+
+function hostOf(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
+
+/** Three classic recordings per genre and what an arranger hears in them. */
+function ClassicsTab({ g }: { g: GenreDef }) {
+  const c = (CLASSICS as Record<string, GenreClassics>)[g.id];
+  if (!c) return <p className="muted">這個曲風還沒有範例歌曲。</p>;
+  return (
+    <div className="classics">
+      <p className="muted small">用耳朵學編曲：找這三首歌來聽，邊聽邊對照下面的重點。每一點都是可以帶回自己作品的手法。</p>
+      <h3>三首歌教會我們的事</h3>
+      <ul className="lessons">
+        {c.lessons.map((l, i) => (
+          <li key={i}>{l}</li>
+        ))}
+      </ul>
+      {c.songs.map((song) => (
+        <article key={song.title} className="classic">
+          <h4>
+            {song.title}
+            <span className="muted">
+              {' '}
+              — {song.artist}（{song.year}）
+            </span>
+          </h4>
+          <p>{song.why}</p>
+          <ul>
+            {song.listen.map((l, i) => (
+              <li key={i}>{l}</li>
+            ))}
+          </ul>
+          <div className="chips">
+            {techniqueChips(song.techniques).map((t) => (
+              <span key={t.label} className={`chip ${t.auto ? 'auto' : ''}`} title={t.auto ? '一鍵生成編曲時，教練也會自動用這招' : undefined}>
+                {t.auto ? '★ ' : ''}
+                {t.label}
+              </span>
+            ))}
+          </div>
+          {song.sources.length > 0 && (
+            <p className="small muted sources">
+              資料來源：
+              {song.sources.map((u, i) => (
+                <span key={u}>
+                  {i > 0 ? '、' : ''}
+                  <a href={u} target="_blank" rel="noreferrer">
+                    {hostOf(u)}
+                  </a>
+                </span>
+              ))}
+            </p>
+          )}
+        </article>
+      ))}
+      <p className="small muted">★ 標記的手法，一鍵生成編曲時教練也會自動使用。</p>
+      {c.verified === false && <p className="small muted">這個曲風的歌曲說明來自一般公開資訊，還沒逐條對照來源，僅供參考。</p>}
+    </div>
+  );
+}
 
 function GenrePicker() {
   return (
@@ -171,7 +278,7 @@ function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<t
                     </span>
                     <span>
                       <strong>{r.name}</strong>
-                      <span className="role-patch">{patch.name}</span>
+                      <span className="role-patch">{patchOptions(r).map((id) => getPatch(id).name).join('／')}</span>
                       <span className="role-why">{r.why}</span>
                     </span>
                   </li>
@@ -190,7 +297,7 @@ function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<t
               {done ? '標記為未完成' : '我做好了'}
             </button>
           </div>
-          {step.auto && step.id !== 'setup' && step.id !== 'structure' && step.id !== 'mix' && <p className="step-hint">生成後可以在鋼琴捲簾裡修改音符，或再按一次重新生成（{g.name}的段落會依能量自動變化）。</p>}
+          {step.auto && step.id !== 'setup' && step.id !== 'structure' && step.id !== 'mix' && <p className="step-hint">生成後可以在鋼琴捲簾裡修改音符；再按一次會換成新的版本（{g.name}的段落會依能量自動變化）。</p>}
         </div>
       )}
     </li>
@@ -198,7 +305,7 @@ function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<t
 }
 
 function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
-  const [tab, setTab] = useState<'steps' | 'traits' | 'tips'>('steps');
+  const [tab, setTab] = useState<'steps' | 'traits' | 'classics' | 'tips'>('steps');
   const project = useDaw((st2) => st2.project);
   const steps = useMemo(() => buildSteps(g, s), [g, s]);
   const doneFlags = steps.map((step) => step.done(project) || s.completed.includes(step.id));
@@ -224,13 +331,14 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
         <button type="button" className="btn btn-primary btn-big" onClick={applyAll}>
           <Icon name="sparkle" size={18} /> 一鍵生成完整編曲
         </button>
-        <span className="muted small">依目前的調性、進行與曲式建立所有音軌；會取代教練先前生成的音軌，你自己的音軌與錄音會保留。不滿意可以復原（⌘Z）。</span>
+        <span className="muted small">依目前的調性、進行與曲式建立所有音軌。每按一次都是新的版本（鼓手的演奏、過門、旋律、貝斯與伴奏都會換），喜歡上一版可以復原（⌘Z）。會取代教練先前生成的音軌，你自己的音軌與錄音會保留。</span>
       </div>
       <div className="tabs" role="tablist">
         {(
           [
             ['steps', `跟著做 ${doneCount}/${steps.length}`],
             ['traits', '曲風特色'],
+            ['classics', '經典歌曲'],
             ['tips', '編曲小技巧'],
           ] as const
         ).map(([id, label]) => (
@@ -273,7 +381,7 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
                   </span>
                   <span>
                     <strong>{r.name}</strong>
-                    <span className="role-patch">{patch.name}</span>
+                    <span className="role-patch">{patchOptions(r).map((id) => getPatch(id).name).join('／')}</span>
                     <span className="role-why">{r.why}</span>
                   </span>
                 </li>
@@ -298,6 +406,7 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
           <p className="muted small">代表風格：{g.references}</p>
         </div>
       )}
+      {tab === 'classics' && <ClassicsTab g={g} />}
       {tab === 'tips' && (
         <div className="tips">
           <ul>
@@ -305,6 +414,24 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
               <li key={i}>{t}</li>
             ))}
           </ul>
+          <h3>編曲的呼吸與情緒（所有曲風通用）</h3>
+          <ul className="breathing">
+            {BREATHING_GUIDE.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
+          </ul>
+          <details className="small muted">
+            <summary>這些原則參考的公開資料</summary>
+            <ul>
+              {BREATHING_SOURCES.map((s2) => (
+                <li key={s2.url}>
+                  <a href={s2.url} target="_blank" rel="noreferrer">
+                    {s2.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
           <h3>調式小抄</h3>
           <p className="muted">
             目前調性：{keyName(s.keyRoot, s.keyMode)}（{MODE_LABELS[s.keyMode]}）。鋼琴捲簾的「調性輔助」會標出這個調的音，照著寫旋律就不容易出錯。

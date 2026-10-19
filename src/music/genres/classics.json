@@ -1,0 +1,1510 @@
+{
+ "pop": {
+  "songs": [
+   {
+    "title": "Billie Jean",
+    "artist": "Michael Jackson",
+    "year": 1983,
+    "why": "示範如何用一組從頭到尾不變的鼓與貝斯律動撐起整首歌，靠「逐層加入」而不是換節奏來推進。",
+    "listen": [
+     "前奏先只有乾燥、緊實的鼓，接著貝斯進來，再來才是合成器和弦，一層一層疊上去。",
+     "前奏很長，人聲將近半分鐘後才出現；Quincy Jones 曾想剪短，Michael Jackson 堅持保留，因為這段律動讓他想跳舞。",
+     "Louis Johnson 的電貝斯主線在和弦進行開始時，再疊上一層 Minimoog 合成器貝斯，把低頻加厚。",
+     "副歌加入合音與弦樂質感的鋪底（弦樂由 Jerry Hey 編寫），主歌則保持精簡。",
+     "Tom Scott 的 Lyricon（吹管控制的合成器）線條低調地穿插在背景；結尾在反覆的段落中淡出。"
+    ],
+    "techniques": [
+     "drums-first-intro",
+     "long-groove-intro",
+     "layering-by-section",
+     "bass-doubling",
+     "strings-in-chorus",
+     "counter-melody",
+     "fade-out"
+    ],
+    "sources": [
+     "https://americansongwriter.com/the-story-behind-how-quincy-jones-nearly-cut-billie-jean-from-michael-jacksons-thriller/?nb=1",
+     "https://thriller40.com/?p=680",
+     "https://producelikeapro.com/blog/billie-jean/amp/",
+     "https://theartofrockmusic.voices.wooster.edu/wp-content/uploads/sites/180/2015/01/Billie-Jean-Michael-Jackson-1983-1.pdf",
+     "https://highered.mheducation.com/sites/0073526576/student_view0/chapter22/listening_guides.html"
+    ]
+   },
+   {
+    "title": "Rolling in the Deep",
+    "artist": "Adele",
+    "year": 2010,
+    "why": "從一把單聲道木吉他一路堆到副歌全面爆發，是「用配器與聲場寬度控制能量」最清楚的教材。",
+    "listen": [
+     "開頭只有一把單聲道的木吉他和人聲，聲場刻意做得很窄。",
+     "主歌先只有吉他／貝斯線，接著才加入以通鼓為主的節奏，還不是完整鼓組。",
+     "導歌（pre-chorus）加入輕柔的鍵盤與腳踏鈸（Hi-hat），木吉他換成立體聲，聲場一下子打開。",
+     "進副歌時合音、更忙的鍵盤與完整鼓組同時進來，混音師 Tom Elmhirst 形容那一刻是「整個炸開」。",
+     "段落之間會把樂器抽掉再放回來，能量才有起伏，而不是一路往上堆。"
+    ],
+    "techniques": [
+     "sparse-verse",
+     "layering-by-section",
+     "pre-chorus-build",
+     "mono-to-stereo-widening",
+     "backing-vocals-in-chorus",
+     "remove-to-reset"
+    ],
+    "sources": [
+     "https://www.soundonsound.com/techniques/tom-elmhirst-recording-adele-rolling-deep",
+     "https://www.secretsofsongwriting.com/2011/03/08/adeles-rolling-in-the-deep-why-it-works/"
+    ]
+   },
+   {
+    "title": "Uptown Funk",
+    "artist": "Mark Ronson feat. Bruno Mars",
+    "year": 2014,
+    "why": "把「停」當成編曲工具：用突然的停頓、只剩大鼓的空段與銅管的一問一答，讓重複的放克律動始終保持新鮮。",
+    "listen": [
+     "前奏由男聲齊唱一段像貝斯線的樂句開場，放克吉他隨後加入。",
+     "第一段主歌非常空，只有鼓和人聲；八小節後貝斯與合成器／吉他的點綴才進來。",
+     "副歌段落先「降」再「升」：先只剩人聲與四分音符大鼓，接著小鼓以八分音符一路堆疊，最後在第一拍停住，再用銅管、鼓、貝斯一起的重擊收束。",
+     "第二段主歌一開始，全團突然完全停下，等於把歌重新歸零。",
+     "銅管間奏用很簡單的四音樂句，再和人聲 hook 一問一答，快速的重複音由小鼓一起加強。"
+    ],
+    "techniques": [
+     "vocal-riff-intro",
+     "sparse-verse",
+     "breakdown",
+     "snare-build",
+     "stop-before-chorus",
+     "full-stop-reset",
+     "horn-stabs",
+     "call-and-response"
+    ],
+    "sources": [
+     "https://www.masteringthemix.com/blogs/learn/decoding-the-mix-uptown-funk-mark-ronson-ft-bruno-mars",
+     "https://www.bonedo.de/artikel/mark-ronson-feat-bruno-mars-uptown-funk-auf-dem-schlagzeug-lernen-mit-noten-audios",
+     "https://reports.hitsongsdeconstructed.com/articles/uptown-funk/",
+     "https://www.soundonsound.com/techniques/top-brass-part-3"
+    ]
+   }
+  ],
+  "lessons": [
+   "先立律動再疊層：鼓、貝斯、和弦一層層加入，比一開始就全部塞滿更抓耳。",
+   "段落差異主要靠「加減樂器」與聲場寬窄來做，而不是換節奏或換風格。",
+   "副歌前先留一個空隙（停拍、只剩人聲或大鼓），副歌進來時的衝擊會加倍。",
+   "Hook 不只靠主唱：貝斯線、銅管短句、合音都能和人聲一問一答。"
+  ]
+ },
+ "mandopop": {
+  "songs": [
+   {
+    "title": "晴天",
+    "artist": "周杰倫",
+    "year": 2003,
+    "why": "用一段吉他分解和弦動機貫穿全曲，再以電吉他獨奏推上高潮，是華語「樂團式抒情」的代表。",
+    "listen": [
+     "前奏那段反覆的吉他分解和弦就是全曲的招牌動機，一出來就能認出這首歌。",
+     "整首以吉他、貝斯、鼓的樂團編制為骨架，走偏搖滾的抒情路線，而不是鋼琴加弦樂的寫法。",
+     "間奏有一段電吉他獨奏，是全曲情緒最外放的段落之一。",
+     "比較主歌與副歌：鼓的力度與吉他的厚度怎麼變化，讓副歌自然「亮起來」。"
+    ],
+    "techniques": [
+     "riff-intro",
+     "band-ballad",
+     "guitar-solo",
+     "layering-by-section"
+    ],
+    "sources": []
+   },
+   {
+    "title": "十年",
+    "artist": "陳奕迅",
+    "year": 2003,
+    "why": "華語敘事型抒情的典型：主歌克制、把空間讓給咬字，副歌才把情緒放開。",
+    "listen": [
+     "這首與粵語歌〈明年今日〉共用同一段旋律（陳小霞作曲、林夕填詞），可以對照兩個版本的編曲處理。",
+     "主歌伴奏精簡，讓每個字都聽得清楚。",
+     "留意鼓組從哪一段開始完整進來，以及副歌時伴奏厚度增加了多少。",
+     "比較第一次與最後一次副歌，聽聽看最後一次多加了什麼。"
+    ],
+    "techniques": [
+     "sparse-verse",
+     "space-for-vocal",
+     "build-to-final-chorus"
+    ],
+    "sources": []
+   },
+   {
+    "title": "紅豆",
+    "artist": "王菲",
+    "year": 1998,
+    "why": "示範「少即是多」：輕柔的伴奏加上王菲輕盈的唱腔，讓留白本身成為情緒。",
+    "listen": [
+     "伴奏一直維持輕柔，不走越唱越大聲的爆發路線，人聲始終站在最前面。",
+     "聽聽看副歌比主歌多了什麼：差異可能比想像中小，情緒主要靠旋律與唱腔推動。",
+     "留意句與句之間的空隙，伴奏沒有急著把每個空拍填滿。"
+    ],
+    "techniques": [
+     "minimal-arrangement",
+     "space-for-vocal",
+     "subtle-dynamics"
+    ],
+    "sources": []
+   }
+  ],
+  "lessons": [
+   "華語抒情以人聲與歌詞為核心：主歌伴奏精簡、讓咬字清楚，副歌再用鼓、貝斯與弦樂把情緒放大。",
+   "一個好記的前奏動機（吉他或鋼琴）可以在前奏、間奏、尾奏重複出現，把整首歌串起來。",
+   "高潮通常放在間奏獨奏或最後一次副歌，前面要刻意保留力氣。",
+   "留白也是編曲：不必把每個空拍填滿，給人聲呼吸的空間。"
+  ],
+  "verified": false
+ },
+ "ballad": {
+  "songs": [
+   {
+    "title": "Bridge over Troubled Water",
+    "artist": "Simon & Garfunkel",
+    "year": 1970,
+    "why": "從一架福音風鋼琴陪人聲開始，到第三段主歌才讓鼓、貝斯與弦樂全部進來，是「把爆發留到最後」的經典範本。",
+    "listen": [
+     "前兩段主歌幾乎只有 Larry Knechtel 的福音風鋼琴陪著 Art Garfunkel 的人聲；Paul Simon 原本打算用吉他伴奏，後來決定改用鋼琴。",
+     "第三段主歌才是全曲的「大段落」：弦樂、Hal Blaine 的鼓與 Joe Osborn 的貝斯一起進來；這段歌詞還是錄音期間應 Garfunkel 與製作人要求才補寫的。",
+     "貝斯錄了一高一低兩軌；鼓在迴響室裡錄，做出大廳般的空間感。",
+     "前面越克制，最後一段的份量就越大：重火力只在最後一段全部打開。"
+    ],
+    "techniques": [
+     "piano-vocal-opening",
+     "drums-enter-late",
+     "strings-enter-late",
+     "layering-by-section",
+     "save-the-climax"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Bridge_over_Troubled_Water_(song)",
+     "https://berklee.edu/node/2217076",
+     "https://faroutmagazine.co.uk/who-plays-piano-on-bridge-over-troubled-water/",
+     "https://medialoper.com/certain-songs-2217-simon-garfunkel-bridge-over-troubled-water/",
+     "https://musicaficionado.blog/2023/09/09/1970-singer-songwriters-part-1/"
+    ]
+   },
+   {
+    "title": "I Will Always Love You",
+    "artist": "Whitney Houston",
+    "year": 1992,
+    "why": "從完全清唱開場，到最後一次停頓、升 Key 的爆發，是「控制動態、把高潮留到最後」最經典的教材。",
+    "listen": [
+     "第一段主歌完全清唱（a cappella）；唱片公司原本擔心這樣開場不夠商業，Whitney 與 Kevin Costner 堅持保留。",
+     "樂器進來後，人聲與編曲仍刻意收斂，把力氣留到後段。",
+     "中段由 Kirk Whalum 的薩克斯風獨奏接手旋律。",
+     "最後一次副歌前所有樂器停下，只剩一記帶大量殘響的鼓聲，接著人聲帶著全曲升高一個全音（A♭ 到 B♭）進入高潮。"
+    ],
+    "techniques": [
+     "a-cappella-intro",
+     "restrained-verse",
+     "sax-solo",
+     "stop-before-chorus",
+     "drum-hit-transition",
+     "key-change"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/I_Will_Always_Love_You_(Whitney_Houston_recording)",
+     "https://www.sessiondays.com/2022/09/1992-whitney-houston-i-will-always-love-you-us1-uk1/",
+     "https://irishnumberones.com/2022/05/30/whitney-houston-i-will-always-love-you/",
+     "https://online.berklee.edu/takenote/modulation-101-berklee-online-instructors-on-how-to-leap-into-a-key-change/",
+     "https://themixreview.org/reviews/i-will-always-love-you/"
+    ]
+   },
+   {
+    "title": "Someone Like You",
+    "artist": "Adele",
+    "year": 2011,
+    "why": "全曲只有鋼琴與人聲，證明不加樂器也能靠旋律音域與唱腔做出完整的情緒起伏。",
+    "listen": [
+     "從頭到尾只有 Dan Wilson 的鋼琴與 Adele 的人聲；她試過加樂團、甚至整個管弦樂團，都比不上這份 demo。",
+     "鋼琴以持續的分解和弦（琶音）鋪底，伴奏型態幾乎不變，變化全交給人聲。",
+     "副歌一開始情緒明顯拉高，主要靠旋律音域上升與唱得更用力，而不是加樂器。",
+     "Adele 原本帶著吉他來寫歌，改用鋼琴後才找到這首歌的氣質；部分副歌在第二天重錄，刻意保留更沙啞、更脆弱的聲音。"
+    ],
+    "techniques": [
+     "piano-vocal-only",
+     "arpeggiated-piano",
+     "dynamics-from-vocal",
+     "minimal-arrangement"
+    ],
+    "sources": [
+     "https://www.songfacts.com/facts/adele/someone-like-you",
+     "https://stereogum.com/2241711/the-number-ones-adeles-someone-like-you/columns/the-number-ones",
+     "https://www.popmatters.com/155841-someone-like-dan-wilson-2495873981.html",
+     "https://www.pianote.com/blog/?p=224",
+     "https://blogs.baruch.cuny.edu/msc1003cohen/2013/02/22/adele-someone-like-you",
+     "https://en.wikipedia.org/wiki/Someone_like_You_(Adele_song)"
+    ]
+   }
+  ],
+  "lessons": [
+   "慢歌的高潮要「存」：前段越精簡（清唱、只有鋼琴），後段加入鼓與弦樂時越有力量。",
+   "大轉折前先清空：讓樂器停一下或只留一記鼓，再進最後一次副歌，可以搭配升 Key。",
+   "伴奏型態可以從頭到尾不變，讓人聲的音域與力度負責情緒起伏。",
+   "新樂器最好在新段落的開頭進場（例如第三段主歌才進鼓與弦樂），聽眾才感覺得到「升級」。"
+  ]
+ },
+ "rock": {
+  "songs": [
+   {
+    "title": "Stairway to Heaven",
+    "artist": "Led Zeppelin",
+    "year": 1971,
+    "why": "八分鐘裡從木吉他一路加到全團硬搖滾，速度與音量逐段上升，是「漸進式編曲」的教科書。",
+    "listen": [
+     "開頭只有木吉他與 John Paul Jones 吹奏的直笛。",
+     "樂器一次加一樣：之後才陸續加入電鋼琴與電吉他，鼓要到大約全曲一半才進來。",
+     "全曲分成三大段，一段比一段快、一段比一段大聲，能量像爬樓梯一樣往上。",
+     "長段吉他獨奏之後接最快、最重的硬搖滾段落，最後卻用一句只有人聲的尾聲收掉。"
+    ],
+    "techniques": [
+     "acoustic-intro",
+     "layering-by-section",
+     "drums-enter-late",
+     "gradual-tempo-increase",
+     "guitar-solo",
+     "a-cappella-ending"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Stairway_to_Heaven",
+     "https://guitar.com/news/music-news/stairway-to-heaven-national-recording-registry",
+     "https://blogs.baruch.cuny.edu/jwilson/?p=135"
+    ]
+   },
+   {
+    "title": "Livin' on a Prayer",
+    "artist": "Bon Jovi",
+    "year": 1986,
+    "why": "招牌貝斯線加上 talk box、小調主歌轉大調副歌，再用最後一次副歌升 Key 收尾，是體育館搖滾的經典推進公式。",
+    "listen": [
+     "這首歌最初只用木吉他寫成，沒有鼓也沒有貝斯；直到前製排練做出那條貝斯線、鼓手 Tico Torres 加入，歌才真正「活」起來。",
+     "Richie Sambora 用 talk box 疊上同一條貝斯線，讓低音動機變成像人聲一樣的招牌音色。",
+     "主歌的和弦落在小調，副歌換成落在關係大調；同樣的和弦材料換個落點，副歌就變明亮。",
+     "最後一次副歌升 Key，把全曲推到最高點；這個轉調也是前製排練時才加進去的。"
+    ],
+    "techniques": [
+     "bass-riff-intro",
+     "talk-box-hook",
+     "minor-verse-major-chorus",
+     "key-change"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Livin%27_on_a_Prayer",
+     "https://ultimateclassicrock.com/jon-bon-jovi-livin-on-a-prayer/",
+     "https://www.inkl.com/news/they-had-an-8-track-demo-for-livin-on-a-prayer-when-the-producer-came-in-we-both-agreed-we-had-to-come-up-with-a-better-bassline-how-hugh-mcdonald-became-bon-jovi-s-uncredited-recording-bassist",
+     "https://www.radiox.co.uk/features/jon-bon-jovi-livin-on-a-prayer-story-lyrics-key-change/",
+     "https://www.overthinkingit.com/2009/07/24/bon-jovi-livin-on-a-prayer-music-theory/"
+    ]
+   },
+   {
+    "title": "Smells Like Teen Spirit",
+    "artist": "Nirvana",
+    "year": 1991,
+    "why": "把 Pixies 式的「小聲—大聲」對比推到極致：安靜的主歌、變大聲的導歌、爆炸的副歌，是動態編曲最直接的示範。",
+    "listen": [
+     "前奏先用乾淨音色小聲彈主 Riff，鼓與貝斯一進來，吉他就切換成破音全開。",
+     "主歌幾乎只剩貝斯的八分音符與鼓，吉他只彈稀疏的兩個音，把空間留給人聲。",
+     "每一輪都是「安靜主歌 → 變大聲的導歌 → 全力爆發的副歌」三段式加溫，副歌再回到前奏的主 Riff。",
+     "製作人 Butch Vig 要求吉他與人聲雙軌疊錄，並把一段吉他即興移到副歌、縮短副歌長度。",
+     "第二次副歌後的 16 小節吉他獨奏幾乎照著主歌旋律彈；全曲以吉他回授噪音（feedback）收尾。"
+    ],
+    "techniques": [
+     "clean-then-distorted-intro",
+     "quiet-loud-dynamics",
+     "bass-and-drums-verse",
+     "pre-chorus-build",
+     "double-tracking",
+     "melodic-solo",
+     "feedback-ending"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Smells_Like_Teen_Spirit",
+     "https://liquisearch.com/smells_like_teen_spirit/composition",
+     "https://kerrang.com/nirvana-the-story-behind-smells-like-teen-spirit",
+     "https://highered.mheducation.com/sites/0073526576/student_view0/chapter23/listening_guides.html"
+    ]
+   }
+  ],
+  "lessons": [
+   "動態對比是搖滾的核心：安靜主歌與爆發副歌的落差越大，副歌越有衝擊力。",
+   "一條好 Riff 或貝斯線可以撐起整首歌，換音色（乾淨→破音、加 talk box）重複使用就有新意。",
+   "長篇歌曲可以「一次加一樣樂器」，逐段加快、加大，把聽眾一路帶上去。",
+   "最後一次副歌要再升級：升 Key、疊更多吉他，或讓全團開到最大。"
+  ]
+ },
+ "metal": {
+  "songs": [
+   {
+    "title": "Iron Man",
+    "artist": "Black Sabbath",
+    "year": 1970,
+    "why": "示範金屬樂如何把「慢而重的 Riff」當主角，再用速度換檔製造戲劇張力。",
+    "listen": [
+     "開頭是緩慢、沉重的大鼓重擊，配上吉他的推弦長音；Tony Iommi 說這是要營造有人悄悄逼近的感覺。",
+     "人聲進來前，主 Riff 先完整反覆好幾次，讓聽眾記住它。",
+     "主 Riff 慢、重、每個音都拉得很長，留下很多空間。",
+     "歌曲後段速度明顯加快，從笨重的步伐變成奔馳般的律動，和開頭形成強烈對比。",
+     "這條 Riff 是在排練即興中誕生的：鼓手 Bill Ward 先打出大鼓節奏，Iommi 再接上吉他。"
+    ],
+    "techniques": [
+     "drum-intro",
+     "slow-heavy-riff",
+     "riff-before-vocal",
+     "tempo-change",
+     "gallop-section"
+    ],
+    "sources": [
+     "https://metalinjection.net/news/tony-iommi-explains-writing-the-riff-to-black-sabbaths-iron-man",
+     "https://ultimateclassicrock.com/tony-iommi-black-sabbath-riffs/",
+     "https://www.licklibrary.com/news/black-sabbaths-legendary-album-paranoid-turns-54",
+     "https://americansongwriter.com/the-meaning-behind-iron-man-by-black-sabbath",
+     "https://guitaralliance.net/wp-content/uploads/2023/08/Quick-Notes-Iron-Man-Black-Sabbath.pdf"
+    ]
+   },
+   {
+    "title": "The Trooper",
+    "artist": "Iron Maiden",
+    "year": 1983,
+    "why": "把奔馳節奏、雙吉他和聲與主歌停頓三招集中在一首歌裡，是傳統重金屬編曲的標準範本。",
+    "listen": [
+     "開頭兩把吉他先齊奏，接著其中一把往上分出和聲線，形成招牌的雙吉他和聲。",
+     "和聲多半是順著音階的三度（diatonic thirds），兩條線始終留在同一個調裡。",
+     "Steve Harris 的貝斯撐起奔馳（gallop）節奏，像騎兵衝鋒一樣不斷往前推。",
+     "主歌使用 stop-time：吉他與鼓會停下來，讓 Bruce Dickinson 的人聲突出。"
+    ],
+    "techniques": [
+     "unison-then-harmony",
+     "harmony-guitars",
+     "gallop-rhythm",
+     "stop-time-verse"
+    ],
+    "sources": [
+     "https://producelikeapro.com/blog/the-trooper/",
+     "https://www.pressreader.com/australia/total-guitar/20210924/282707640195368",
+     "https://licklibrary.com/learn/lessons/iron-maiden/the-trooper",
+     "https://songtell.com/iron-maiden/the-trooper"
+    ]
+   },
+   {
+    "title": "Enter Sandman",
+    "artist": "Metallica",
+    "year": 1991,
+    "why": "從一段乾淨吉他開始，鼓、貝斯、破音吉他依序疊上去的前奏，是「分層進場」最常被拿來教的例子。",
+    "listen": [
+     "前奏先只有乾淨音色的吉他 Riff，接著鼓用通鼓與大鼓堆疊張力，最後破音吉他以同一條 Riff 全力進場。",
+     "鼓在進入主 Riff 前，用小鼓加落地鼓的八分音符漸強做銜接。",
+     "整首歌幾乎都從同一條 Riff 長出來；貝斯與吉他走同一條線，James Hetfield 還疊了三軌節奏吉他做成「吉他牆」。",
+     "結構很傳統（主歌—副歌—主歌—副歌—獨奏—breakdown—副歌），中段放入一段兒童睡前禱告的口白，和沉重的聲響形成強烈對比。"
+    ],
+    "techniques": [
+     "clean-intro",
+     "layering-by-section",
+     "drum-build",
+     "riff-based-song",
+     "guitar-wall",
+     "breakdown",
+     "spoken-word-bridge"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Enter_Sandman",
+     "https://www.musicradar.com/news/metallica-enter-sandman-james-hetfield-bob-rock",
+     "https://faroutmagazine.co.uk/metallicas-iconic-track-enter-sandman/",
+     "https://www.bonedo.de/artikel/einzelansicht/drum-cover-classic-metallica-enter-sandman.html",
+     "https://loudersound.com/features/enter-sandman-metallica-story-behind-song",
+     "https://kerrang.com/metallica-20-things-you-probably-didnt-know-about-the-black-album"
+    ]
+   }
+  ],
+  "lessons": [
+   "Riff 就是歌：先讓主 Riff 完整出現幾次再進人聲，整首歌的段落都可以從它變化出來。",
+   "用「乾淨→破音」或「一件樂器→全團」的分層進場製造張力，比一開始就全開更有衝擊。",
+   "節奏型本身就能區分段落：慢而重的 Riff、奔馳的 gallop、中途加速換檔。",
+   "重量感來自對比：雙吉他和聲、stop-time 停頓或安靜的口白段落，會讓下一次全開聽起來更重。"
+  ]
+ },
+ "country": {
+  "songs": [
+   {
+    "title": "I Walk the Line",
+    "artist": "Johnny Cash",
+    "year": 1956,
+    "why": "只有三人編制、沒有爵士鼓，卻靠火車般的穩定節奏與每段轉調撐住全曲，是「少即是多」的鄉村經典。",
+    "listen": [
+     "伴奏只有 Cash 的木吉他、Luther Perkins 的電吉他與 Marshall Grant 的貝斯，沒有爵士鼓。",
+     "Cash 在吉他弦間夾紙（也有一說是鈔票），刷出模仿小鼓的「boom-chicka-boom」節奏。",
+     "五段主歌每段都轉調（F→B♭→E♭→B♭→F），Cash 在每段開始前先哼出新調的根音來抓音準。",
+     "最後一段重複第一段的歌詞，但整整低了一個八度，首尾呼應又有變化。"
+    ],
+    "techniques": [
+     "trio-arrangement",
+     "no-drums",
+     "train-beat",
+     "key-change-every-verse",
+     "hummed-transitions",
+     "octave-drop-ending"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/I_Walk_the_Line",
+     "https://forum.harmonica.com/t/how-to-play-i-walk-the-line-johnny-cash/12500",
+     "https://norselandsrock.com/i-walk-the-line-johnny-cash/",
+     "https://www.npr.org/2000/12/23/1115971/npr-100-i-walk-the-line",
+     "https://mb.videolan.org/track/4107e9ad-49e8-420b-a5f5-f34a29eb5179"
+    ]
+   },
+   {
+    "title": "Jolene",
+    "artist": "Dolly Parton",
+    "year": 1973,
+    "why": "整首歌由一段指彈吉他動機推動，第二把吉他中途才加入互補，是鄉村樂「雙吉他織體」的經典。",
+    "listen": [
+     "開頭的指彈吉他動機（Chip Young 以拇指撥弦彈奏）就是整首歌的引擎，幾乎不間斷地反覆。",
+     "第二把鋼弦吉他（Wayne Moss）要到第二次副歌才加入，和第一把吉他互補，而不是彈一樣的東西。",
+     "兩把吉他的分工在錄音前就先設計好了。",
+     "聽聽看反覆的吉他動機如何製造揮之不去的緊張感，讓簡單的段落也不會鬆掉。"
+    ],
+    "techniques": [
+     "fingerpicked-riff",
+     "riff-driven",
+     "second-guitar-enters-later",
+     "complementary-parts"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Jolene",
+     "https://askzac.com/post/the-guitars-of-dolly-partons-jolene-featuring-chip-young-wayne-moss-ask-zac-124"
+    ]
+   },
+   {
+    "title": "The Boxer",
+    "artist": "Simon & Garfunkel",
+    "year": 1969,
+    "why": "從一把指彈木吉他開始，一段一段加入新音色，並把重擊的鼓聲留給副歌，示範民謠怎麼在簡單中做出巨大的段落差。",
+    "listen": [
+     "前奏是 Fred Carter Jr. 在錄音現場想出的瀑布般指彈木吉他。",
+     "鼓幾乎只出現在沒有歌詞的副歌：Hal Blaine 在電梯井旁的走廊用力敲小鼓，聽起來像一聲砲響。",
+     "後面幾段主歌才加入 Charlie McCoy 的低音口琴，每段都多一點新顏色。",
+     "間奏旋律由踏板鋼棒吉他（pedal steel）與高音小號齊奏，用意想不到的音色組合當獨奏。",
+     "尾段在副歌反覆中加入弦樂，最後淡出。"
+    ],
+    "techniques": [
+     "fingerpicked-intro",
+     "drums-only-in-chorus",
+     "big-snare-hit",
+     "new-color-each-verse",
+     "unison-instrumental-break",
+     "fade-out"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/The_Boxer",
+     "https://www.bmi.com/news/entry/takes_from_the_top_recording_simon_garfunkels_the_boxer",
+     "https://tonyscherman.substack.com/p/the-power-groove-and-taste-of-hal"
+    ]
+   }
+  ],
+  "lessons": [
+   "鄉村／民謠的骨架常是一把吉他的節奏型或指彈動機；第二把吉他或其他樂器要「互補」，不要重複同一件事。",
+   "編制可以很小：沒有爵士鼓，也能靠吉他刷法與貝斯做出往前推的律動。",
+   "每一段加一個新音色（第二把吉他、口琴、踏板鋼棒吉他、弦樂），比一次全部加進來更耐聽。",
+   "把最大的聲響留給副歌，例如只在副歌出現的一記重小鼓。"
+  ]
+ },
+ "hiphop": {
+  "songs": [
+   {
+    "title": "They Reminisce Over You (T.R.O.Y.)",
+    "artist": "Pete Rock & CL Smooth",
+    "year": 1992,
+    "why": "用一段薩克斯風取樣當 hook、主歌時讓管樂退開給饒舌，是 Boom Bap「取樣就是編曲」的代表作。",
+    "listen": [
+     "Pete Rock 先做貝斯線，再從 Tom Scott 版〈Today〉裡找到那段薩克斯風樂句。",
+     "完整的號角樂句幾乎取代了傳統副歌，成為整首歌的 hook，底下再襯一層輕柔的女聲哼唱。",
+     "主歌時大部分管樂退開，讓 CL Smooth 的饒舌站到最前面。",
+     "低音經過濾波處理，和那段薩克斯風一起構成溫暖、緊實的律動。"
+    ],
+    "techniques": [
+     "horn-sample-hook",
+     "instrumental-hook",
+     "horns-drop-in-verse",
+     "filtered-bass",
+     "bass-first-beatmaking"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/They_Reminisce_Over_You_(T.R.O.Y.)",
+     "https://ethanhein.com/wp/2010/they-reminisce-over-you/",
+     "https://www.rapreviews.com/?p=13966",
+     "https://westcheddar.com/tag/pete-rock-cl-smooth/"
+    ]
+   },
+   {
+    "title": "C.R.E.A.M.",
+    "artist": "Wu-Tang Clan",
+    "year": 1994,
+    "why": "只用一兩秒的老靈魂樂琴聲片段不斷循環就撐起整首歌，示範 Boom Bap 如何用「極短取樣＋重複」營造沉重的氛圍。",
+    "listen": [
+     "主循環取自 The Charmels〈As Long as I've Got You〉開頭約兩秒的琴聲片段，一路反覆到底。",
+     "開場是 Raekwon 與 Method Man 的對話口白；前奏另外加了幾個取樣點綴，和主歌單純的循環做出區隔。",
+     "Method Man 唱的 hook 穿插在 Raekwon 與 Inspectah Deck 的主歌之間；伴奏幾乎不變，段落差異主要來自人聲。",
+     "Inspectah Deck 說唱片版的主歌其實是把兩段錄音剪接在一起，剪輯本身也是編曲的一部分。"
+    ],
+    "techniques": [
+     "short-sample-loop",
+     "spoken-intro",
+     "intro-variation",
+     "hook-between-verses"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/C.R.E.A.M.",
+     "https://mixdownmag.com.au/features/five-times-the-rza-showed-hes-a-sampling-genius/",
+     "https://www.xxlmag.com/inspectah-deck-release-lost-c-r-e-m-verse/"
+    ]
+   },
+   {
+    "title": "N.Y. State of Mind",
+    "artist": "Nas",
+    "year": 1994,
+    "why": "陰鬱的爵士鋼琴循環、零星的管樂短擊與刷碟拼出的 hook，示範 Boom Bap 如何用極少的元素撐起兩段長篇饒舌。",
+    "listen": [
+     "DJ Premier 先讓鼓和一個像鐘聲的音色循環，直到找到 Joe Chambers〈Mind Rain〉的鋼琴片段，才把整個 beat 串起來。",
+     "Donald Byrd〈Flight Time〉開頭的管樂短擊被拿來當反覆出現的點綴動機。",
+     "全曲只有兩段長主歌，hook 由 Premier 用刷碟（scratch）拼接 Rakim〈Mahogany〉等人聲片段組成，而不是用唱的。",
+     "速度約 84 BPM，鼓取自 Kool & the Gang〈N.T.〉的鼓段，律動沉重、緩慢。"
+    ],
+    "techniques": [
+     "jazz-piano-loop",
+     "horn-stabs",
+     "scratch-hook",
+     "two-long-verses",
+     "minimal-elements"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/N.Y._State_of_Mind",
+     "https://www.musicweek.com/interviews/read/50-years-of-hip-hop-dj-premier-on-jay-z-nas-notorious-b-i-g-more/088367",
+     "https://www.mtv.com/news/xtzd4n/best-donald-byrd-samples",
+     "https://www.complex.com/music/a/miss-info/the-best-of-nas-illmatic",
+     "https://modeaudio.com/magazine/masters-of-sampling-dj-premier"
+    ]
+   }
+  ],
+  "lessons": [
+   "Boom Bap 的核心是一個好循環：一兩小節的取樣反覆到底，饒舌本身就是最主要的變化。",
+   "Hook 不一定要唱：管樂取樣、刷碟拼貼的人聲片段都能當副歌。",
+   "主歌時讓旋律性元素退開、副歌再放回來，饒舌更清楚，段落也更分明。",
+   "元素少反而更有份量：鼓、低音、一個取樣動機，再加偶爾的點綴就夠了。"
+  ]
+ },
+ "trap": {
+  "songs": [
+   {
+    "title": "Mask Off",
+    "artist": "Future",
+    "year": 2017,
+    "why": "整首歌靠一段長笛取樣循環撐起，證明 Trap 只要一個夠強的旋律動機，加上鼓與低音就能成立。",
+    "listen": [
+     "主旋律是 Metro Boomin 取自 Tommy Butler〈Prison Song〉（音樂劇《Selma》）的長笛樂句做成的循環。",
+     "這段長笛辨識度高到引發 #MaskOffChallenge，大批樂手用各種樂器翻奏，旋律動機本身就是歌的身分。",
+     "留意長笛循環幾乎從頭跑到尾，段落差異要從鼓組、低音與人聲的進出去聽。"
+    ],
+    "techniques": [
+     "melodic-sample-loop",
+     "flute-hook",
+     "loop-based"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Mask_Off",
+     "https://www.songfacts.com/facts/future/mask-off",
+     "https://www.papermag.com/classical-musicians-across-twitter-are-covering-futures-mask-off-and-i"
+    ]
+   },
+   {
+    "title": "Bad and Boujee",
+    "artist": "Migos feat. Lil Uzi Vert",
+    "year": 2016,
+    "why": "旋律少到只剩幾個音、鼓也很稀疏，靠低音和「抽掉再放回」的時機製造張力，是極簡 Trap 的代表。",
+    "listen": [
+     "伴奏建立在幾個濾波過的鋼琴音、若有似無的鼓，加上一段像恐怖片配樂般詭異的合成器旋律之上。",
+     "真正的重量在低頻：轟隆作響的低音撐起整首歌。",
+     "節拍會在重點句前突然抽掉再放回（stop-and-go），讓那句歌詞特別突出。",
+     "最後一次副歌之後，beat 單獨再跑幾秒才結束。"
+    ],
+    "techniques": [
+     "minimal-melody",
+     "sparse-drums",
+     "heavy-sub-bass",
+     "drop-outs",
+     "stop-and-go",
+     "beat-ride-out-ending"
+    ],
+    "sources": [
+     "https://stereogum.com/1921159/album-of-the-week-migos-culture/reviews/album-of-the-week",
+     "https://liftedasia.com/article/metro-boomin-complexcon-hong-kong"
+    ]
+   },
+   {
+    "title": "Sicko Mode",
+    "artist": "Travis Scott feat. Drake",
+    "year": 2018,
+    "why": "一首歌換三次 beat，示範 Trap 如何用「突然換場」取代傳統主副歌，讓長歌一直保持新鮮。",
+    "listen": [
+     "開頭是 Drake 在管風琴般的律動上即興念白，之後交棒給 Travis Scott，beat 隨即整個換掉。",
+     "全曲有三次突然的 beat 轉換，各段由不同製作人（Hit-Boy、Tay Keith、Cubeatz、OZ 等）主導，像把幾首短歌接在一起。",
+     "轉換點常落在聽眾剛被當下的 beat 帶起來的時候，用出其不意維持注意力。",
+     "每次換 beat 時，比較速度感、鼓組與低音的變化，這就是段落的分界。"
+    ],
+    "techniques": [
+     "organ-intro",
+     "beat-switch",
+     "multi-part-structure",
+     "abrupt-transition"
+    ],
+    "sources": [
+     "https://www.songfacts.com/facts/travis-scott/sicko-mode/1000",
+     "https://www.xxlmag.com/hip-hop-beat-switches/",
+     "https://djrobblog.com/archives/7377"
+    ]
+   }
+  ],
+  "lessons": [
+   "Trap 的旋律可以非常少：一段循環（長笛、鋼琴、合成器）就夠，重量交給 808 低音與鼓。",
+   "段落感常靠「抽掉再放回」：在 hook 或重點句前把鼓或低音抽掉，再一起砸回來。",
+   "長歌可以用換 beat 取代傳統主副歌，換場要乾脆、出其不意。",
+   "留白很重要：鼓稀疏、旋律少，饒舌的 flow 才有空間。"
+  ]
+ },
+ "lofi": {
+  "songs": [
+   {
+    "title": "Don't Cry",
+    "artist": "J Dilla",
+    "year": 2006,
+    "why": "把一段靈魂樂人聲剪碎重組成循環，示範 Lo-fi／beat tape 美學的源頭：取樣怎麼「切」本身就是編曲。",
+    "listen": [
+     "取樣來自 The Escorts〈I Can't Stand (To See You Cry)〉，人聲被切成短片段反覆，切點本身就成了旋律與節奏。",
+     "整首很短，像一段循環的素描，不走完整的主副歌結構；收錄於 Dilla 生前發行的最後一張專輯《Donuts》。",
+     "跟著鼓數拍，感受鼓與取樣之間微妙的不對齊，這種鬆緊感正是 Dilla 律動的關鍵。"
+    ],
+    "techniques": [
+     "chopped-vocal-sample",
+     "loop-based",
+     "short-form",
+     "swing-drums"
+    ],
+    "sources": []
+   },
+   {
+    "title": "Aruarian Dance",
+    "artist": "Nujabes",
+    "year": 2004,
+    "why": "Nujabes 以爵士和聲、柔和旋律與穩定律動交織的器樂 beat，是今天 Lo-fi 讀書音樂最常被追溯的源頭之一。",
+    "listen": [
+     "出自動畫《混沌武士（Samurai Champloo）》的原聲帶，是純器樂曲，由旋律取代人聲站在最前面。",
+     "比較鼓與旋律的音量關係：鼓柔和、退在後面，整體偏放鬆而不搶耳。",
+     "跟著循環聽：哪些元素一直都在、哪些會暫時離開再回來，這就是 Lo-fi 的「段落」。"
+    ],
+    "techniques": [
+     "instrumental-beat",
+     "loop-based",
+     "jazz-harmony",
+     "soft-drums"
+    ],
+    "sources": []
+   },
+   {
+    "title": "Feather",
+    "artist": "Nujabes feat. Cise Starr & Akin",
+    "year": 2005,
+    "why": "示範爵士嘻哈／Lo-fi 怎麼在柔和的循環上承載饒舌：beat 保持溫和穩定，讓人聲說故事。",
+    "listen": [
+     "收錄於 2005 年專輯《Modal Soul》，由 Cise Starr 與 Akin 兩位饒舌歌手輪流演出。",
+     "beat 以溫和反覆的循環為主，段落感主要來自兩位饒舌歌手的交替。",
+     "聽聽看旋律元素在饒舌時如何保持低調，在段落之間才浮上來。"
+    ],
+    "techniques": [
+     "loop-based",
+     "vocal-over-loop",
+     "jazz-harmony"
+    ],
+    "sources": []
+   }
+  ],
+  "lessons": [
+   "Lo-fi 的骨架是循環：幾小節的和弦或取樣反覆到底，變化靠元素的進出，而不是換和弦或換段落。",
+   "鼓不必完全對齊格線：帶一點人味的搖擺（Dilla 式的鬆散律動）比精準更重要。",
+   "爵士和聲（七和弦、九和弦）加上柔和音色營造放鬆感，鼓的音量往後退一點。",
+   "歌可以很短、像素描：一個好循環加上一點點變化就足以成立。"
+  ],
+  "verified": false
+ },
+ "rnb": {
+  "songs": [
+   {
+    "title": "What's Going On",
+    "artist": "Marvin Gaye",
+    "year": 1971,
+    "why": "經典靈魂樂編曲的範本：前奏就讓鼓、打擊樂、貝斯、吉他與薩克斯一起進場，再用雙軌主唱、流動的貝斯與低調的背景配器營造鬆弛又流動的律動。",
+    "listen": [
+     "開場是一段像派對般的人聲閒聊（請來底特律雄獅隊球員等人模擬聊天）配上中音薩克斯，接著鼓、打擊樂、貝斯、吉他與薩克斯同時進場，一開始就把律動立起來。",
+     "主唱是把兩個不同 take 疊在一起的雙軌人聲（據說源自混音時的意外），形成獨特的雙重人聲質感。",
+     "James Jamerson 的貝斯流動、有旋律感，在鬆弛的鼓組下不停移動，是歌曲往前走的動力。",
+     "中音薩克斯多半吹不搶戲的長音、偶爾才來幾句短句，顫音琴也只在背景小聲地鋪長音：配器是背景層，不和主唱搶。",
+     "弦樂與銅管由編曲家 David Van DePitte 編寫，疊在節奏組之上增加色彩。"
+    ],
+    "techniques": [
+     "party-chatter-intro",
+     "full-band-intro",
+     "double-tracked-vocal",
+     "melodic-bass",
+     "background-layers",
+     "string-color"
+    ],
+    "sources": [
+     "https://ethanhein.substack.com/p/the-form-and-structure-of-whats-going",
+     "https://en.wikipedia.org/wiki/What%27s_Going_On_(song)",
+     "https://metrotimes.com/music/45-years-later-detroit-lion-lem-barney-remembers-whats-going-on-2444079",
+     "https://www.shmoop.com/study-guides/whats-going-on/music.html",
+     "https://vintageking.com/blog/marvin-gaye-whats-going-on",
+     "https://www.soundonsound.com/techniques/classic-tracks-marvin-gaye-whats-going",
+     "https://guitarworld.com/features/marvin-gaye-whats-going-on"
+    ]
+   },
+   {
+    "title": "Untitled (How Does It Feel)",
+    "artist": "D'Angelo",
+    "year": 2000,
+    "why": "Neo-Soul「慢慢加溫」的教科書：在慵懶的 6/8 律動上一層層疊加，熱度推到頂點後戛然而止。",
+    "listen": [
+     "全曲是慵懶、反覆的 6/8 鼓組律動（可感覺成每小節兩大拍），重點是穩定、往後躺的 feel，而不是花俏的過門。",
+     "能量靠逐步加層推進：從近乎鬆散的鼓前奏開始，慢慢加入鍵盤、帶點髒的吉他，以及 D'Angelo 多軌疊唱的人聲合唱。",
+     "前段刻意不給「大副歌」，要到後段才爆發；結尾 D'Angelo 以假音嘶喊，近乎狂熱地反覆唱著副標題那句。",
+     "高潮衝到頂點後撐住最後一分鐘左右，然後突然切斷：Raphael Saadiq 說當時錄音帶剛好用完，他們決定不再另做結尾。",
+     "貝斯與吉他由 Raphael Saadiq 演奏，其他多數樂器由 D'Angelo 自己來，整體是向 Prince 致敬的復古聲響。"
+    ],
+    "techniques": [
+     "laid-back-groove",
+     "slow-build",
+     "layering-by-section",
+     "stacked-vocals",
+     "late-climax",
+     "cold-ending"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Untitled_(How_Does_It_Feel)",
+     "https://www.okayplayer.com/raphael-saadiq-explains-how-his-search-for-a-joint-led-to-him-dangelo-making-untitled/653401",
+     "https://www.songfacts.com/facts/dangelo/untitled-how-does-it-feel",
+     "https://www.discogs.com/release/1871996-DAngelo-Untitled-How-Does-It-Feel",
+     "https://rateyourmusic.com/release/single/dangelo/untitled-how-does-it-feel/reviews/1/",
+     "https://www.musicgurus.com/courses/rockschool-drums-online-tutorial-debut-grade/lessons/learn-untitled-how-does-it-feel-rockschool-drums-grade-debut",
+     "https://thefrenchblacktype.com/why-dangelos-untitled-how-does-it-feel-still-defines-soul-music-decades-later-1d43",
+     "https://www.tailem.com/untitled-how-does-it-feel-song-voodoo/reviews/dangelo-artist"
+    ]
+   },
+   {
+    "title": "On & On",
+    "artist": "Erykah Badu",
+    "year": 1996,
+    "why": "Neo-Soul「少即是多」的代表：幾乎只靠渾厚的貝斯、心跳般的鼓、爵士味鍵盤與打擊樂撐起整首，把空間留給人聲。",
+    "listen": [
+     "編制非常精簡：當年樂評形容它「精簡卻有效」，靠低沉渾厚的貝斯、爵士味的鍵盤和打擊樂撐起整首。",
+     "鼓像心跳一樣規律，和渾圓的貝斯線緊緊鎖在一起；貝斯佔住最低的頻段，是聽感的重心。",
+     "有拆解文章認為鼓是取樣後用鼓機編排，形成循環式的穩定律動，讓人聲在上面自由揮灑。",
+     "人聲帶著明顯的殘響尾巴，飄在稀疏的伴奏上：空間感來自「不填滿」。"
+    ],
+    "techniques": [
+     "sparse-arrangement",
+     "bass-and-drums-lock",
+     "loop-based-groove",
+     "vocal-reverb-space"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/On_%26_On_(Erykah_Badu_song)",
+     "https://en.wikipedia.org/wiki/Baduizm",
+     "https://andrewleeder.wixsite.com/andyl/post/track-dissection-erykah-badu-on-on"
+    ]
+   }
+  ],
+  "lessons": [
+   "律動先於一切：鼓與貝斯要緊密咬合、稍微往後躺（laid back），其他聲部都圍繞這個 pocket。",
+   "用「加層」而不是「換段落」推動能量：在同一個 groove 上逐步加入鍵盤、吉他與疊唱人聲，讓高潮自然長出來（Untitled）。",
+   "留白就是編曲：精簡配器把空間留給人聲與貝斯（On & On）；配器樂器多用長音與背景層，不和主唱搶（What's Going On）。",
+   "人聲本身就是編曲工具：雙軌主唱、多軌和聲與假音高潮，都是 R&B 堆疊層次的方法。"
+  ]
+ },
+ "house": {
+  "songs": [
+   {
+    "title": "Can You Feel It",
+    "artist": "Mr. Fingers (Larry Heard)",
+    "year": 1986,
+    "why": "Deep House 的原點之一：只用一台 Juno-60 與一台 TR-909，靠少量元素的進出就營造出深邃、帶憂鬱感的情緒。",
+    "listen": [
+     "Larry Heard 說整首只用了 Roland Juno-60 合成器與 TR-909 鼓機，並用兩台卡帶座「先錄一遍、再邊放邊用手彈加上其他聲部」完成。",
+     "核心是一條六個音的深沉貝斯線，搭配穩定的大鼓與流動的 Hi-Hat 打底。",
+     "和聲只是一組三個和弦循環的合成器樂句，偶爾浮現遠方的 Pad 與清脆的對位旋律，帶出情緒起伏。",
+     "打擊樂細碎跳動、配器刻意稀疏，整首像在同一個律動裡慢慢呼吸，而不是靠大段落切換。"
+    ],
+    "techniques": [
+     "minimal-gear",
+     "bassline-led",
+     "loop-based-groove",
+     "pad-swells",
+     "counter-melody",
+     "sparse-arrangement"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Can_You_Feel_It_(Larry_Heard_song)",
+     "https://www.vice.com/en/article/larry-heard-can-you-feel-it-making-of/",
+     "https://articles.roland.com/?p=17260",
+     "https://www.insomniac.com/music/from-the-crate-mr-fingers-can-you-feel-it/",
+     "https://en.wikipedia.org/wiki/Deep_house"
+    ]
+   },
+   {
+    "title": "Show Me Love (StoneBridge Mix)",
+    "artist": "Robin S.",
+    "year": 1992,
+    "why": "90 年代 Vocal House 的「克制」大師課：把貝斯換成 Korg M1 的風琴音色、只靠大鼓和它撐起低頻，其餘幾乎什麼都不加。",
+    "listen": [
+     "低頻只有大鼓與 Korg M1 的風琴預設音色：StoneBridge 把原本的貝斯線改成這個風琴聲，沒有另外的貝斯。",
+     "副歌只多加一層混得很小聲的弦樂 Pad，彈一對小和弦，就讓情緒升上去。",
+     "跳躍感的鼓組參考了 Todd Terry 與 David Morales 的 House 鼓法；Todd Terry 的失真合成器聲音也啟發他多加了一個元素。",
+     "伴奏極度精簡，把舞台留給 Robin S. 的強力人聲。",
+     "1990 年的原版幾乎沒人注意，同一首歌換了編曲（Remix）後才紅遍全球：編曲可以改變一首歌的命運。"
+    ],
+    "techniques": [
+     "organ-bass",
+     "minimal-layering",
+     "pad-lift-chorus",
+     "four-on-the-floor",
+     "remix-reinvention"
+    ],
+    "sources": [
+     "https://djmag.com/longreads/solid-gold-how-robin-s-show-me-love-became-one-dance-music-s-most-iconic-anthems",
+     "https://en.wikipedia.org/wiki/Show_Me_Love_(Robin_S._song)",
+     "https://www.whosampled.com/Robin-S./Show-Me-Love-(Stonebridge-Mix)/"
+    ]
+   },
+   {
+    "title": "Music Sounds Better with You",
+    "artist": "Stardust",
+    "year": 1998,
+    "why": "法式 Filter House 的代表：一段取樣 loop 幾乎從頭跑到尾，沒有傳統的 build-up 與 drop，張力靠濾波器開合與元素進出。",
+    "listen": [
+     "主角是一小段 Chaka Khan〈Fate〉開頭的吉他取樣，加速後音高變高，幾乎整首都在循環。",
+     "鼓是 TR-909、貝斯是 Korg Trident，另外有一層幾乎聽不到的 Rhodes 電鋼琴墊在底下。",
+     "沒有傳統的 build-up 或 breakdown，只有一小段把吉他 loop 濾波到只剩「殘影」：濾波器的開合就是主要的張力手段。",
+     "人聲被刪到只剩副歌的主 Hook（Benjamin Diamond 的幾句），反覆出現，像一件樂器。",
+     "段落是把不同區段放在 Ensoniq ASR-10 取樣機的不同鍵上、即時觸發「彈」出來的。"
+    ],
+    "techniques": [
+     "sample-loop",
+     "filter-sweep",
+     "vocal-hook-repeat",
+     "no-drop-hypnotic",
+     "live-triggered-arrangement"
+    ],
+    "sources": [
+     "https://www.musicradar.com/news/how-stardust-made-music-sounds-better-with-you-and-why-it-was-their-only-release",
+     "https://www.loopcloud.com/cloud/blog/5219-Unpacked-Stardust-Music-Sounds-Better-With-You-Recreated-with-Loopcloud",
+     "https://djmag.com/longreads/how-stardust%E2%80%99s-%E2%80%98music-sounds-better-you%E2%80%99-inadvertently-changed-face-house-music",
+     "https://www.whosampled.com/Stardust/Music-Sounds-Better-With-You/",
+     "https://en.wikipedia.org/wiki/Music_Sounds_Better_with_You"
+    ]
+   }
+  ],
+  "lessons": [
+   "少即是多：一兩個招牌聲音（風琴貝斯、取樣 loop、六音貝斯線）就能撐起整首，其他元素只在需要時進出。",
+   "用「加一層／拿一層」做段落：副歌可以只多一層小聲的 Pad（Show Me Love），不必整段換配器。",
+   "濾波器本身就是編曲工具：把 loop 濾暗再打開，往往比加新樂器更能做出張力與釋放（Music Sounds Better with You）。",
+   "律動要能長時間循環不膩：大鼓穩定、Hi-Hat 與打擊樂細碎流動，讓舞者可以一直「待在裡面」。"
+  ]
+ },
+ "edm": {
+  "songs": [
+   {
+    "title": "Levels",
+    "artist": "Avicii",
+    "year": 2011,
+    "why": "Progressive House 的經典：一條簡單到極致的合成器 Hook 不斷循環，中間抽空放進 Etta James 的人聲取樣，再完整地推回高峰。",
+    "listen": [
+     "全曲圍繞一個主題動機：合成器主旋律加上一組和弦循環，和弦 stab 有明顯的側鏈抽吸。",
+     "主旋律刻意和貝斯、人聲動機錯開起點（從第二小節第三拍進來），讓循環聽起來一直往前滾。",
+     "Etta James〈Something's Got a Hold on Me〉的人聲取樣只出現在短暫的「中場休息」段落，不是從頭唱到尾。",
+     "曲中主題與節拍會消散成回音、短暫消失；主題回歸後再疊上一條像口哨般上升的合成器線，讓後段比前面更高一層。",
+     "完整版五分多鐘的「醞釀—高峰」結構才是重點，縮短的電台版很難呈現同樣的衝擊。"
+    ],
+    "techniques": [
+     "hook-driven",
+     "offset-motif",
+     "sidechain-pump",
+     "breakdown",
+     "vocal-sample-break",
+     "build-and-drop",
+     "final-lift-layer"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Levels_(Avicii_song)",
+     "https://www.whosampled.com/sample/111866/Avicii-Levels-Etta-James-Something's-Got-a-Hold-on-Me/",
+     "https://www.songfacts.com/facts/avicii/levels",
+     "https://redef.com/item/5ada4b87bd9a9a278ab11d9c"
+    ]
+   },
+   {
+    "title": "Animals",
+    "artist": "Martin Garrix",
+    "year": 2013,
+    "why": "Big Room 的代表：用濾波、高通大鼓、小鼓 Build-up 與 drop 前一小節的空白製造期待，再以極簡的大鼓＋失真貝斯＋主音爆發。",
+    "listen": [
+     "開頭 16 小節非常精簡：被濾波的合成器線，加上削掉低頻（高通）的大鼓與 Ride，刻意先不給完整低頻。",
+     "貝斯之後才進來；第一個 breakdown 先把聲音濾暗，八小節後主旋律的濾波器才慢慢打開。",
+     "Build-up 以小鼓推進，最後留一小節空白，再砸進 drop。",
+     "Drop 沒有延續 breakdown 的旋律，而是換成只剩大鼓、失真貝斯與主音的極簡組合，製造意外感。",
+     "轉場音效非常密集：開頭半分鐘內幾乎每隔幾秒就有一個逐漸變化的轉場聲。"
+    ],
+    "techniques": [
+     "filtered-intro",
+     "highpassed-kick-intro",
+     "bass-enters-late",
+     "breakdown",
+     "filter-sweep",
+     "snare-build",
+     "pre-drop-gap",
+     "minimal-drop",
+     "transition-fx"
+    ],
+    "sources": [
+     "https://www.musicradar.com/tuition/tech/anatomy-of-a-hit-martin-garrix-animals-636619",
+     "https://themixreview.org/reviews/animals/",
+     "https://en.wikipedia.org/wiki/Animals_(Martin_Garrix_song)"
+    ]
+   },
+   {
+    "title": "Never Be Like You (feat. Kai)",
+    "artist": "Flume",
+    "year": 2016,
+    "why": "Future Bass 的代表：不用 riser 與小鼓滾奏，而是靠加入弦樂、人聲處理與濾波器收緊來醞釀，副歌換成搖晃的合成器與人聲切片。",
+    "listen": [
+     "先用四小節鐘聲般的氛圍音當 pickup，主歌是人聲加上去諧（detuned）的 Pad，後八小節再加入彈同一組和弦的弦樂。",
+     "沒有 riser、也沒有小鼓滾奏：張力來自新加入的弦樂、Kai 的唱法與人聲處理，以及在最後一小節收緊的低通濾波器。",
+     "副歌一進來是帶 trap 式喊聲的大鼓，接著是好記的人聲切片序列和搖晃的 Pad／合成器。",
+     "副歌的節奏型 Pad 經過大量調變，聽起來會搖晃、呼吸。",
+     "三次副歌幾乎一模一樣：辨識度來自音色本身，而不是每次都改編。"
+    ],
+    "techniques": [
+     "atmospheric-pickup",
+     "strings-enter-second-half",
+     "no-riser-build",
+     "filter-close-before-drop",
+     "vocal-chops",
+     "wobbly-synth",
+     "repeated-identical-chorus"
+    ],
+    "sources": [
+     "https://www.edmprod.com/song-analysis-flume-never-be-like-you/",
+     "https://themixreview.org/reviews/never-be-like-you/",
+     "https://en.wikipedia.org/wiki/Never_Be_Like_You"
+    ]
+   }
+  ],
+  "lessons": [
+   "張力與釋放是骨架：先拿掉低頻（高通大鼓、濾波器收暗），到 drop 一次還回來，對比越大越有力（Animals）。",
+   "Drop 前的一小節空白或濾波器收緊，往往比一直堆音量更有效（Animals、Never Be Like You）。",
+   "Hook 要簡單、可循環；用錯開的起點、側鏈抽吸與後段加層讓它不斷前進（Levels）。",
+   "Build-up 不一定要 riser 和小鼓滾奏：加入新聲部（弦樂）與人聲處理也能堆出張力，這是 Future Bass 常見的作法（Never Be Like You）。"
+  ]
+ },
+ "synthwave": {
+  "songs": [
+   {
+    "title": "Nightcall (feat. Lovefoxxx)",
+    "artist": "Kavinsky",
+    "year": 2010,
+    "why": "Synthwave 的代表曲（因電影《落日車神》廣為人知）：慢速、極簡的機械鼓、琶音與濾波貝斯，加上「機械男聲 vs. 溫暖女聲」的對比。",
+    "listen": [
+     "主歌是 Kavinsky 經過聲碼器（vocoder）重度處理、聽起來幾乎不像人的機械男聲；副歌換成 Lovefoxxx 溫暖自然的女聲，像一段對話。",
+     "整首建立在一條八個音的琶音上，主歌與副歌各用不同的和弦循環，用和聲變化區分段落。",
+     "主歌的貝斯是帶共振、濾波器緩慢收合的掃頻音色，製造往前推的感覺。",
+     "鼓非常簡單、合成感強（有人整理為幾乎只有大鼓與小鼓、很少鈸與過門），留出大量空間。"
+    ],
+    "techniques": [
+     "vocoder-verse",
+     "male-female-contrast",
+     "arpeggio-bed",
+     "filter-sweep-bass",
+     "minimal-drums",
+     "slow-tempo"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Nightcall_(song)",
+     "https://reverbmachine.com/blog/how-kavinsky-created-nightcall/",
+     "https://www.songfacts.com/facts/kavinsky/nightcall",
+     "https://musictech.com/2013/06/point-blanks-weekly-tutorial-deconstructing-kavinsky/",
+     "https://medium.com/all-the-best-songs-in-the-world/kavinsky-nightcall-2010-45fd400fd3b5"
+    ]
+   },
+   {
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "year": 2019,
+    "why": "把 80 年代合成器流行帶回主流的代表：鼓、和弦與合成器 Hook 幾乎全曲不變，靠人聲與少數元素的增減做出段落。",
+    "listen": [
+     "開頭先用一個陰暗的合成器音色，之後整首都不再出現；接著先預告幾個音的主合成器 Hook，並且已經放進副歌後段（post-chorus）的鼓型。",
+     "第一段主歌明顯變簡單、讓出空間給人聲：琶音合成器帶出旋律感，Sub Bass 撐住和聲。",
+     "全曲的鼓型、和弦與 80 年代合成器線幾乎不變，段落差異主要來自人聲，例如某一句疊成左、中、右三軌。",
+     "貝斯在不同段落換角色：副歌像高飛的主音，主歌則是類 808 的聲音；藏在底部的 808 低頻讓復古聲響保有現代感。",
+     "鼓聲像 80 年代鼓機，樂評聽出向 a-ha 致敬的輕快門控鼓聲；主音色被認為接近 Juno-60（也有人說像 DX7）。"
+    ],
+    "techniques": [
+     "one-off-intro-sound",
+     "hook-preview-intro",
+     "sparse-verse",
+     "static-loop-arrangement",
+     "vocal-stacking",
+     "bass-role-switch",
+     "post-chorus-hook"
+    ],
+    "sources": [
+     "https://www.notetracks.com/blog/behind-the-track-the-weeknds-blinding-lights-production-and-arrangement-breakdown",
+     "https://www.loopcloud.com/cloud/blog/5227-Unpacked-The-Weeknd-Blinding-Lights-Recreated-with-Loopcloud",
+     "https://www.beatportal.com/articles/567471-unpacked-recreating-the-weeknd-blinding-lights-with-loopcloud-in-ableton",
+     "https://www.musicradar.com/how-to/how-the-weeknd-recreated-80s-sound-blinding-lights",
+     "https://switchedonpop.com/episodes/how-the-weeknds-blinding-lights-used-retro-sounds-and-modern-bass-to-break-every-record",
+     "https://en.wikipedia.org/wiki/Blinding_Lights"
+    ]
+   },
+   {
+    "title": "Take On Me",
+    "artist": "a-ha",
+    "year": 1985,
+    "why": "80 年代合成器流行的經典：一條招牌合成器 riff 當作前奏與段落間的標誌，配上 LinnDrum 鼓機與大跳音程的副歌。",
+    "listen": [
+     "招牌合成器 riff（Magne Furuholmen 十五歲時寫的）擔任前奏，並在段落之間一再回來，成為整首的識別。",
+     "1985 年的熱門版由 Alan Tarney 重新製作：用他的 Juno-60 彈主題，鼓是 Pål Waaktaar 編程的 LinnDrum，再疊上真實的鈸與 Hi-Hat。",
+     "曲式是主歌—副歌，最後一次副歌之前插入一段橋段做對比。",
+     "副歌旋律大跳音程、一路往高音推，充分展現主唱 Morten Harket 的音域。",
+     "Tarney 的版本讓聲音更乾淨，並加上尾奏（coda）；1984 年的初版商業上失敗，重新製作後才登上美國排行榜冠軍。"
+    ],
+    "techniques": [
+     "riff-intro",
+     "riff-as-interlude",
+     "drum-machine-plus-live-cymbals",
+     "bridge-before-final-chorus",
+     "wide-leap-chorus",
+     "coda"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Take_On_Me",
+     "https://articles.roland.com/take-on-me-a-ha/",
+     "https://www.soundonsound.com/techniques/classic-tracks-ha-take-me",
+     "https://www.vintagedigital.com.au/?p=167494",
+     "https://insounder.org/story-hit-4-take-me"
+    ]
+   }
+  ],
+  "lessons": [
+   "用固定的「機械底」襯托人聲：鼓機、琶音與和弦循環可以全曲幾乎不變，段落差異交給人聲與少數元素的增減（Blinding Lights、Nightcall）。",
+   "招牌合成器 Hook 要反覆出現：前奏、間奏、副歌後都讓它回來，變成歌曲的識別（Take On Me）。",
+   "音色對比就是段落對比：聲碼器男聲 vs. 真人女聲、主歌 808 式貝斯 vs. 副歌主音貝斯。",
+   "復古音色＋現代低頻：80 年代鼓機、門控鼓聲與合成器，配上現代的 Sub／808 低頻。"
+  ]
+ },
+ "jazz": {
+  "songs": [
+   {
+    "title": "So What",
+    "artist": "Miles Davis",
+    "year": 1959,
+    "why": "小編制爵士「主題—即興—主題」的標準教材：寫好的鋼琴貝斯前奏、貝斯與管樂的一問一答，以及獨奏時管樂在背景接話。",
+    "listen": [
+     "前奏是 Gil Evans 為鋼琴手 Bill Evans 與貝斯手 Paul Chambers 寫的二重奏，進主題前先營造氣氛。",
+     "主題由貝斯奏出「問句」，鋼琴與管樂以兩個和弦的「So what」短句回答（又稱 amen 樂句），是經典的 call-and-response。",
+     "32 小節 AABA：A 段停在 D Dorian，橋段整體上移半音到 E♭ Dorian 再回來；和弦很少，段落對比靠整體平移。",
+     "Miles 獨奏一開始，鼓手 Jimmy Cobb 敲下一記很重的 crash，宣告進入獨奏段。",
+     "Bill Evans 獨奏時，管樂在背景吹短促的和聲回應；最後回到主題，由貝斯與鋼琴延續 A 段並淡出。"
+    ],
+    "techniques": [
+     "written-intro",
+     "call-and-response",
+     "head-solos-head",
+     "modal-vamp",
+     "cymbal-crash-solo-entry",
+     "horn-backgrounds",
+     "fade-out"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/So_What_(Miles_Davis_composition)",
+     "https://www.ipm.org/show/nightlights/2020-08-12/kind-of-two-miles-davis-and-bill-evans",
+     "https://www.wtju.net/jazz-100-hour-52-miles-davis-first-great-quintet-sextet/",
+     "https://www.jazztimes.com/features/profiles/jimmy-cobb-the-reluctant-don/",
+     "https://jacobdgm.com/blog/so-what-listening-guide/",
+     "https://jazzlanguageworkbooks.com/so-what-miles-davis-analysis/"
+    ]
+   },
+   {
+    "title": "Moanin'",
+    "artist": "Art Blakey & The Jazz Messengers",
+    "year": 1958,
+    "why": "Hard Bop 的招牌曲：福音味的鋼琴與管樂一問一答主題、清楚的獨奏輪替，加上鼓手全程推動。",
+    "listen": [
+     "AABA 曲式；A 段由 Bobby Timmons 的鋼琴先丟出問句，小號與次中音薩克斯齊奏回答，帶濃厚的福音（gospel）味。",
+     "橋段提供對比，讓反覆的問答不會單調；據說原本只有開頭八小節，是 Benny Golson 鼓勵 Timmons 補寫橋段才成為完整曲子（Golson 也負責整張專輯的編曲）。",
+     "獨奏輪替清楚：Lee Morgan 小號兩輪、Golson 次中音薩克斯兩輪、Timmons 鋼琴兩輪，最後 Jymie Merritt 貝斯一輪。",
+     "Art Blakey 的鼓從頭到尾強力推進，是整個樂團的能量引擎。"
+    ],
+    "techniques": [
+     "call-and-response",
+     "gospel-feel",
+     "aaba-form",
+     "head-solos-head",
+     "solo-section",
+     "drummer-driven-energy"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Moanin%27_(song)",
+     "https://www.jazzguitar.be/blog/moanin/",
+     "https://www.allaboutjazz.com/art-blakey-and-the-jazz-messengers-moanin-by-mike-oppenheim",
+     "https://jazzfuel.com/art-blakey-moanin/",
+     "https://www.allsolos.com/recording/177/moanin"
+    ]
+   },
+   {
+    "title": "Autumn Leaves",
+    "artist": "Cannonball Adderley (with Miles Davis)",
+    "year": 1958,
+    "why": "示範如何「編」一首標準曲：借自 Ahmad Jamal 的前奏與貝斯線、主題後的管樂短句，加上弱音小號放慢、留白的詮釋。",
+    "listen": [
+     "前奏先是鋼琴與貝斯的五音動機，接著管樂奏出帶西班牙色彩的戲劇性前奏，才由 Miles 帶出主旋律。",
+     "這個處理借自 Ahmad Jamal 三重奏：Miles 在原版唱片說明中親口承認，貝斯線幾乎照搬，主題後的管樂短句（stabs）也沿用。",
+     "Miles 用弱音器小號吹主題，接著獨奏兩輪；比起原本的處理，速度放慢、節奏更乾淨、留白更多。",
+     "之後由 Cannonball 的中音薩克斯接力獨奏，最後 Hank Jones 以一輪優雅的鋼琴獨奏收尾獨奏段。"
+    ],
+    "techniques": [
+     "intro-vamp",
+     "borrowed-arrangement",
+     "horn-stabs",
+     "muted-trumpet-melody",
+     "head-solos-head",
+     "solo-section"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Somethin%27_Else_(Cannonball_Adderley_album)",
+     "https://www.jazzstandards.com/compositions-0/autumnleaves.htm",
+     "https://ukjazznews.com/ten-ahmad-jamal-tracks-i-cant-do-without-by-nick-tomalin/",
+     "https://jazzjournal.co.uk/2021/04/23/cannonball-adderley-miles-davis-somethin-else/",
+     "https://www.allsolos.com/recording/138/autumn-leaves",
+     "https://medium.com/appreciating-jazz/autumn-leaves-e79d1f1c78e3"
+    ]
+   }
+  ],
+  "lessons": [
+   "骨架是「主題—即興—主題」，但好編曲會另外寫前奏、主題後的短句與獨奏背景，讓即興段也有結構（So What、Autumn Leaves）。",
+   "Call-and-response 是小編制最有效的配器手法：一個聲部丟問句、其他聲部齊奏回答（So What、Moanin'）。",
+   "能量靠鼓手的「標點」與獨奏輪替來管理：一記 crash 宣告新段落、每位獨奏者的輪數清楚。",
+   "詮釋標準曲時，可以借用或改寫前奏 vamp 與貝斯線，再用速度與留白賦予熟悉旋律新的身份（Autumn Leaves）。"
+  ]
+ },
+ "bossa": {
+  "songs": [
+   {
+    "title": "Chega de Saudade",
+    "artist": "João Gilberto",
+    "year": 1958,
+    "why": "常被稱為第一張 Bossa Nova 唱片：把森巴的律動濃縮到一把吉他上，配上輕聲、幾乎沒有顫音的唱法，由 Jobim 編曲。",
+    "listen": [
+     "João Gilberto 的吉他「batida」把森巴的節奏綜合到吉他上、強調弱拍，是整個曲風的節奏核心。",
+     "唱法親密、輕柔、幾乎不用顫音；他刻意把音唱短，讓歌詞剛好落在拍子裡、像浮在上面。",
+     "曲式前半 32 小節在小調、後半 36 小節轉到同主音大調，情緒由憂轉明。",
+     "編曲與指揮由 Jobim 擔任（Jobim 彈鋼琴、Milton Banana 打鼓），比 Elizeth Cardoso 最早的錄音更精簡，讓人聲和吉他成為焦點。"
+    ],
+    "techniques": [
+     "guitar-batida",
+     "soft-vocal",
+     "minor-to-major-shift",
+     "voice-and-guitar-core",
+     "sparse-accompaniment"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Chega_de_Saudade",
+     "https://www.songfacts.com/facts/joao-gilberto/chega-de-saudade",
+     "http://jazzontherecord.blogspot.com/2019/07/chega-de-saudade-joaozinho.html",
+     "https://www12.senado.leg.br/noticias/materias/2008/08/01/gravacao-de-chega-de-saudade-marca-o-nascimento-da-bossa-nova",
+     "https://memorialdademocracia.com.br/card/a-bossa-nova-revoluciona-a-cancao-brasileira",
+     "https://songbook1.wordpress.com/fx/si/sw/songwriters-fr-1955/antonio-carlos-jobim/chega-de-saudade/",
+     "https://www.latinolife.co.uk/articles/remembering-joao-gilberto"
+    ]
+   },
+   {
+    "title": "The Girl from Ipanema",
+    "artist": "Stan Getz & João Gilberto (feat. Astrud Gilberto)",
+    "year": 1964,
+    "why": "讓 Bossa Nova 紅遍全球的錄音：以 João 的吉他與人聲為核心，再由 Astrud 的英文段、Getz 的次中音薩克斯與 Jobim 的輕巧鋼琴接力。",
+    "listen": [
+     "專輯版先由 João Gilberto 唱葡萄牙文，再由 Astrud Gilberto 唱英文歌詞：同一段旋律換人、換語言，本身就是段落變化。",
+     "從 Astrud 輕柔的人聲過渡到 Getz 抒情的次中音薩克斯獨奏，能量是慢慢升起的。",
+     "Getz 在人聲周圍吹細膩的助奏（obbligato）；Jobim 的鋼琴多半只做輕巧的填充，也有一段鋼琴獨奏。",
+     "節奏組（Milton Banana 打鼓）低調克制，整張專輯常被形容為含蓄（understated）、親密。",
+     "單曲版從五分多鐘的專輯版剪成不到三分鐘，João 的葡語段只保留在專輯版：可以對照學習電台剪輯如何取捨段落。"
+    ],
+    "techniques": [
+     "voice-and-guitar-core",
+     "language-switch-verse",
+     "sax-obbligato",
+     "solo-section",
+     "understated-rhythm",
+     "radio-edit"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/The_Girl_from_Ipanema",
+     "https://en.wikipedia.org/wiki/Getz/Gilberto",
+     "https://acousticguitar.com/acoustic-classic-the-girl-from-ipanema/",
+     "https://jazzhistoryonline.com/getz-gilberto/",
+     "https://blogs.loc.gov/now-see-hear/2021/08/from-the-recording-registry-the-girl-from-ipanema-1963/"
+    ]
+   },
+   {
+    "title": "Águas de Março",
+    "artist": "Elis Regina & Antônio Carlos Jobim",
+    "year": 1974,
+    "why": "Bossa Nova 對唱的經典：和聲與旋律近乎循環重複，靠兩位歌手一來一往的接唱與輕巧的小編制保持新鮮。",
+    "listen": [
+     "兩人輪流接唱樂句，互相看著對方調整句法，像對話一樣推進。",
+     "和聲是循環式的，幾乎一直回到起點、重複相近的和弦，旋律也近乎執拗地反覆：變化主要來自人聲的互動。",
+     "伴奏是 Elis 樂團班底組成的小編制（César Camargo Mariano 鋼琴、Hélio Delmiro 吉他，加上貝斯與鼓），不搶人聲。",
+     "錄音時的影片顯示兩人看似一氣呵成地唱完整首，保留了現場的鮮活感。"
+    ],
+    "techniques": [
+     "duet-trading-lines",
+     "call-and-response",
+     "circular-harmony",
+     "repetitive-melody",
+     "small-combo",
+     "live-take-feel"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Elis_%26_Tom",
+     "https://en.wikipedia.org/wiki/Waters_of_March",
+     "https://thecriticalpost.substack.com/p/todays-interlude-fa3",
+     "https://www.italianpiano.com/monday-notes/elis-regina-antonio-carlos-jobim-aguas-de-marco-harmonic-analysis/",
+     "https://www.imdb.com/title/tt29355065/"
+    ]
+   }
+  ],
+  "lessons": [
+   "核心是「一把吉他＋輕聲人聲」：吉他同時負責低音與切分和弦，其他樂器只做陪襯，音量與密度都要克制。",
+   "段落變化靠「換人、換語言、換獨奏樂器」，而不是加大音量（Ipanema：葡語段 → 英語段 → 薩克斯獨奏）。",
+   "輕柔與留白：唱短音、少顫音，讓旋律浮在律動上；鼓與打擊樂保持輕柔。",
+   "和聲與旋律高度重複時，用對唱、問答與細微的節奏互動維持新鮮感（Águas de Março）。"
+  ]
+ },
+ "funk": {
+  "songs": [
+   {
+    "title": "Cold Sweat",
+    "artist": "James Brown",
+    "year": 1967,
+    "why": "常被視為最早的放克代表作之一：取材自爵士的調式管樂短句、彼此咬合的吉他與貝斯、錯位的小鼓，以及讓鼓手獨挑大樑的 break。",
+    "listen": [
+     "管樂吹的是兩個音的調式短句，像打擊樂一樣疊在彼此咬合的吉他與貝斯上；據說共同作者、樂隊領班 Pee Wee Ellis 當時正在聽 Miles Davis 的〈So What〉，想要類似的管樂寫法。",
+     "鼓是兩小節一循環的 pattern：小鼓打在 2、4 拍，但第一小節的第 4 拍晚了一個八分音符；這個錯位是放克感的關鍵，之後 James Brown 許多歌都沿用。",
+     "James Brown 在曲中把舞台交給鼓手 Clyde Stubblefield，這被視為他第一次在錄音裡要求鼓手獨奏，也是日後被大量取樣的鼓 break 傳統源頭之一。",
+     "Ellis 說這首取材自爵士，而不是當時多數 R&B 的藍調或流行曲路線：重點在律動與聲部的咬合。"
+    ],
+    "techniques": [
+     "modal-horn-riff",
+     "horn-stabs",
+     "interlocking-parts",
+     "displaced-backbeat",
+     "drum-break"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Cold_Sweat",
+     "https://medium.com/timeline/with-one-raw-irresistible-song-james-brown-found-the-sound-of-the-racial-unrest-of-1967-18017dbce903",
+     "https://andresmusictalk.wordpress.com/category/pee-wee-ellis/"
+    ]
+   },
+   {
+    "title": "Superstition",
+    "artist": "Stevie Wonder",
+    "year": 1972,
+    "why": "「從鼓開始、一層層疊」的放克範本：鼓獨自開場，再疊上多軌 Clavinet、Moog 合成貝斯與銅管 riff。",
+    "listen": [
+     "歌曲由 Stevie Wonder 自己打的鼓獨自開場，接著才是 Clavinet 的招牌 riff；他自述錄音時也是先錄鼓、再加 Clavinet。",
+     "Clavinet 不只一軌：好幾軌互補的 Clav 聲部，再加上一軌帶大量回音的 Clav，織成密集的 16 分音符網。",
+     "貝斯不是電貝斯，而是由共同製作人 Malcolm Cecil 與 Robert Margouleff 編程的 Moog 合成貝斯。",
+     "銅管（Steve Madaio 小號、Trevor Lawrence 次中音薩克斯）吹出齊奏 riff 為段落加上重音，銅管編寫也出自 Madaio。"
+    ],
+    "techniques": [
+     "drums-only-intro",
+     "layering-by-section",
+     "layered-clavinet",
+     "synth-bass",
+     "horn-riff",
+     "interlocking-16ths"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Superstition_(song)",
+     "https://www.edgeoftheline.co/articles/superstition",
+     "https://www.songfacts.com/facts/stevie-wonder/superstition",
+     "https://uk.news.yahoo.com/1973-no-1-hit-superstition-005749330.html",
+     "https://sessiondays.com/2019/03/13/1972-stevie-wonder-superstition-us1-uk11/"
+    ]
+   },
+   {
+    "title": "Cissy Strut",
+    "artist": "The Meters",
+    "year": 1969,
+    "why": "紐奧良器樂放克的經典：沒有人聲，和聲極簡，四件樂器各自說話又互相咬合，全靠律動與互動撐起整首。",
+    "listen": [
+     "主題動機是吉他一段尖亮的短句，接著一個厚實的和弦撥奏。",
+     "Zigaboo Modeliste 的鼓不照標準節奏型，而是讓大鼓與小鼓以「半線性」的方式交錯互補；樂評甚至說他幾乎像主奏。",
+     "底下是緊密咬合的 groove，上面是活潑的吉他與風琴。",
+     "和聲與段落都極簡（有樂譜整理成三個段落、兩個和弦），能量全靠律動與樂器之間的互動。"
+    ],
+    "techniques": [
+     "instrumental-funk",
+     "riff-motif",
+     "linear-drumming",
+     "interlocking-parts",
+     "minimal-harmony"
+    ],
+    "sources": [
+     "https://en.wikipedia.org/wiki/Cissy_Strut",
+     "https://au.rollingstone.com/music/music-lists/best-songs-of-all-time-30065/the-meters-cissy-strut-30409/",
+     "https://francisdrummingblog.com/2025/06/29/the-meters-cissy-strut-drum-grooves-transcription/",
+     "https://somuchgreatmusic.com/2019/02/27/the-meters-cissy-strut-1969/",
+     "https://spytunes.com/cissy-strut-chords/"
+    ]
+   }
+  ],
+  "lessons": [
+   "每個聲部都是節奏樂器：吉他、Clavinet、管樂短句彼此錯開、互補，拼成一張 16 分音符的網。",
+   "小鼓的位置就是 feel：一個刻意延後的反拍（Cold Sweat）就能讓整個律動「放克」起來。",
+   "從鼓開始、一層一層疊（Superstition）；每層都要有自己的節奏位置，不要和其他聲部撞在一起。",
+   "讓鼓手說話：break、鼓獨奏與線性鼓法本身就是編曲的高潮（Cold Sweat、Cissy Strut）。"
+  ]
+ },
+ "citypop": {
+  "songs": [
+   {
+    "title": "プラスティック・ラブ (Plastic Love)",
+    "artist": "竹内まりや (Mariya Takeuchi)",
+    "year": 1984,
+    "why": "City Pop 全球復興的代表曲：竹內瑪莉亞作詞作曲、山下達郎編曲，把舞曲律動和都會感的旋律結合在一起。",
+    "listen": [
+     "編曲由山下達郎操刀，以帶 Funk／Disco 感的鼓與貝斯律動為核心，人聲飄在穩定的 groove 上。",
+     "1985 年另外發行的 12 吋單曲收錄加長的 Extended Club Mix，可以對照學習同一首歌如何為舞池拉長純器樂段落。"
+    ],
+    "techniques": [
+     "groove-first",
+     "extended-club-mix"
+    ],
+    "sources": []
+   },
+   {
+    "title": "SPARKLE",
+    "artist": "山下達郎 (Tatsuro Yamashita)",
+    "year": 1982,
+    "why": "City Pop 吉他 cutting 的代名詞：專輯《FOR YOU》的開場曲，以招牌的電吉他 cutting 前奏與緊密的節奏組聞名。",
+    "listen": [
+     "前奏由山下達郎自己的電吉他 cutting 開場，16 分音符的切音刷弦就是整首的律動引擎。",
+     "節奏組是他當時的固定班底（鼓手青山純、貝斯手伊藤廣規），鼓與貝斯緊密咬合，吉他 cutting 疊在上面。"
+    ],
+    "techniques": [
+     "riff-intro",
+     "guitar-cutting",
+     "tight-rhythm-section"
+    ],
+    "sources": []
+   },
+   {
+    "title": "君は天然色",
+    "artist": "大滝詠一 (Eiichi Ohtaki)",
+    "year": 1981,
+    "why": "專輯《A LONG VACATION》的開場曲，示範 Phil Spector 式「音牆」在 City Pop 的用法：用大量樂器疊出厚實又明亮的聲響。",
+    "listen": [
+     "以音牆（Wall of Sound）手法錄製：多件同類樂器同時演奏、重疊，融成一整團厚實的聲音，而不是每件樂器各自清楚分開。",
+     "和 SPARKLE 這類節奏組清楚、留白多的編曲對照聽，可以分辨 City Pop 裡「疊厚」與「留白」兩種配器取向。"
+    ],
+    "techniques": [
+     "wall-of-sound",
+     "unison-layering"
+    ],
+    "sources": []
+   }
+  ],
+  "lessons": [
+   "律動組是骨架：鼓、貝斯與 16 分音符吉他 cutting 緊密咬合，其他配器都疊在這個 groove 上。",
+   "配器可以「疊厚」也可以「留白」：音牆式的多樂器重疊（君は天然色）與乾淨的節奏組（SPARKLE）是兩種不同取向。",
+   "舞曲感很重要：可以像 Plastic Love 的 12 吋版一樣，另外做加長的 Club Mix，把純器樂段落拉長給舞池。"
+  ],
+  "verified": false
+ },
+ "reggae": {
+  "songs": [
+   {
+    "title": "King Tubby Meets Rockers Uptown",
+    "artist": "Augustus Pablo",
+    "year": 1976,
+    "why": "Dub 的經典：King Tubby 把 Jacob Miller〈Baby I Love You So〉的伴奏帶在混音台上重新「編曲」，示範抽掉與放回樂器、回音與殘響如何製造起伏。",
+    "listen": [
+     "這是 Jacob Miller〈Baby I Love You So〉的 Dub 版本：同一份伴奏帶，經 King Tubby 在混音台上重新處理成新作品。",
+     "樂器會突然被抽掉又放回來，鼓與貝斯被推到最前面成為主角。",
+     "大量回音（Echo／Delay）與殘響甩尾，把單一聲響拉成空間感，取代傳統的過門。",
+     "原曲人聲只剩零星片段，偶爾才浮現。"
+    ],
+    "techniques": [
+     "dub-mix",
+     "drop-out-mute",
+     "echo-throw",
+     "bass-and-drums-forward",
+     "vocal-fragments"
+    ],
+    "sources": []
+   },
+   {
+    "title": "No Woman, No Cry (Live)",
+    "artist": "Bob Marley & The Wailers",
+    "year": 1975,
+    "why": "現場版雷鬼抒情曲的經典：在慢速律動上，靠和聲與全場大合唱一路把情緒推高。",
+    "listen": [
+     "1975 年倫敦 Lyceum 劇院的現場錄音，比前一年《Natty Dread》的錄音室版長得多，留出大量呼吸空間。",
+     "風琴帶出前奏，樂團再進入慢速的雷鬼律動。",
+     "I Threes 的和聲圍繞 Marley 的主唱，加厚副歌。",
+     "觀眾跟著大合唱，群眾的聲音本身也成了編曲的一部分。"
+    ],
+    "techniques": [
+     "organ-intro",
+     "slow-groove",
+     "harmony-vocals",
+     "crowd-singalong",
+     "live-dynamics"
+    ],
+    "sources": []
+   },
+   {
+    "title": "Stir It Up",
+    "artist": "Bob Marley & The Wailers",
+    "year": 1973,
+    "why": "收錄於《Catch a Fire》的經典雷鬼情歌（1972 年先由 Johnny Nash 唱紅），可以聽到 Wailers 節奏組與和聲的基本配置。",
+    "listen": [
+     "鼓（Carlton Barrett）與貝斯（Aston「Family Man」Barrett）兄弟打底，吉他與鍵盤在反拍刷出短促的 skank。",
+     "Marley 主唱，Peter Tosh 與 Bunny Wailer 的和聲在旁呼應。",
+     "專輯《Catch a Fire》曾在倫敦加錄吉他與鍵盤，好讓搖滾樂迷更容易入耳；後來的豪華版附上牙買加的原始混音，可以對照加層前後的差別。"
+    ],
+    "techniques": [
+     "offbeat-skank",
+     "bass-and-drums-foundation",
+     "harmony-vocals",
+     "overdub-comparison"
+    ],
+    "sources": []
+   }
+  ],
+  "lessons": [
+   "節奏組是地基：鼓與貝斯撐起律動，吉他與鍵盤只在反拍短促地刷，留下大量空間。",
+   "Dub 把混音台當成編曲工具：抽掉與放回樂器、用回音與殘響甩尾來取代段落變化（King Tubby Meets Rockers Uptown）。",
+   "慢速不等於平淡：靠和聲與群眾合唱，同一個律動也能一路堆高情緒（No Woman, No Cry）。",
+   "同一份伴奏可以有不同版本：對照加錄前後的版本，學習加層如何改變一首歌的風格定位（Stir It Up）。"
+  ],
+  "verified": false
+ }
+}

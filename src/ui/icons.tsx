@@ -58,6 +58,7 @@ const P: Record<string, string> = {
   synth: 'M3 6h18v12H3zM7 10a1.5 1.5 0 1 0 0 .01M12 10a1.5 1.5 0 1 0 0 .01M17 10a1.5 1.5 0 1 0 0 .01M6 15h12',
   brass: 'M3 10h9l5-4v12l-5-4H3zM17 8a5 5 0 0 1 0 8M7 10v4',
   mallet: 'M4 16h16M6 13h12M8 10h8M14 3l-3 7M17 4l-4 6',
+  winds: 'M4 20L18 6M16 4l4 4M8.5 15.5h.01M11 13h.01M13.5 10.5h.01',
   audio: 'M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10M21 12h0',
   folder: 'M3 6h6l2 2h10v11H3z',
   save: 'M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6',

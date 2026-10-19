@@ -141,12 +141,20 @@ interface Unit {
 
 const pc = (n: number) => ((n % 12) + 12) % 12;
 
-/** Two-bar units of a section: the phrase plan for its role in the song. */
-function planUnits(section: SectionType, units: number, ending: Ending): Unit[] {
+/** Two-bar units of a section: the phrase plan for its role in the song (`alt` picks another
+ * classic plan: a hook stated twice before it varies, or a verse that departs and returns). */
+function planUnits(section: SectionType, units: number, ending: Ending, alt = false): Unit[] {
   const eight = (end: Ending, at: number): Unit[] => {
     switch (section) {
       case 'chorus':
       case 'drop':
+        if (alt)
+          return [
+            { kind: 'new', cell: 0, shape: 'peak' },
+            { kind: 'repeat', cell: 0, shape: 'peak', src: at },
+            { kind: 'vary', cell: 0, shape: 'peak', src: at },
+            { kind: 'cadence', cell: 0, shape: 'fall', src: at + 2, end },
+          ];
         return [
           { kind: 'new', cell: 0, shape: 'peak' },
           { kind: 'vary', cell: 0, shape: 'peak', src: at },
@@ -168,6 +176,13 @@ function planUnits(section: SectionType, units: number, ending: Ending): Unit[] 
           { kind: 'cadence', cell: 0, shape: 'high', src: at + 2, end: 'open' },
         ];
       default: // verse, solo, intro, outro
+        if (alt)
+          return [
+            { kind: 'new', cell: 0, shape: 'arch' },
+            { kind: 'new', cell: 1, shape: 'high' },
+            { kind: 'repeat', cell: 0, shape: 'arch', src: at },
+            { kind: 'cadence', cell: 0, shape: 'fall', src: at, end },
+          ];
         return [
           { kind: 'new', cell: 0, shape: 'arch' },
           { kind: 'vary', cell: 0, shape: 'arch', src: at },
@@ -212,7 +227,7 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
   const total = ctx.bars * ctx.barBeats;
   const units = Math.max(1, Math.ceil(ctx.bars / 2));
   const ending: Ending = ctx.section === 'chorus' || ctx.section === 'outro' || !ctx.next ? 'closed' : 'open';
-  const plan = planUnits(ctx.section, units, ending);
+  const plan = planUnits(ctx.section, units, ending, (ctx.variation ?? 0) % 2 === 1);
 
   // pitch material: the scale (or its pentatonic subset) inside the range
   const minorish = !['major', 'lydian', 'mixolydian'].includes(ctx.key.mode);
@@ -220,7 +235,8 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
   if (prof.pentatonic) pcs = pcs.filter((_, i) => (minorish ? i !== 1 && i !== 5 : i !== 3 && i !== 6));
   const tonic = ctx.key.root;
   const register: Partial<Record<SectionType, number>> = { verse: 0.32, pre: 0.42, chorus: 0.52, drop: 0.52, bridge: 0.45, solo: 0.5 };
-  const centre = lo + span * (register[ctx.section] ?? 0.42);
+  // each version of the song sits a little higher or lower
+  const centre = lo + span * (register[ctx.section] ?? 0.42) + [0, 1.5, -1.5][(ctx.variation ?? 0) % 3];
   const amp = chorusLike ? 5 : ctx.section === 'pre' ? 6 : 3.5;
 
   /** Chord tones (and the scale minus notes clashing with a chromatic chord) at a beat. */

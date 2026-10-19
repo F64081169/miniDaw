@@ -27,6 +27,13 @@ export interface SectionCtx {
   humanize: number; // 0 … 1
   seed: number;
   bpm: number;
+  /** This part's version: a random seed per generation (0 = the default version), the same in every section. */
+  variation?: number;
+  /** Where the section sits in the song. */
+  index?: number;
+  occurrence?: number; // 1 for the first verse, 2 for the second …
+  occurrences?: number; // sections of this type in the song
+  prev?: SectionType | null;
 }
 
 export const SECTION_ENERGY: Record<SectionType, number> = {

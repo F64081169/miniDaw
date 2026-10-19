@@ -23,12 +23,13 @@ const noop: VoiceHandle = { release: () => undefined };
 /**
  * Gain inside a velocity layer: the recording already carries the dynamics, this only
  * smooths the step to the next layer. A set with a single layer gets the full range.
+ * The zone's own gain evens out notes that were recorded louder or softer than their neighbours.
  */
 function zoneGain(velocity: number, z: SampleZone, sensitivity: number): number {
   const span = Math.max(1, z.vh - z.vl);
   const pos = clamp((velocity - z.vl) / span, 0, 1);
   const share = (z.vh - z.vl + 1) / 127;
-  return Math.pow(10, (-(1 - pos) * share * 26 * sensitivity) / 20);
+  return Math.pow(10, ((z.g ?? 0) - (1 - pos) * share * 26 * sensitivity) / 20);
 }
 
 /** Zones by articulation → key → velocity layer → round robins. */
