@@ -642,7 +642,7 @@ export const METAL: GenreDef = {
       style: 'metalChug',
       guitar: true,
       step: 'harmony',
-      mix: { volumeDb: -9, pan: -0.75, reverb: 0.05, delay: 0, lowCut: 80 },
+      mix: { volumeDb: -9.5, pan: -0.75, reverb: 0.05, delay: 0, lowCut: 80 },
       why: '跟著大鼓節奏的悶音 chug，副歌在換和弦時放開長音。',
     },
     {

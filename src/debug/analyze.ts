@@ -57,6 +57,12 @@ export function generate(id: string): void {
   applyAll();
 }
 
+/** A part's calibrated fader when it plays `patchId` (for listening tests that swap instruments). */
+export function roleFader(genreId: string, roleId: string, patchId: string): number | null {
+  const role = getGenre(genreId)?.roles.find((r) => r.id === roleId);
+  return role ? faderFor(role, patchId) : null;
+}
+
 /** Generate a genre arrangement, bounce its first chorus / drop and measure the mix and every track.
  *  `alt` plays every part that has alternatives on that one (0: the part's own patch). */
 export async function analyzeGenre(id: string, alt = 0) {

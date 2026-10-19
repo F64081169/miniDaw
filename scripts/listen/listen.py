@@ -6,11 +6,16 @@
   (DIN 45692) and roughness (Daniel & Weber) via MoSQITo;
 - the lead's level in each section;
 - what a music tagger hears: the MSD musicnn model's tags (genre, 'beautiful', 'Mellow' …),
-  averaged over the song.
+  averaged over the song;
+- how people would rate it: Meta's Audiobox Aesthetics, trained on human ratings, scores
+  content enjoyment (CE), content usefulness (CU), production complexity (PC) and production
+  quality (PQ) from 1 to 10.
 
-usage: python3 scripts/listen/listen.py <render-dir> [genre ...] [--no-tags] [--no-psy]
+usage: python3 scripts/listen/listen.py <render-dir> [genre ...] [--no-tags] [--no-psy] [--no-aes]
 Writes <render-dir>/listen.json and prints one line per genre.
 Needs: pip install -r scripts/listen/requirements.txt, and TF_USE_LEGACY_KERAS=1 for musicnn.
+The aesthetics model (facebook/audiobox-aesthetics, CC BY 4.0) downloads from Hugging Face on
+first use; set AES_MODEL to a local copy to skip that.
 """
 import json
 import os
@@ -154,6 +159,33 @@ def tags(path):
     return {'song': {l: round(float(v), 3) for l, v in zip(labels, taggram.mean(axis=0))}}
 
 
+_aes = None
+
+
+def aesthetics(x):
+    """Audiobox Aesthetics scores of a mix, averaged over its 10 s windows."""
+    global _aes
+    import torch
+    import torchaudio
+    from audiobox_aesthetics.infer import AXES_NAME, make_inference_batch
+    from audiobox_aesthetics.model.aes import AesMultiOutput, Normalize
+    if _aes is None:
+        m = AesMultiOutput.from_pretrained(os.environ.get('AES_MODEL', 'facebook/audiobox-aesthetics'))
+        m.eval()
+        _aes = (m, {a: Normalize(mean=m.target_transform[a]['mean'], std=m.target_transform[a]['std']) for a in AXES_NAME})
+    m, norm = _aes
+    wav = torchaudio.functional.resample(torch.tensor(np.asarray(x, dtype=np.float32))[None], orig_freq=SR, new_freq=16000)
+    wavs, masks, weights, _ = make_inference_batch([wav], 10, 10, sample_rate=16000)
+    w = torch.tensor(weights)
+    preds = {a: [] for a in AXES_NAME}
+    with torch.inference_mode():
+        for i in range(0, len(wavs), 8):
+            p = m({'wav': torch.stack(wavs[i: i + 8]), 'mask': torch.stack(masks[i: i + 8])})
+            for a in AXES_NAME:
+                preds[a].append(norm[a].inverse(p[a]).reshape(-1))
+    return {a: round(float((torch.cat(preds[a]) * w).sum() / w.sum()), 2) for a in AXES_NAME}
+
+
 GENRE_TAGS = {
     'pop': ['pop', 'catchy', 'dance'], 'mandopop': ['pop', 'beautiful', 'Mellow'], 'ballad': ['beautiful', 'Mellow', 'sad'],
     'rock': ['rock', 'classic rock', 'hard rock'], 'metal': ['metal', 'heavy metal', 'hard rock'], 'country': ['country', 'folk', 'acoustic'],
@@ -179,13 +211,16 @@ def main():
             entry['lead_level'] = {s['name']: integrated(lx[int(s['start'] * SR): int(s['end'] * SR)]) for s in meta['sections']}
         if '--no-tags' not in FLAGS:
             entry['tags'] = tags(os.path.join(DIR, f'{g}.wav'))
+        if '--no-aes' not in FLAGS:
+            entry['aesthetics'] = aesthetics(x)
         out[g] = entry
         json.dump(out, open(path_out, 'w'), indent=1, ensure_ascii=False)
         b, tm = entry['breathing'], entry.get('timbre') or {}
         song = entry.get('tags', {}).get('song', {})
         genre_score = np.mean([song.get(t, 0) for t in GENRE_TAGS.get(g, [])]) if song else float('nan')
         top = sorted(song.items(), key=lambda kv: -kv[1])[:4]
-        print(f"{g:10s} lead {str(entry['lead']):15s} LRA {b['lra']:4.1f} contrast {b['contrast']} move {b['move']} arc {b['arc']} | "
+        aes = entry.get('aesthetics') or {}
+        print(f"{g:10s} lead {str(entry['lead']):15s} CE {aes.get('CE')} PQ {aes.get('PQ')} | LRA {b['lra']:4.1f} contrast {b['contrast']} move {b['move']} arc {b['arc']} | "
               f"sharp {tm.get('sharpness')} rough {tm.get('roughness')} | genre {genre_score:.3f} "
               f"beautiful {song.get('beautiful', float('nan')):.3f} mellow {song.get('Mellow', float('nan')):.3f} "
               f"top {[(k, round(v, 2)) for k, v in top]}", flush=True)

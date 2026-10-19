@@ -8,3 +8,6 @@ librosa
 mosqito==1.2.1
 tensorflow-cpu==2.20.0
 tf-keras==2.20.1
+# Audiobox Aesthetics (Meta, CC BY 4.0); a CPU build of torch is enough:
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+audiobox_aesthetics==0.0.4
