@@ -12,13 +12,13 @@ import { createInstrumentTrack, createMidiRegion } from '../state/project';
 import { useDaw } from '../state/store';
 import { breathOf, planSong, shapePart, type Part } from './generate/arrange';
 import { generateBass, type BassStyle } from './generate/bass';
-import { SECTION_ENERGY, SECTION_LABEL, type GenNote, type SectionCtx } from './generate/common';
+import { SECTION_ENERGY, SECTION_LABEL, chordAtBeat, type GenNote, type SectionCtx } from './generate/common';
 import { generateComp, type CompStyle } from './generate/comp';
 import { DRUM_STYLES, HUMAN_FEEL, generateDrums, kickPositions } from './generate/drums';
 import { generateMelody, type MelodyStyle } from './generate/melody';
 import { getGenre } from './genres';
 import type { GenreDef, RoleDef, StepId } from './genres/types';
-import { chordSymbol, keyName, keyPrefersFlats, parseProgression, tileProgression } from './theory';
+import { chordPitchClasses, chordSymbol, keyName, keyPrefersFlats, noteName, parseProgression, tileProgression, type ChordEvent } from './theory';
 
 export interface CoachSection {
   type: SectionType;
@@ -47,17 +47,36 @@ export function songSections(p: Project, g: GenreDef, s: CoachState): CoachSecti
   });
 }
 
+/** Chords a bridge turns to when its progression does not name any: the relative minor first. */
+const BRIDGE_TURN = { major: 'vi | IV | I | V |', minor: 'bVI | bVII | i | V |' };
+
+/** The section's chords with its last bar on the dominant (V): the pull a pre-chorus hands to the chorus. */
+function endOnDominant(chords: ChordEvent[], beats: number, bar: number, s: CoachState): ChordEvent[] {
+  const at = beats - bar;
+  const v = parseProgression('V', s.keyRoot, s.keyMode, bar)[0].chord;
+  const last = chords.filter((e) => e.start < beats - 1e-6).at(-1);
+  if (!last || at <= 0 || (last.chord.root === v.root && last.start <= at + 1e-6)) return chords;
+  const head = chords.filter((e) => e.start < at - 1e-6).map((e) => ({ ...e, length: Math.min(e.length, at - e.start) }));
+  return [...head, { start: at, length: bar, chord: v }];
+}
+
 function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: CoachSection[]): SectionCtx[] {
   const bar = beatsPerBar(p.timeSig);
   const prog = g.progressions[s.progressionIndex] ?? g.progressions[0];
+  const breath = breathOf(g.id);
+  const minorish = !['major', 'lydian', 'mixolydian'].includes(s.keyMode);
   const seen: Partial<Record<SectionType, number>> = {};
   const totals: Partial<Record<SectionType, number>> = {};
   for (const sec of sections) totals[sec.type] = (totals[sec.type] ?? 0) + 1;
   return sections.map((sec, i) => {
     seen[sec.type] = (seen[sec.type] ?? 0) + 1;
     const chorusLike = sec.type === 'chorus' || sec.type === 'drop';
-    const text = chorusLike && prog.chorus ? prog.chorus : prog.prog;
-    const chords = tileProgression(parseProgression(text, s.keyRoot, s.keyMode, bar), sec.bars * bar);
+    const next = sections[i + 1]?.type ?? null;
+    let text = chorusLike && prog.chorus ? prog.chorus : prog.prog;
+    // the bridge turns to chords the song has not used yet: the new harmony before the last chorus
+    if (sec.type === 'bridge' && (prog.bridge || breath.bridgeTurn)) text = prog.bridge ?? BRIDGE_TURN[minorish ? 'minor' : 'major'];
+    let chords = tileProgression(parseProgression(text, s.keyRoot, s.keyMode, bar), sec.bars * bar);
+    if (sec.type === 'pre' && breath.preDominant && (next === 'chorus' || next === 'drop')) chords = endOnDominant(chords, sec.bars * bar, bar, s);
     return {
       section: sec.type,
       bars: sec.bars,
@@ -68,7 +87,7 @@ function sectionContexts(p: Project, g: GenreDef, s: CoachState, sections: Coach
       energy: SECTION_ENERGY[sec.type],
       isFirst: i === 0,
       isLast: i === sections.length - 1,
-      next: sections[i + 1]?.type ?? null,
+      next,
       swing: g.swing,
       swingUnit: g.swingUnit,
       humanize: g.humanize,
@@ -170,17 +189,138 @@ export function regionsForRole(p: Project, g: GenreDef, s: CoachState, role: Rol
     // answers and doubling follow the melody of the same section
     const sings = melodyRole && (!melodyRole.sections || melodyRole.sections.includes(sec.type));
     const melody = sings && (answers || (doubles && plans[i].lift)) ? notesForRole(g, melodyRole, ctxs[i], s.seeds) : undefined;
-    const notes = shapePart(raw, partOf(role), ctxs[i], plans[i], {
+    let notes = shapePart(raw, partOf(role), ctxs[i], plans[i], {
       crash: role.kind === 'drums' && !!DRUM_STYLES[role.style]?.crash,
       melody,
       answer: answers,
       double: doubles,
       range: role.range ?? (role.guitar ? [52, 76] : [55, 79]),
     });
+    // the key change into the last chorus lifts every pitched part together
+    if (plans[i].shift && role.kind !== 'drums') notes = notes.map((n) => ({ ...n, pitch: n.pitch + plans[i].shift }));
     if (!notes.length) return;
     out.push(createMidiRegion(sec.start, sec.bars * ctxs[i].barBeats, notes, sec.label));
   });
   return out;
+}
+
+// ------------------------------------------------------------------ emotion map
+
+/** One section of a generated song: what it does emotionally and the devices that do it. */
+export interface EmotionStop {
+  label: string;
+  type: SectionType;
+  bars: number;
+  energy: number; // 0 … 1
+  role: string;
+  devices: string[];
+}
+
+const PART_NAME: Record<Part, string> = { drums: '鼓', bass: '貝斯', harmony: '和弦', layers: '配器層', melody: '旋律' };
+
+/** The emotional design of the current version, read from the same plan the parts were written from. */
+export function emotionMap(p: Project, g: GenreDef, s: CoachState): EmotionStop[] {
+  const sections = songSections(p, g, s);
+  const base = sectionContexts(p, g, s, sections);
+  const plans = planSong(g.id, base, s.seeds?.[SONG_SEED] ?? 0);
+  const breath = breathOf(g.id);
+  const prog = g.progressions[s.progressionIndex] ?? g.progressions[0];
+  const flats = keyPrefersFlats(s.keyRoot, s.keyMode);
+  const melodyRole = g.roles.find((r) => r.kind === 'melody');
+  const melodies = sections.map((sec, i) =>
+    melodyRole && (!melodyRole.sections || melodyRole.sections.includes(sec.type))
+      ? notesForRole(g, melodyRole, { ...base[i], energy: plans[i].energy }, s.seeds).map((n) => ({ ...n, pitch: n.pitch + plans[i].shift }))
+      : [],
+  );
+  const songTop = Math.max(-1, ...melodies.flat().map((n) => n.pitch));
+  const topAt = melodies.map((m) => m.some((n) => n.pitch === songTop)).lastIndexOf(true);
+  const choruses = sections.filter((x) => x.type === 'chorus' || x.type === 'drop').length;
+  // who plays in each section
+  const playing = sections.map((sec, i) =>
+    g.roles.filter((r) => (!r.sections || r.sections.includes(sec.type)) && (plans[i].enter[partOf(r)] ?? 0) < sec.bars).map((r) => r.name),
+  );
+  let chorusSeen = 0;
+  return sections.map((sec, i) => {
+    const plan = plans[i];
+    const ctx = base[i];
+    const devices: string[] = [];
+    if (i > 0) {
+      const added = playing[i].filter((n) => !playing[i - 1].includes(n));
+      const removed = playing[i - 1].filter((n) => !playing[i].includes(n));
+      if (added.length) devices.push(`加入：${added.join('、')}`);
+      if (removed.length) devices.push(`拿掉：${removed.join('、')}`);
+    } else {
+      devices.push(`只有：${playing[0].join('、')}`);
+    }
+    const occ = ctx.occurrence ?? 1;
+    let role: string;
+    switch (sec.type) {
+      case 'intro':
+        role = '鋪陳';
+        break;
+      case 'verse':
+        role = occ === 1 ? '敘事：先收著講' : '再說一次：比第一段多一點';
+        break;
+      case 'pre':
+        role = '上坡：吸氣';
+        break;
+      case 'chorus':
+      case 'drop':
+        chorusSeen++;
+        role = chorusSeen === choruses && choruses > 1 ? '最後一擊：全曲最高點' : chorusSeen === 1 ? '釋放：第一次高潮' : '再次釋放';
+        break;
+      case 'bridge':
+        role = '轉折：換個角度';
+        break;
+      case 'breakdown':
+        role = '喘息';
+        break;
+      case 'build':
+        role = '蓄力';
+        break;
+      case 'solo':
+        role = '獨奏';
+        break;
+      default:
+        role = '收尾：吐氣';
+    }
+    for (const [part, bar] of Object.entries(plan.enter) as [Part, number][]) {
+      if (bar > 0 && bar < sec.bars) devices.push(`${PART_NAME[part]}第 ${bar + 1} 小節才進來`);
+    }
+    if (plan.dyn[1] - plan.dyn[0] >= 0.1) devices.push('一路漸強');
+    if (sec.type === 'pre' && breath.preDominant && (ctx.next === 'chorus' || ctx.next === 'drop')) {
+      devices.push(`最後一小節停在屬和弦 ${chordSymbol(chordAtBeat(ctx, sec.bars * ctx.barBeats - 0.5).chord, flats)}，把期待拉到最高`);
+    }
+    if (sec.type === 'bridge' && (prog.bridge || breath.bridgeTurn)) {
+      const chords = Array.from({ length: Math.min(4, sec.bars) }, (_, b) => chordSymbol(chordAtBeat(ctx, b * ctx.barBeats + 0.01).chord, flats));
+      devices.push(`換成全曲沒用過的和弦（${chords.join(' – ')}）：沒有預告的新和聲`);
+    }
+    if (plan.stop !== null) devices.push('最後一拍全團停下來憋氣，下一段更有衝擊');
+    if (plan.dropDown) devices.push(`前 ${plan.dropDown} 小節先收（只留大鼓與 Hi-hat），再整個爆開`);
+    if (plan.lift) devices.push('加入高八度的弦樂／音墊，把旋律撐得更大');
+    if (plan.shift && (i === 0 || plans[i - 1].shift === 0)) {
+      devices.push(`升 Key：${keyName(s.keyRoot, s.keyMode)} → ${keyName((s.keyRoot + plan.shift) % 12, s.keyMode)}（${plan.shift === 2 ? '全音' : '半音'}）`);
+    }
+    if (plan.kickOut) devices.push(`第 ${plan.kickOut[0] + 1}–${plan.kickOut[1]} 小節抽掉大鼓，讓下一句更突出`);
+    if (plan.fade) devices.push('慢慢淡出');
+    const mel = melodies[i];
+    const sharpsOrFlats = plan.shift ? keyPrefersFlats((s.keyRoot + plan.shift) % 12, s.keyMode) : flats;
+    if (mel.length) {
+      const top = mel.reduce((a, n) => (n.pitch > a.pitch ? n : a));
+      const at = `第 ${Math.floor(top.start / ctx.barBeats) + 1} 小節`;
+      devices.push(`${i === topAt ? '全曲最高音' : '最高音'} ${noteName(top.pitch, sharpsOrFlats)}（${at}）`);
+      // an appoggiatura: a dissonance on the beat that steps down into a chord tone
+      const sigh = mel.find((n, k) => {
+        const next = mel[k + 1];
+        if (!next || n.pitch < top.pitch - 2 || Math.abs(n.start % 1) > 0.05) return false;
+        const tones = chordPitchClasses(chordAtBeat(ctx, n.start + 0.05).chord);
+        const d = n.pitch - next.pitch;
+        return d > 0 && d <= 2 && !tones.includes((n.pitch - plan.shift + 120) % 12) && tones.includes((next.pitch - plan.shift + 120) % 12);
+      });
+      if (sigh) devices.push(`倚音：最高點先唱 ${noteName(sigh.pitch, sharpsOrFlats)} 再落到 ${noteName(mel[mel.indexOf(sigh) + 1].pitch, sharpsOrFlats)}，像一聲嘆息`);
+    }
+    return { label: sec.label, type: sec.type, bars: sec.bars, energy: plan.energy, role, devices };
+  });
 }
 
 // ------------------------------------------------------------------ draft mutations

@@ -31,6 +31,7 @@ interface Profile {
   anticipate?: number; // chance a phrase pushes its downbeat an eighth early
   repeats?: number; // same note this many times in a row at most
   legato?: boolean;
+  sigh?: boolean; // the chorus climax leans in from the note above (an appoggiatura)
 }
 
 const PROFILES: Record<MelodyStyle, Profile> = {
@@ -46,6 +47,7 @@ const PROFILES: Record<MelodyStyle, Profile> = {
       [[0, 1.5], [1.5, 0.5], [2, 1], [3, 0.5], [3.5, 0.5], [4, 1.5], [5.5, 0.5], [6, 2]],
     ],
     anticipate: 0.45,
+    sigh: true,
   },
   ballad: {
     verse: [
@@ -58,6 +60,7 @@ const PROFILES: Record<MelodyStyle, Profile> = {
     ],
     anticipate: 0.2,
     legato: true,
+    sigh: true,
   },
   edm: {
     verse: [[[0, 0.75], [0.75, 0.75], [1.5, 1], [3, 0.5], [3.5, 0.5], [4, 0.75], [4.75, 0.75], [5.5, 1.5]]],
@@ -128,7 +131,7 @@ const PROFILES: Record<MelodyStyle, Profile> = {
   },
 };
 
-type Shape = 'arch' | 'high' | 'peak' | 'rise' | 'fall' | 'low';
+type Shape = 'arch' | 'high' | 'peak' | 'climax' | 'rise' | 'fall' | 'low';
 type Ending = 'open' | 'closed';
 
 interface Unit {
@@ -152,7 +155,7 @@ function planUnits(section: SectionType, units: number, ending: Ending, alt = fa
           return [
             { kind: 'new', cell: 0, shape: 'peak' },
             { kind: 'repeat', cell: 0, shape: 'peak', src: at },
-            { kind: 'vary', cell: 0, shape: 'peak', src: at },
+            { kind: 'vary', cell: 0, shape: 'climax', src: at },
             { kind: 'cadence', cell: 0, shape: 'fall', src: at + 2, end },
           ];
         return [
@@ -193,6 +196,8 @@ function planUnits(section: SectionType, units: number, ending: Ending, alt = fa
   };
   const cadence = (end: Ending): Unit => ({ kind: 'cadence', cell: 0, shape: section === 'pre' ? 'high' : 'fall', src: 0, end: section === 'pre' ? 'open' : end });
   if (units <= 1) return [{ kind: 'new', cell: 0, shape: section === 'chorus' ? 'peak' : 'arch', end: ending }];
+  // a short pre-chorus climbs: its idea, then the same idea higher, held open into the chorus
+  if (section === 'pre' && units === 2) return [eight('open', 0)[0], { kind: 'rise', cell: 0, shape: 'rise', src: 0, end: 'open' }];
   // a short section: its first idea (varied), then the cadence
   if (units < 4) return [...eight('open', 0).slice(0, units - 1), cadence(ending)];
   // long sections: the first eight bars close on a half cadence, the next ones restate them
@@ -257,6 +262,8 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
         return centre + 3 + amp * Math.sin(Math.PI * u);
       case 'peak':
         return centre + 2 + (amp + 2) * Math.sin(Math.PI * Math.min(1, u * 1.3));
+      case 'climax':
+        return centre + 4 + (amp + 2) * Math.sin(Math.PI * Math.min(1, u * 1.3));
       case 'rise':
         return centre - 2 + (amp + 3) * u;
       case 'fall':
@@ -322,14 +329,16 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     return order.length ? order : tones;
   };
 
-  /** Move a reused idea by whole scale steps to fit the new chords (a sequence when it moves). */
-  const transposeFit = (src: Placed[], offset: number, want: 'any' | 'up'): Placed[] => {
+  /** Move a reused idea by whole scale steps to fit the new chords (a sequence when it moves),
+   *  keeping it near the height the phrase plan wants (`target`). */
+  const transposeFit = (src: Placed[], offset: number, want: 'any' | 'up', target: number): Placed[] => {
     let best: Placed[] = [];
     let bestScore = Infinity;
     for (let s = -4; s <= 4; s++) {
       if (want === 'up' && s <= 0) continue;
       const moved = src.map((n) => ({ ...n, start: n.start + offset, pitch: stepScale(n.pitch, s) }));
-      let score = Math.abs(s) * 0.4 + Math.abs(moved[0].pitch - prev) * 0.12;
+      const mean = moved.reduce((a, n) => a + n.pitch, 0) / moved.length;
+      let score = Math.abs(s) * 0.4 + Math.abs(moved[0].pitch - prev) * 0.12 + Math.abs(mean - target) * 0.3;
       for (const n of moved) {
         if (n.pitch < lo || n.pitch > hi) score += 10;
         const { tones } = harmonyAt(n.start);
@@ -380,11 +389,13 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     const src = unit.src !== undefined ? byUnit[unit.src] : undefined;
     if ((unit.kind === 'vary' || unit.kind === 'repeat' || unit.kind === 'rise') && src?.length) {
       const offset = base - Math.floor(src[0].start / unitLen) * unitLen;
-      const moved = unit.kind === 'repeat' ? repeatFit(src, offset) : transposeFit(src, offset, unit.kind === 'rise' ? 'up' : 'any');
+      const moved = unit.kind === 'repeat' ? repeatFit(src, offset) : transposeFit(src, offset, unit.kind === 'rise' ? 'up' : 'any', shapeAt(unit.shape, 0.5));
       moved.forEach((n, i) => {
         if (n.start >= total - 1e-6) return;
         // a varied restatement keeps the rhythm and contour but changes its ending
         if (unit.kind === 'vary' && i === moved.length - 1 && moved.length > 2) n = { ...n, pitch: choose(n.start, n.strength, shapeAt(unit.shape, 1) + 1) };
+        // a phrase that ends the section holds its last note on an open degree
+        if (unit.end && i === moved.length - 1) n = { ...n, pitch: choose(n.start, 2, n.pitch, cadencePcs(n.start, unit.end)), len: Math.max(n.len, base + unitLen - n.start) };
         commit(n, notes);
       });
     } else {
@@ -451,6 +462,26 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     if (options.length) {
       b.pitch = options[0];
       run = 1;
+    }
+  }
+  // the climax of a chorus leans in from the scale note above: a dissonance on the beat that
+  // resolves down by step, the device most often found where listeners report tears
+  if (chorusLike && prof.sigh) {
+    let at = -1;
+    placed.forEach((n, i) => {
+      if (n.len >= 1 && n.strength >= 1 && (at < 0 || n.pitch > placed[at].pitch)) at = i;
+    });
+    const top = placed[at];
+    if (top) {
+      const chord = chordAtBeat(ctx, top.start + 0.01).chord;
+      const upper = stepScale(top.pitch, 1);
+      const clash = pc(upper - chord.root) === 1 || pc(upper - chord.bass) === 1;
+      if (upper <= hi && !chordPitchClasses(chord).includes(pc(upper)) && !clash) {
+        placed.splice(at, 0, { start: top.start, len: 0.5, pitch: upper, strength: top.strength });
+        top.start += 0.5;
+        top.len -= 0.5;
+        top.strength = 0;
+      }
     }
   }
   // chromatic approach tones (jazz, R&B): the off-beat before a strong beat leans into it

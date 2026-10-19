@@ -29,28 +29,43 @@ export interface BreathProfile {
   ramp: number; // depth of crescendos and phrase swells (1 = normal)
   dropGap: number; // chance of a silent beat between a build-up and the drop
   kickOut: boolean; // long sections drop the kick (and the bass with it) for their third four bars
+  preDominant: boolean; // the pre-chorus ends on the dominant (V), pulling into the chorus
+  bridgeTurn: boolean; // the bridge turns to chords the song has not used yet
+  modulate: number; // chance the last chorus steps up a key (a whole or a half step)
 }
 
-const DEFAULT_BREATH: BreathProfile = { stop: 0.3, intro: 'layered', firstVerseDrums: 'all', dropDown: 0, answer: false, ramp: 1, dropGap: 0.6, kickOut: false };
+const DEFAULT_BREATH: BreathProfile = {
+  stop: 0.3,
+  intro: 'layered',
+  firstVerseDrums: 'all',
+  dropDown: 0,
+  answer: false,
+  ramp: 1,
+  dropGap: 0.6,
+  kickOut: false,
+  preDominant: false,
+  bridgeTurn: false,
+  modulate: 0,
+};
 
 export const BREATH: Record<string, Partial<BreathProfile>> = {
-  pop: { stop: 0.5, intro: 'layered', dropDown: 0.7, answer: true },
-  mandopop: { stop: 0.4, intro: 'solo', firstVerseDrums: 'none', dropDown: 0.7, answer: true, ramp: 1.2 },
-  ballad: { stop: 0.35, intro: 'solo', dropDown: 0.6, answer: true, ramp: 1.4 },
-  rock: { stop: 0.5, intro: 'layered', dropDown: 0.5, answer: true, ramp: 0.9 },
+  pop: { stop: 0.5, intro: 'layered', dropDown: 0.7, answer: true, preDominant: true, bridgeTurn: true, modulate: 0.35 },
+  mandopop: { stop: 0.4, intro: 'solo', firstVerseDrums: 'none', dropDown: 0.7, answer: true, ramp: 1.2, preDominant: true, bridgeTurn: true, modulate: 0.5 },
+  ballad: { stop: 0.35, intro: 'solo', dropDown: 0.6, answer: true, ramp: 1.4, preDominant: true, bridgeTurn: true, modulate: 0.5 },
+  rock: { stop: 0.5, intro: 'layered', dropDown: 0.5, answer: true, ramp: 0.9, preDominant: true, bridgeTurn: true },
   metal: { stop: 0.6, intro: 'full', ramp: 0.7 },
-  country: { stop: 0.3, intro: 'layered', dropDown: 0.5, answer: true, ramp: 0.9 },
+  country: { stop: 0.3, intro: 'layered', dropDown: 0.5, answer: true, ramp: 0.9, preDominant: true, modulate: 0.3 },
   hiphop: { stop: 0.6, intro: 'layered', ramp: 0.6, kickOut: true },
   trap: { stop: 0.6, intro: 'layered', ramp: 0.6, kickOut: true },
   lofi: { stop: 0.2, intro: 'layered', ramp: 0.6, kickOut: true },
-  rnb: { stop: 0.4, intro: 'layered', dropDown: 0.5, answer: true },
+  rnb: { stop: 0.4, intro: 'layered', dropDown: 0.5, answer: true, preDominant: true, modulate: 0.25 },
   house: { stop: 0, intro: 'layered', ramp: 0.8, dropGap: 0.7 },
   edm: { stop: 0, intro: 'layered', ramp: 0.8, dropGap: 0.85 },
   synthwave: { stop: 0.3, intro: 'layered', answer: true, ramp: 0.8 },
   jazz: { stop: 0.1, intro: 'full', answer: true, ramp: 0.8 },
   bossa: { stop: 0.1, intro: 'solo', answer: true, ramp: 0.8 },
   funk: { stop: 0.6, intro: 'layered', answer: true, ramp: 0.8 },
-  citypop: { stop: 0.4, intro: 'full', dropDown: 0.5, answer: true },
+  citypop: { stop: 0.4, intro: 'full', dropDown: 0.5, answer: true, preDominant: true, modulate: 0.3 },
   reggae: { stop: 0.3, intro: 'layered', answer: true, ramp: 0.7 },
 };
 
@@ -68,6 +83,7 @@ export interface SectionPlan {
   dropDown: number; // bars at the start played stripped down
   lift: boolean; // the song's biggest section
   fade: boolean; // the song fades out over this section
+  shift: number; // semitones up: the key change into the last chorus (and what follows it)
 }
 
 const CHORUS_LIKE = new Set<SectionType>(['chorus', 'drop']);
@@ -89,13 +105,16 @@ export function planSong(genreId: string, ctxs: SectionCtx[], seed = 0): Section
   const p = breathOf(genreId);
   const rng = rngOf(seed * 2654435761 + genreId.length * 977 + ctxs.length);
   const choruses = ctxs.filter((c) => CHORUS_LIKE.has(c.section)).length;
+  // the last chorus can step up a key (whole steps lift more, half steps sound brighter)
+  const lastChorus = ctxs.map((c) => CHORUS_LIKE.has(c.section)).lastIndexOf(true);
+  const keyChange = p.modulate > 0 && choruses > 1 && rng() < p.modulate ? (rng() < 0.6 ? 2 : 1) : 0;
   let chorusSeen = 0;
-  return ctxs.map((c) => {
+  return ctxs.map((c, i) => {
     const occ = c.occurrence ?? 1;
     const bars = c.bars;
     let energy = SECTION_ENERGY[c.section];
     let dyn: [number, number] = [0.93, 0.95];
-    const plan: SectionPlan = { energy, dyn, swell: 0.06 * p.ramp, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false };
+    const plan: SectionPlan = { energy, dyn, swell: 0.06 * p.ramp, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false, shift: i >= lastChorus ? keyChange : 0 };
     switch (c.section) {
       case 'intro':
         dyn = [0.8, 0.92];

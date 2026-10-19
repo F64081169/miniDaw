@@ -1,6 +1,7 @@
-// How arrangements breathe: principles from public songwriting and production resources
-// (Open Music Theory, Secrets of Songwriting, Ableton's Making Music, Soundfly, Sound On Sound …),
-// in our own words. Shown in the coach; the generator applies many of them (src/music/generate/arrange.ts).
+// How arrangements breathe and move people: principles from public songwriting and production
+// resources (Open Music Theory, Secrets of Songwriting, Ableton's Making Music, Soundfly, Sound On
+// Sound …) and music-emotion research (Sloboda, Huron, studies of chills), in our own words.
+// Shown in the coach; the generator applies many of them (src/music/generate/arrange.ts).
 
 export const BREATHING_GUIDE: string[] = [
   '編曲裡的「呼吸」就是一收一放：主歌先收著講故事，導歌（Pre-chorus）開始吸氣，副歌把氣吐出來。整首歌的能量大方向要往上走，但中途一定要安排幾次往下的小坡，一路衝到底反而讓人聽得很累。',
@@ -16,6 +17,11 @@ export const BREATHING_GUIDE: string[] = [
   '最後的副歌要「更上一層樓」：加入一直保留到現在才出現的新聲部、把旋律或和聲往上移、加即興人聲（Ad-lib），也可以把副歌重複兩次或升半音／全音。進最後副歌之前先收一下再爆發，效果更好；升調很好用，但不要濫用。',
   '張力與放鬆：持續低音（Pedal）、掛留和弦（sus）、停在屬和弦、切分音、越來越密的節奏、漸強和上升音效（Riser）都是在「拉緊」；回到主和弦、回到正拍、長音、變小聲則是在「放鬆」。',
   '音域越高，情緒越強：副歌的旋律通常比主歌高，最高的音留給最重要的段落；旋律慢慢往上爬再落下，比一直停在同一個高度更有期待感。旋律往上、貝斯往下的反向進行也很有戲劇性。',
+  '讓人掉淚的瞬間常有「倚音」：旋律在重拍上先唱一個不屬於和弦的音，再一步走回和弦音，像一聲嘆息。研究者分析聽眾說「聽了會哭」的段落，大多數都找得到這個手法。把它留給情緒最高的那一句，到處都用就不稀奇了。',
+  '起雞皮疙瘩的瞬間常來自「沒有預告」：突然出現的新和聲、突然的力度或織度變化（全團停下再爆開、新的樂器加入）、音域一下子打開。所以橋段適合換一組全曲還沒用過的和弦，最後的副歌適合加入新的聲部。',
+  '期待本身就是情緒：導歌停在屬和弦（V）、副歌前停一拍，都是讓聽眾預感「要來了」。猜對時的滿足、被小小騙過時的驚喜，都來自對期待的設計；完全猜得到或完全猜不到，都不會動人。',
+  '最後一次副歌升 Key（升半音或全音）能把情緒再推高一層，華語與西洋流行都很常見；但它也是最容易被說「灑狗血」的手法，一首歌用一次就好，前面最好先收一下或停一拍。',
+  '全曲最高的那個音，只放在最重要的地方（通常是最後的副歌或橋段的尾巴）。前面的副歌先保留一點，最後才真正打開，聽眾才會覺得情緒有走到終點。',
   '同時出現的角色不要太多：節奏基礎（鼓＋貝斯）、鋪底的 Pad、節奏樂器、主旋律、過門，大約四種同時出現就夠，超過五種耳朵就會亂。每個聲部要有自己的音域位置，和弦別擠進貝斯的低音區，太低的密集和弦會變得混濁。',
   '讓樂器一個一個進場：前奏和 Build 大約每 4 或 8 小節加一個元素，尾奏和 Breakdown 則反過來一個一個拿掉。也可以先做出最滿的那一段，再往前用「減法」編出其他段落。',
   '人性化不是亂數：重拍和反拍（第 2、4 拍）力度強，弱拍和十六分音符較輕，幽靈音（Ghost note）更輕；小鼓稍微晚一點點（幾毫秒）會有慵懶的律動感，但偏移太多聽起來就像打錯。',
@@ -35,4 +41,9 @@ export const BREATHING_SOURCES: { title: string; url: string }[] = [
   { title: 'Guitar Player：Guitar Fills — What to Play When Your Singer Shuts Up', url: 'https://www.guitarplayer.com/lessons/guitar-fills-what-to-play-when-your-singer-shuts-up' },
   { title: 'Musical U：Tension and Release in Music', url: 'https://www.musical-u.com/learn/tension-in-music/' },
   { title: 'Wikipedia：Break (music)、Breakdown (music)、Drop (music)（CC BY-SA 4.0）', url: 'https://en.wikipedia.org/wiki/Break_(music)' },
+  { title: 'Journal of Music：Tears and chills（Sloboda 1991 的研究：倚音與眼淚、新和聲與寒顫）', url: 'https://journalofmusic.com/focus/tears-and-chills' },
+  { title: 'Frontiers in Psychology（2018）：音樂引發寒顫（chills）的研究回顧', url: 'https://www.frontiersin.org/article/10.3389/fpsyg.2018.02046/full' },
+  { title: 'NPR：The Ballad Of The Tearful — Why Some Songs Make You Cry', url: 'https://www.kunc.org/2012-02-13/the-ballad-of-the-tearful-why-some-songs-make-you-cry' },
+  { title: 'Leonardo：David Huron《Sweet Anticipation》書評（期待理論 ITPRA）', url: 'https://leonardo.info/reviews_archive/july2007/sweet_zilberg.html' },
+  { title: 'Portable Philosophy：The Truck Driver\'s Gear Change（最後副歌升 Key）', url: 'https://www.portablephilosophy.com/all/2015/4/26/endings-2-supplement-the-truck-drivers-gear-change' },
 ];
