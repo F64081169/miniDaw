@@ -9,6 +9,7 @@ import { applyAll, applyStep, buildSteps, clearGenre, emotionMap, patchOptions, 
 import { sectionColor } from '../music/sections';
 import { BREATHING_GUIDE, BREATHING_SOURCES } from '../music/breathing';
 import { SECTION_LABEL } from '../music/generate/common';
+import { MOVES, MOVE_SOURCES } from '../music/generate/moves';
 import { GENRES, getGenre } from '../music/genres';
 import CLASSICS from '../music/genres/classics.json';
 import type { GenreDef, StepId } from '../music/genres/types';
@@ -235,7 +236,7 @@ function EmotionMapView({ g, s }: { g: GenreDef; s: CoachState }) {
   const bpm = useDaw((st2) => st2.project.bpm);
   const timeSig = useDaw((st2) => st2.project.timeSig);
   const map = useMemo(() => (generated ? emotionMap(st().project, g, s) : []), [generated, bpm, timeSig, g, s]);
-  if (!generated) return <p className="step-hint">一鍵生成（或生成鼓、和弦與旋律）之後，這裡會畫出這一版的「情緒地圖」：每一段在整首歌裡負責什麼情緒、用了哪些手法。</p>;
+  if (!generated) return <p className="step-hint">一鍵生成（或生成鼓、和弦與旋律）之後，這裡會畫出這一版的「情緒地圖」：每一段在整首歌裡負責什麼情緒、用了哪些手法，以及這一版挑了哪幾招大師的招。</p>;
   return (
     <div className="emotion-map">
       <h4>這一版的情緒地圖</h4>
@@ -254,6 +255,21 @@ function EmotionMapView({ g, s }: { g: GenreDef; s: CoachState }) {
               <ul className="emotion-devices">
                 {e.devices.map((d, k) => (
                   <li key={k}>{d}</li>
+                ))}
+              </ul>
+            )}
+            {e.moves.length > 0 && (
+              <ul className="emotion-moves">
+                {e.moves.map((m, k) => (
+                  <li key={k}>
+                    <span className="move-badge">招</span>
+                    <div className="move-body">
+                      <span className="move-name">{m.name}</span>：{m.detail}
+                      <div className="move-why">
+                        {m.effect}。<span className="move-origin">出處：{m.origin}</span>
+                      </div>
+                    </div>
+                  </li>
                 ))}
               </ul>
             )}
@@ -342,6 +358,15 @@ function StepCard({ step, index, done, open, onToggle, g, s }: { step: ReturnTyp
   );
 }
 
+/** One click, then say which of the masters' moves this version uses. */
+function generateAll(g: GenreDef) {
+  applyAll();
+  const p = st().project;
+  if (!p.coach) return;
+  const names = [...new Set(emotionMap(p, g, p.coach).flatMap((e) => e.moves.map((m) => m.name)))];
+  if (names.length) st().toast(`這一版用了大師的招：${names.join('、')}（在哪裡、怎麼用，看「編曲動態檢查」的情緒地圖）`);
+}
+
 function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
   const [tab, setTab] = useState<'steps' | 'traits' | 'classics' | 'tips'>('steps');
   const project = useDaw((st2) => st2.project);
@@ -366,7 +391,7 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
       </div>
       <Options g={g} s={s} />
       <div className="coach-all">
-        <button type="button" className="btn btn-primary btn-big" onClick={applyAll}>
+        <button type="button" className="btn btn-primary btn-big" onClick={() => generateAll(g)}>
           <Icon name="sparkle" size={18} /> 一鍵生成完整編曲
         </button>
         <span className="muted small">依目前的調性、進行與曲式建立所有音軌。每按一次都是新的版本（鼓手的演奏、過門、旋律、貝斯與伴奏都會換），喜歡上一版可以復原（⌘Z）。會取代教練先前生成的音軌，你自己的音軌與錄音會保留。</span>
@@ -462,6 +487,26 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
             <summary>這些原則參考的公開資料</summary>
             <ul>
               {BREATHING_SOURCES.map((s2) => (
+                <li key={s2.url}>
+                  <a href={s2.url} target="_blank" rel="noreferrer">
+                    {s2.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+          <h3>大師的招（一鍵生成每一版會挑幾招）</h3>
+          <ul className="breathing">
+            {Object.values(MOVES).map((m) => (
+              <li key={m.name}>
+                <strong>{m.name}</strong>：{m.effect}。<span className="muted">（{m.origin}）</span>
+              </li>
+            ))}
+          </ul>
+          <details className="small muted">
+            <summary>招式的出處</summary>
+            <ul>
+              {MOVE_SOURCES.map((s2) => (
                 <li key={s2.url}>
                   <a href={s2.url} target="_blank" rel="noreferrer">
                     {s2.title}

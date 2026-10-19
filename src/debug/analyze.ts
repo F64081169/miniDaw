@@ -5,7 +5,7 @@ import { bounce } from '../audio/export';
 import { defaultFxParams } from '../audio/fx/registry';
 import type { InsertType } from '../core/types';
 import { defaultParams, getPatch } from '../audio/instruments/patches';
-import { applyAll, faderFor, patchOptions, selectGenre } from '../music/coach';
+import { applyAll, emotionMap, faderFor, patchOptions, selectGenre } from '../music/coach';
 import { getGenre } from '../music/genres';
 import { createInstrumentTrack, createMidiRegion, createProject } from '../state/project';
 import { useDaw } from '../state/store';
@@ -55,6 +55,13 @@ export function loudness(b: AudioBuffer): { lufs: number; peak: number } {
 export function generate(id: string): void {
   selectGenre(id);
   applyAll();
+}
+
+/** The current song's emotion map (listening tests record which moves a version uses). */
+export function currentEmotionMap() {
+  const p = useDaw.getState().project;
+  const g = getGenre(p.coach?.genreId);
+  return g && p.coach ? emotionMap(p, g, p.coach) : [];
 }
 
 /** A part's calibrated fader when it plays `patchId` (for listening tests that swap instruments). */

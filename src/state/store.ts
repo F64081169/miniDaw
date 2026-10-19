@@ -257,7 +257,7 @@ export const useDaw = create<DawState>((set, get) => ({
     set({ ui: { ...get().ui, toasts: [...get().ui.toasts, { id, text, kind }].slice(-4) } });
     setTimeout(() => {
       set({ ui: { ...get().ui, toasts: get().ui.toasts.filter((t) => t.id !== id) } });
-    }, kind === 'error' ? 6000 : 2600);
+    }, kind === 'error' ? 6000 : Math.min(8000, Math.max(2600, text.length * 80))); // long messages stay up long enough to read
   },
 }));
 

@@ -10,15 +10,16 @@ import { sectionColor } from './sections';
 import { CATEGORY_INFO, defaultParams, getPatch } from '../audio/instruments/patches';
 import { createInstrumentTrack, createMidiRegion } from '../state/project';
 import { useDaw } from '../state/store';
-import { breathOf, planSong, shapePart, type Part } from './generate/arrange';
+import { breathOf, planSong, shapePart, walkSteps, type MoveUse, type Part, type SectionPlan } from './generate/arrange';
 import { generateBass, type BassStyle } from './generate/bass';
-import { SECTION_ENERGY, SECTION_LABEL, chordAtBeat, type GenNote, type SectionCtx } from './generate/common';
+import { SECTION_ENERGY, SECTION_LABEL, chordAtBeat, nextChordAfter, type GenNote, type SectionCtx } from './generate/common';
 import { generateComp, type CompStyle } from './generate/comp';
 import { DRUM_STYLES, HUMAN_FEEL, generateDrums, kickPositions } from './generate/drums';
 import { generateMelody, type MelodyStyle } from './generate/melody';
+import { MOVES, walkNotes } from './generate/moves';
 import { getGenre } from './genres';
 import type { GenreDef, RoleDef, StepId } from './genres/types';
-import { chordPitchClasses, chordSymbol, keyName, keyPrefersFlats, noteName, parseProgression, tileProgression, type ChordEvent } from './theory';
+import { chordPitchClasses, chordSymbol, keyName, keyPrefersFlats, noteName, parseProgression, pcName, tileProgression, type Chord, type ChordEvent } from './theory';
 
 export interface CoachSection {
   type: SectionType;
@@ -174,11 +175,17 @@ function followersOf(g: GenreDef): RoleDef[] {
   return g.roles.filter((r) => r === answer || (r.kind === 'comp' && r.style === 'sustain'));
 }
 
-export function regionsForRole(p: Project, g: GenreDef, s: CoachState, role: RoleDef): MidiRegion[] {
+/** The song as planned: its sections, their contexts (with the chords as played) and plans. */
+export function songPlan(p: Project, g: GenreDef, s: CoachState): { sections: CoachSection[]; ctxs: SectionCtx[]; plans: SectionPlan[] } {
   const sections = songSections(p, g, s);
   const base = sectionContexts(p, g, s, sections);
   const plans = planSong(g.id, base, s.seeds?.[SONG_SEED] ?? 0);
-  const ctxs = base.map((c, i) => ({ ...c, energy: plans[i].energy }));
+  const ctxs = base.map((c, i) => ({ ...c, energy: plans[i].energy, chords: plans[i].chords ?? c.chords }));
+  return { sections, ctxs, plans };
+}
+
+export function regionsForRole(p: Project, g: GenreDef, s: CoachState, role: RoleDef): MidiRegion[] {
+  const { sections, ctxs, plans } = songPlan(p, g, s);
   const melodyRole = g.roles.find((r) => r.kind === 'melody');
   const answers = role === answerRoleOf(g);
   const doubles = role.kind === 'comp' && role.style === 'sustain';
@@ -206,6 +213,14 @@ export function regionsForRole(p: Project, g: GenreDef, s: CoachState, role: Rol
 
 // ------------------------------------------------------------------ emotion map
 
+/** One of the masters' moves as the map tells it: what happens here, and what it does. */
+export interface MoveNote {
+  name: string;
+  detail: string;
+  effect: string;
+  origin: string;
+}
+
 /** One section of a generated song: what it does emotionally and the devices that do it. */
 export interface EmotionStop {
   label: string;
@@ -214,35 +229,37 @@ export interface EmotionStop {
   energy: number; // 0 … 1
   role: string;
   devices: string[];
+  moves: MoveNote[];
 }
 
 const PART_NAME: Record<Part, string> = { drums: '鼓', bass: '貝斯', harmony: '和弦', layers: '配器層', melody: '旋律' };
 
+/** Whether a role plays in a section (and has come in by its end). */
+function playsIn(r: RoleDef, sec: CoachSection, plan: SectionPlan): boolean {
+  return (!r.sections || r.sections.includes(sec.type)) && (plan.enter[partOf(r)] ?? 0) < sec.bars;
+}
+
 /** The emotional design of the current version, read from the same plan the parts were written from. */
 export function emotionMap(p: Project, g: GenreDef, s: CoachState): EmotionStop[] {
-  const sections = songSections(p, g, s);
-  const base = sectionContexts(p, g, s, sections);
-  const plans = planSong(g.id, base, s.seeds?.[SONG_SEED] ?? 0);
+  const { sections, ctxs, plans } = songPlan(p, g, s);
   const breath = breathOf(g.id);
   const prog = g.progressions[s.progressionIndex] ?? g.progressions[0];
   const flats = keyPrefersFlats(s.keyRoot, s.keyMode);
   const melodyRole = g.roles.find((r) => r.kind === 'melody');
   const melodies = sections.map((sec, i) =>
     melodyRole && (!melodyRole.sections || melodyRole.sections.includes(sec.type))
-      ? notesForRole(g, melodyRole, { ...base[i], energy: plans[i].energy }, s.seeds).map((n) => ({ ...n, pitch: n.pitch + plans[i].shift }))
+      ? notesForRole(g, melodyRole, ctxs[i], s.seeds).map((n) => ({ ...n, pitch: n.pitch + plans[i].shift }))
       : [],
   );
   const songTop = Math.max(-1, ...melodies.flat().map((n) => n.pitch));
   const topAt = melodies.map((m) => m.some((n) => n.pitch === songTop)).lastIndexOf(true);
   const choruses = sections.filter((x) => x.type === 'chorus' || x.type === 'drop').length;
   // who plays in each section
-  const playing = sections.map((sec, i) =>
-    g.roles.filter((r) => (!r.sections || r.sections.includes(sec.type)) && (plans[i].enter[partOf(r)] ?? 0) < sec.bars).map((r) => r.name),
-  );
+  const playing = sections.map((sec, i) => g.roles.filter((r) => playsIn(r, sec, plans[i])).map((r) => r.name));
   let chorusSeen = 0;
   return sections.map((sec, i) => {
     const plan = plans[i];
-    const ctx = base[i];
+    const ctx = ctxs[i];
     const devices: string[] = [];
     if (i > 0) {
       const added = playing[i].filter((n) => !playing[i - 1].includes(n));
@@ -284,27 +301,31 @@ export function emotionMap(p: Project, g: GenreDef, s: CoachState): EmotionStop[
       default:
         role = '收尾：吐氣';
     }
+    // chords and notes are named in the key the section sounds in (after a key change)
+    const sharpsOrFlats = plan.shift ? keyPrefersFlats((s.keyRoot + plan.shift) % 12, s.keyMode) : flats;
+    const sym = (c: Chord) => chordSymbol({ ...c, root: (c.root + plan.shift) % 12, bass: (c.bass + plan.shift) % 12 }, sharpsOrFlats);
     for (const [part, bar] of Object.entries(plan.enter) as [Part, number][]) {
       if (bar > 0 && bar < sec.bars) devices.push(`${PART_NAME[part]}第 ${bar + 1} 小節才進來`);
     }
     if (plan.dyn[1] - plan.dyn[0] >= 0.1) devices.push('一路漸強');
     if (sec.type === 'pre' && breath.preDominant && (ctx.next === 'chorus' || ctx.next === 'drop')) {
-      devices.push(`最後一小節停在屬和弦 ${chordSymbol(chordAtBeat(ctx, sec.bars * ctx.barBeats - 0.5).chord, flats)}，把期待拉到最高`);
+      devices.push(`最後一小節停在屬和弦 ${sym(chordAtBeat(ctx, sec.bars * ctx.barBeats - 0.5).chord)}，把期待拉到最高`);
     }
     if (sec.type === 'bridge' && (prog.bridge || breath.bridgeTurn)) {
-      const chords = Array.from({ length: Math.min(4, sec.bars) }, (_, b) => chordSymbol(chordAtBeat(ctx, b * ctx.barBeats + 0.01).chord, flats));
+      const chords = Array.from({ length: Math.min(4, sec.bars) }, (_, b) => sym(chordAtBeat(ctx, b * ctx.barBeats + 0.01).chord));
       devices.push(`換成全曲沒用過的和弦（${chords.join(' – ')}）：沒有預告的新和聲`);
     }
     if (plan.stop !== null) devices.push('最後一拍全團停下來憋氣，下一段更有衝擊');
     if (plan.dropDown) devices.push(`前 ${plan.dropDown} 小節先收（只留大鼓與 Hi-hat），再整個爆開`);
-    if (plan.lift) devices.push('加入高八度的弦樂／音墊，把旋律撐得更大');
+    const sustained = g.roles.filter((r) => r.kind === 'comp' && r.style === 'sustain' && playsIn(r, sec, plan));
+    const sings = melodies[i].length > 0;
+    if (plan.lift && !plan.counter && sustained.length && sings) devices.push(`${sustained.map((r) => r.name).join('、')}低八度跟著唱旋律，把副歌撐得更大`);
     if (plan.shift && (i === 0 || plans[i - 1].shift === 0)) {
       devices.push(`升 Key：${keyName(s.keyRoot, s.keyMode)} → ${keyName((s.keyRoot + plan.shift) % 12, s.keyMode)}（${plan.shift === 2 ? '全音' : '半音'}）`);
     }
     if (plan.kickOut) devices.push(`第 ${plan.kickOut[0] + 1}–${plan.kickOut[1]} 小節抽掉大鼓，讓下一句更突出`);
     if (plan.fade) devices.push('慢慢淡出');
     const mel = melodies[i];
-    const sharpsOrFlats = plan.shift ? keyPrefersFlats((s.keyRoot + plan.shift) % 12, s.keyMode) : flats;
     if (mel.length) {
       const top = mel.reduce((a, n) => (n.pitch > a.pitch ? n : a));
       const at = `第 ${Math.floor(top.start / ctx.barBeats) + 1} 小節`;
@@ -319,7 +340,45 @@ export function emotionMap(p: Project, g: GenreDef, s: CoachState): EmotionStop[
       });
       if (sigh) devices.push(`倚音：最高點先唱 ${noteName(sigh.pitch, sharpsOrFlats)} 再落到 ${noteName(mel[mel.indexOf(sigh) + 1].pitch, sharpsOrFlats)}，像一聲嘆息`);
     }
-    return { label: sec.label, type: sec.type, bars: sec.bars, energy: plan.energy, role, devices };
+    // the masters' moves, where the part that plays them is there to play them
+    const has = (kind: RoleDef['kind']) => g.roles.some((r) => r.kind === kind && playsIn(r, sec, plan));
+    const pcText = (pc: number) => pcName(pc + plan.shift, sharpsOrFlats);
+    const bar = (beat: number) => `第 ${Math.floor(beat / ctx.barBeats + 1e-6) + 1} 小節`;
+    const detail = (u: MoveUse): string | null => {
+      switch (u.id) {
+        case 'minorIV':
+        case 'sus4':
+          return `${bar(u.at)} ${sym(u.from!)} → ${sym(u.to!)}`;
+        case 'secondary': {
+          const vi = nextChordAfter(ctx, u.at + 0.01)?.chord;
+          return vi ? `${bar(u.at)} 先放 ${sym(u.to!)}，再進 ${sym(vi)}` : null;
+        }
+        case 'picardy':
+          return `最後一個和弦是 ${sym(u.to!)}，而不是 ${sym({ ...u.to!, quality: 'min' })}`;
+        case 'walkUp': {
+          if (!has('bass') || !plan.walkUp) return null;
+          const w = plan.walkUp;
+          // spelled in the key it walks into
+          const into = keyPrefersFlats((w.key + plan.shift) % 12, s.keyMode);
+          const name = (pc: number) => pcName(pc + plan.shift, into);
+          const walk = walkNotes(w, ctx.key.mode, walkSteps(ctx));
+          return `最後 ${walk.length} 拍貝斯走 ${walk.map(name).join(' → ')}，接上下一段的 ${name(w.to)}${w.key !== ctx.key.root ? '（順勢走進新的調）' : ''}`;
+        }
+        case 'pedal':
+          return has('bass') && plan.pedal != null ? `貝斯整段壓在屬音 ${pcText(plan.pedal)} 上` : null;
+        case 'halfTime':
+          return has('drums') ? '小鼓改打第 3 拍，最後一小節恢復原速帶進副歌' : null;
+        case 'stopTime':
+          return `前 ${plan.stopTime} 小節全團只在第一拍齊奏${sings ? '，旋律自己唱' : '，空出來給人聲'}`;
+        case 'counter':
+          return sustained.length && sings ? `${sustained.map((r) => r.name).join('、')}在主旋律下方拉一條對位旋律` : null;
+      }
+    };
+    const moves = (plan.moves ?? []).flatMap((u): MoveNote[] => {
+      const d = detail(u);
+      return d ? [{ name: MOVES[u.id].name, detail: d, effect: MOVES[u.id].effect, origin: MOVES[u.id].origin }] : [];
+    });
+    return { label: sec.label, type: sec.type, bars: sec.bars, energy: plan.energy, role, devices, moves };
   });
 }
 

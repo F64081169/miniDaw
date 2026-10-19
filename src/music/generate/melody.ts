@@ -251,7 +251,9 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     const seventh = chord.quality === '7' || chord.quality === 'm7' || chord.quality === 'maj7';
     const tones = prof.colour ? all : all.slice(0, seventh ? 4 : 3);
     const foreign = tones.filter((t) => !pcs.includes(t));
-    const scale = [...pcs.filter((s) => !foreign.some((f) => Math.abs(pc(s - f + 6) - 6) === 1)), ...foreign];
+    // a suspended chord leaves out its third: the melody leaves it out too
+    const avoid = chord.quality === 'sus4' || chord.quality === '7sus4' ? [pc(chord.root + 4)] : [];
+    const scale = [...pcs.filter((s) => !avoid.includes(s) && !foreign.some((f) => Math.abs(pc(s - f + 6) - 6) === 1)), ...foreign];
     return { tones, scale };
   };
   const shapeAt = (shape: Shape, u: number): number => {
@@ -475,7 +477,7 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     if (top) {
       const chord = chordAtBeat(ctx, top.start + 0.01).chord;
       const upper = stepScale(top.pitch, 1);
-      const clash = pc(upper - chord.root) === 1 || pc(upper - chord.bass) === 1;
+      const clash = pc(upper - chord.root) === 1 || pc(upper - chord.bass) === 1 || !harmonyAt(top.start).scale.includes(pc(upper));
       if (upper <= hi && !chordPitchClasses(chord).includes(pc(upper)) && !clash) {
         placed.splice(at, 0, { start: top.start, len: 0.5, pitch: upper, strength: top.strength });
         top.start += 0.5;
@@ -516,11 +518,18 @@ export function generateMelody(style: MelodyStyle, ctx: SectionCtx, range: [numb
     const n = out[i];
     const p = out[i - 1];
     if (Math.abs(n.start % unitLen) > 1e-6 || rng() >= (prof.anticipate ?? 0)) continue;
+    if (!harmonyAt(n.start - 0.5).scale.includes(pc(n.pitch))) continue; // it would clash with the chord before
     const room = n.start - 0.6 - p.start;
     if (p.start + p.duration > n.start - 0.6 && room < 0.45) continue;
     p.duration = Math.min(p.duration, room);
     n.start -= 0.5;
     n.duration += 0.5;
+  }
+  // a note held into a chord it clashes with (the new tone of a borrowed or secondary chord a
+  // half step away) stops where that chord starts
+  for (const n of out) {
+    const into = ctx.chords.find((e) => e.start > n.start + 1e-6 && e.start < n.start + n.duration - 1e-6 && !harmonyAt(e.start).scale.includes(pc(n.pitch)));
+    if (into) n.duration = Math.max(0.15, into.start - n.start - gap);
   }
   let notes = out.map((n) => ({ ...n, start: swingTime(n.start, ctx.swing, ctx.swingUnit) }));
   notes = humanizeNotes(notes, ctx.humanize * 0.5, rng);

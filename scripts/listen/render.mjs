@@ -13,7 +13,8 @@
 //                    several sets of overrides at once, each written to <out-dir>/<name>/
 //
 // Writes per genre: <genre>.wav (the mix, 48 kHz mono 16-bit), <genre>.lead.wav (the lead alone)
-// and <genre>.json (section map, tracks and patches). scripts/listen/listen.py measures them.
+// and <genre>.json (section map, tracks, patches and the masters' moves the version uses).
+// scripts/listen/listen.py measures them.
 import { chromium } from 'playwright-core';
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -163,6 +164,7 @@ async function worker() {
         return {
           bpm: p.bpm,
           lead: leadNow?.instrument?.patchId ?? null,
+          moves: d.currentEmotionMap().flatMap((e) => e.moves.map((m) => `${e.label}: ${m.name} — ${m.detail}`)),
           sections: p.markers
             .filter((m) => m.section && m.start >= start && m.start < end)
             .map((m) => ({ type: m.section, name: m.name, start: (m.start - start) * spb, end: (m.start + m.length - start) * spb })),
