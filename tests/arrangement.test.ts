@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { DRUM_NOTE } from '../src/audio/dsp/drums';
-import { defaultCoachState, regionsForRole, songSections } from '../src/music/coach';
+import { defaultCoachState, emotionMap, regionsForRole, songPlan, songSections } from '../src/music/coach';
 import { planSong, shapePart } from '../src/music/generate/arrange';
+import { MOVES, minorFour, picardy, secondaryDominant, suspendDominant, walkNotes } from '../src/music/generate/moves';
 import classics from '../src/music/genres/classics.json';
 import { SECTION_ENERGY, type SectionCtx } from '../src/music/generate/common';
 import { HUMAN_FEEL, generateDrums, kickPositions } from '../src/music/generate/drums';
 import { generateMelody } from '../src/music/generate/melody';
 import grooves from '../src/music/grooves/gmd.json';
 import { GENRES } from '../src/music/genres';
-import { chordAt, chordPitchClasses, parseProgression, tileProgression } from '../src/music/theory';
+import { chordAt, chordPitchClasses, chordSymbol, isInScale, parseProgression, tileProgression } from '../src/music/theory';
 import { createProject } from '../src/state/project';
 import type { SectionType } from '../src/core/types';
 
@@ -120,7 +121,13 @@ describe('melody writing', () => {
       const ctx = ctxFor(section);
       const notes = melody(section);
       const strong = notes.filter((n) => Math.abs(n.start % 2) < 0.03);
-      const fit = strong.filter((n) => chordPitchClasses(chordAt(ctx.chords, n.start + 0.01).chord).includes(n.pitch % 12));
+      const tones = (at: number) => chordPitchClasses(chordAt(ctx.chords, at + 0.01).chord);
+      // an appoggiatura (a dissonance on the beat that steps down into a chord tone) is intended
+      const sigh = (n: (typeof notes)[number]) => {
+        const next = notes[notes.indexOf(n) + 1];
+        return !!next && n.pitch - next.pitch > 0 && n.pitch - next.pitch <= 2 && next.start - n.start <= 1 && tones(next.start).includes(next.pitch % 12);
+      };
+      const fit = strong.filter((n) => tones(n.start).includes(n.pitch % 12) || sigh(n));
       expect(fit.length / strong.length).toBeGreaterThan(0.9);
     }
   });
@@ -222,7 +229,7 @@ describe('song shape (breathing)', () => {
 
   it('the band can stop for a breath before a chorus', () => {
     const ctx = ctxFor('pre', { bars: 4, next: 'chorus' });
-    const plan = { energy: 0.7, dyn: [1, 1] as [number, number], swell: 0, stop: 15, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false };
+    const plan = { energy: 0.7, dyn: [1, 1] as [number, number], swell: 0, stop: 15, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false, shift: 0 };
     const notes = generateDrums('pop', ctx);
     const shaped = shapePart(notes, 'drums', ctx, plan);
     expect(shaped.every((n) => n.start < 15)).toBe(true);
@@ -232,7 +239,7 @@ describe('song shape (breathing)', () => {
 
   it('the last chorus can start stripped down and open up', () => {
     const ctx = ctxFor('chorus', { next: null });
-    const plan = { energy: 1, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 4, lift: true, fade: false };
+    const plan = { energy: 1, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 4, lift: true, fade: false, shift: 0 };
     const drums = shapePart(generateDrums('pop', ctx), 'drums', ctx, plan, { crash: true });
     const early = drums.filter((n) => n.start < 12);
     expect(early.some((n) => n.pitch === DRUM_NOTE.crash)).toBe(false);
@@ -254,7 +261,7 @@ describe('song shape (breathing)', () => {
 
   it('an instrument answers the melody in its gaps', () => {
     const ctx = ctxFor('verse');
-    const plan = { energy: 0.6, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false };
+    const plan = { energy: 0.6, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false, shift: 0 };
     // a phrase ending in its second bar, then a rest until bar 4
     const melody = [
       { pitch: 72, start: 4, duration: 0.5, velocity: 90 },
@@ -278,6 +285,226 @@ describe('song shape (breathing)', () => {
     const notes = Array.from({ length: 16 }, (_, i) => ({ pitch: 60, start: i, duration: 0.9, velocity: 100 }));
     const shaped = shapePart(notes, 'harmony', ctx, plan);
     expect(shaped[shaped.length - 1].velocity).toBeLessThan(shaped[0].velocity - 15);
+  });
+});
+
+describe('emotional devices', () => {
+  const genre = (id: string) => GENRES.find((g) => g.id === id)!;
+  const setup = (id: string, seed: number) => {
+    const g = genre(id);
+    const p = createProject();
+    p.bpm = g.bpm.default;
+    const s = { ...defaultCoachState(g), seeds: Object.fromEntries(['@song', ...g.roles.map((r) => r.id)].map((k, i) => [k, seed * 1000 + i + 1])) };
+    const sections = songSections(p, g, s);
+    const part = (roleId: string) => regionsForRole(p, g, s, g.roles.find((r) => r.id === roleId)!);
+    return { g, p, s, sections, part };
+  };
+  const bassIn = (regions: { start: number; notes: { pitch: number; start: number }[] }[], beat: number) => {
+    for (const r of regions) for (const n of r.notes) if (Math.abs(r.start + n.start - beat) < 0.3) return n.pitch % 12;
+    return null;
+  };
+
+  it('ends the pre-chorus on the dominant and turns the bridge to new chords', () => {
+    const { s, sections, part } = setup('mandopop', 7);
+    const bass = part('bass');
+    const pre = sections.find((x) => x.type === 'pre')!;
+    expect(bassIn(bass, pre.start + (pre.bars - 1) * 4)).toBe((s.keyRoot + 7) % 12);
+    const bridge = sections.find((x) => x.type === 'bridge')!;
+    expect(bassIn(bass, bridge.start)).toBe((s.keyRoot + 9) % 12); // vi
+  });
+
+  it('a key change lifts the whole last chorus, the same melody higher', () => {
+    let found = false;
+    for (let seed = 1; seed < 40 && !found; seed++) {
+      const { g, p, s, sections, part } = setup('mandopop', seed);
+      const map = emotionMap(p, g, s);
+      const at = map.findIndex((e) => e.devices.some((d) => d.startsWith('升 Key')));
+      if (at < 0) continue;
+      found = true;
+      const choruses = sections.map((x, i) => [x, i] as const).filter(([x]) => x.type === 'chorus');
+      const [first] = choruses[0];
+      const [last, lastIdx] = choruses[choruses.length - 1];
+      expect(lastIdx).toBe(at);
+      const lead = part('lead');
+      const notes = (sec: { start: number }) => lead.find((r) => r.start === sec.start)!.notes.map((n) => n.pitch);
+      const a = notes(first);
+      const b = notes(last);
+      const shift = b[b.length - 1] - a[a.length - 1];
+      expect([1, 2]).toContain(shift);
+      expect(b).toEqual(a.map((x) => x + shift));
+    }
+    expect(found).toBe(true);
+  });
+
+  it('leans into a chorus climax with an appoggiatura when the melody allows it', () => {
+    let sighs = 0;
+    for (const seed of [3, 5, 7, 11, 13, 17, 19, 23]) {
+      const { g, p, s } = setup('ballad', seed);
+      if (emotionMap(p, g, s).some((e) => e.devices.some((d) => d.startsWith('倚音')))) sighs++;
+    }
+    expect(sighs).toBeGreaterThan(0);
+  });
+
+  it('maps every section to an emotional role, the last chorus as the high point', () => {
+    const { g, p, s, sections } = setup('pop', 11);
+    const map = emotionMap(p, g, s);
+    expect(map).toHaveLength(sections.length);
+    const lastChorus = sections.map((x) => x.type).lastIndexOf('chorus');
+    expect(map[lastChorus].role).toContain('最後一擊');
+    expect(map.every((e) => e.role.length > 0)).toBe(true);
+    expect(map[0].devices[0]).toMatch(/^只有/);
+  });
+});
+
+describe("the masters' moves", () => {
+  const prog = (text: string, mode: 'major' | 'minor' = 'major', bars = 4) => tileProgression(parseProgression(text, 0, mode, 4), bars * 4);
+  const names = (chords: ReturnType<typeof prog>) => chords.map((e) => `${chordSymbol(e.chord)}@${e.start}`).join(' ');
+  const C = { root: 0, mode: 'major' as const };
+  const plain = { energy: 0.7, dyn: [1, 1] as [number, number], swell: 0, stop: null, kickOut: null, enter: {}, dropDown: 0, lift: false, fade: false, shift: 0 };
+
+  it('borrows the minor iv in the second half of a IV that goes home', () => {
+    const m = minorFour(prog('I | V | vi | IV | I | V | IV | I', 'major', 8), C, 4)!;
+    expect(names(m.chords)).toBe('C@0 G@4 Am@8 F@12 C@16 G@20 F@24 Fm@26 C@28');
+    expect(minorFour(prog('I | V | vi | V'), C, 4)).toBeNull();
+    expect(minorFour(prog('i | iv | v | i', 'minor'), { root: 0, mode: 'minor' }, 4)).toBeNull();
+  });
+
+  it('puts the dominant of vi before it, with the bass that moves least', () => {
+    expect(names(secondaryDominant(prog('I | V | vi | IV'), C, 4)!.chords)).toBe('C@0 G@4 E7/G#@6 Am@8 F@12');
+    expect(names(secondaryDominant(prog('I | V/7 | vi | IV'), C, 4)!.chords)).toBe('C@0 G/B@4 E7/B@6 Am@8 F@12');
+    expect(names(secondaryDominant(prog('IV | V | iii | vi'), C, 4)!.chords)).toBe('F@0 G@4 E7@8 Am@12');
+    expect(secondaryDominant(prog('I | IV | V | I'), C, 4)).toBeNull();
+  });
+
+  it('suspends the dominant that ends a pre-chorus, then resolves it', () => {
+    expect(names(suspendDominant(prog('IV | V', 'major', 2), C, 4)!.chords)).toBe('F@0 Gsus4@4 G@6');
+    expect(suspendDominant(prog('V | IV', 'major', 2), C, 4)).toBeNull();
+  });
+
+  it('ends a minor song on the major tonic', () => {
+    const a = { root: 9, mode: 'minor' as const };
+    const minor = (text: string) => tileProgression(parseProgression(text, 9, 'minor', 4), 16);
+    expect(names(picardy(minor('i | bVI | bVII | i'), a, 4)!.chords)).toBe('Am@0 F@4 G@8 A@12');
+    expect(names(picardy(minor('i | bVI | bIII | bVII'), a, 4)!.chords)).toBe('Am@0 F@4 C@8 G@12 A@14');
+    expect(picardy(prog('I | IV | V | I'), C, 4)).toBeNull();
+  });
+
+  it('walks the bass up to the next chorus, along the scale or by half steps', () => {
+    const ctx = ctxFor('pre', { bars: 4 });
+    const bass = Array.from({ length: 4 }, (_, b) => ({ pitch: 31, start: b * 4, duration: 3.9, velocity: 100 }));
+    const shaped = shapePart(bass, 'bass', ctx, { ...plain, walkUp: { to: 0, key: 0, chromatic: false } });
+    expect(shaped.filter((n) => n.start >= 12).map((n) => [n.start, n.pitch])).toEqual([[12, 31], [13, 31], [14, 33], [15, 35]]);
+    expect(shaped.find((n) => n.start === 12)!.duration).toBeLessThan(1);
+    expect(walkNotes({ to: 0, key: 0, chromatic: true }, 'major', 3)).toEqual([33, 34, 35]);
+    expect(walkNotes({ to: 7, key: 0, chromatic: false }, 'major', 3)).toEqual([28, 29]); // no lower than the low E
+  });
+
+  it('holds a pedal under the pre-chorus, except where a chord rubs against it', () => {
+    const ctx = ctxFor('pre', { bars: 4, chords: prog('IV | iii | ii | V7/vi') });
+    const bass = [41, 40, 38, 40].map((pitch, b) => ({ pitch, start: b * 4, duration: 3.9, velocity: 100 }));
+    const shaped = shapePart(bass, 'bass', ctx, { ...plain, pedal: 7 });
+    expect(shaped.map((n) => n.pitch)).toEqual([43, 43, 43, 40]); // E7 has a G#: the line stays
+  });
+
+  it('moves the backbeat to beat 3 in a half-time bridge, the last bar as it was', () => {
+    const ctx = ctxFor('bridge', { bars: 4, humanize: 0 });
+    const drums = generateDrums('pop', ctx);
+    const shaped = shapePart(drums, 'drums', ctx, { ...plain, halfTime: true });
+    const near = (notes: typeof drums, pitch: number, beat: number) => notes.some((n) => n.pitch === pitch && n.velocity >= 50 && Math.abs(n.start - beat) < 0.15);
+    for (const bar of [0, 1, 2]) {
+      expect(near(shaped, DRUM_NOTE.snare, bar * 4 + 2)).toBe(true);
+      expect(near(shaped, DRUM_NOTE.snare, bar * 4 + 1) || near(shaped, DRUM_NOTE.snare, bar * 4 + 3)).toBe(false);
+      expect(near(shaped, DRUM_NOTE.kick, bar * 4 + 2)).toBe(false);
+    }
+    const lastBar = (notes: typeof drums) => notes.filter((n) => n.start >= 12 - 0.12).map((n) => `${n.pitch}@${n.start}`).sort();
+    expect(lastBar(shaped)).toEqual(lastBar(drums));
+  });
+
+  it('plays stop-time: only the downbeats for two bars, then a pickup into the groove', () => {
+    const ctx = ctxFor('verse', { humanize: 0 });
+    const drums = shapePart(generateDrums('pop', ctx), 'drums', ctx, { ...plain, stopTime: 2 }, { crash: true });
+    const early = drums.filter((n) => n.start < 7.5);
+    expect(early.every((n) => n.start === 0 || n.start === 4)).toBe(true);
+    expect(early.filter((n) => n.pitch === DRUM_NOTE.crash)).toHaveLength(2);
+    expect(drums.some((n) => n.pitch === DRUM_NOTE.snare && n.start >= 7.5 && n.start < 8)).toBe(true);
+    const keys = shapePart([0, 1, 2, 3, 4, 5, 6, 7, 8].map((b) => ({ pitch: 60, start: b, duration: 0.9, velocity: 80 })), 'harmony', ctx, { ...plain, stopTime: 2 });
+    expect(keys.filter((n) => n.start < 8).map((n) => n.start)).toEqual([0, 4]);
+    expect(keys.filter((n) => n.start < 8).every((n) => n.duration <= 0.6)).toBe(true);
+  });
+
+  it('writes a countermelody under the melody in the biggest chorus, and makes room for it', () => {
+    const ctx = ctxFor('chorus', { humanize: 0 });
+    const melody = generateMelody('pop', ctx, [62, 81]);
+    const pad = tileProgression(parseProgression('I | V | vi | IV', 0, 'major', 4), 32).flatMap((e) =>
+      chordPitchClasses(e.chord).map((pc) => ({ pitch: 60 + pc, start: e.start, duration: e.length - 0.1, velocity: 80 })),
+    );
+    const shaped = shapePart(pad, 'layers', ctx, { ...plain, lift: true, counter: true }, { double: true, melody, range: [55, 79] });
+    const fromPad = (n: (typeof shaped)[number]) => pad.some((p) => p.start === n.start && p.pitch === n.pitch && p.duration === n.duration);
+    const line = shaped.filter((n) => !fromPad(n));
+    const left = shaped.filter(fromPad);
+    expect(line.length).toBeGreaterThanOrEqual(10);
+    expect(left.length).toBeGreaterThan(pad.length / 2);
+    for (const n of line) {
+      const sung = melody.filter((m) => m.start <= n.start + 0.01 && m.start + m.duration > n.start + 0.01);
+      for (const m of sung) expect(m.pitch).toBeGreaterThan(n.pitch);
+      // no chord note left on the line or a step from it
+      expect(left.some((o) => Math.abs(o.pitch - n.pitch) <= 2 && o.start < n.start + n.duration - 0.05 && n.start < o.start + o.duration - 0.05)).toBe(false);
+    }
+    const moves = new Set(line.map((n) => n.pitch));
+    expect(moves.size).toBeGreaterThan(3); // a line, not a held note
+  });
+
+  it('every version uses a few moves where its genre has room for them, named in the emotion map', () => {
+    const seen = new Set<string>();
+    for (const id of ['pop', 'ballad', 'citypop', 'funk']) {
+      const g = GENRES.find((x) => x.id === id)!;
+      for (let seed = 1; seed <= 12; seed++) {
+        const p = createProject();
+        p.bpm = g.bpm.default;
+        const s = { ...defaultCoachState(g), seeds: Object.fromEntries(['@song', ...g.roles.map((r) => r.id)].map((k, i) => [k, seed * 1000 + i + 1])) };
+        for (const stop of emotionMap(p, g, s)) {
+          for (const m of stop.moves) {
+            expect(Object.values(MOVES).some((d) => d.name === m.name && d.origin === m.origin)).toBe(true);
+            expect(m.detail.length).toBeGreaterThan(4);
+            seen.add(m.name);
+          }
+        }
+      }
+    }
+    expect(seen.size).toBeGreaterThanOrEqual(6);
+  });
+
+  it('melodies and bass lines never rub against a borrowed or secondary chord', () => {
+    let chromatic = 0;
+    for (const id of ['pop', 'mandopop', 'ballad', 'citypop', 'rnb', 'lofi']) {
+      const g = GENRES.find((x) => x.id === id)!;
+      for (let seed = 1; seed <= 10; seed++) {
+        const p = createProject();
+        p.bpm = g.bpm.default;
+        const s = { ...defaultCoachState(g), seeds: Object.fromEntries(['@song', ...g.roles.map((r) => r.id)].map((k, i) => [k, seed * 1000 + i + 1])) };
+        const { sections, ctxs, plans } = songPlan(p, g, s);
+        for (const role of g.roles.filter((r) => r.kind === 'melody' || r.kind === 'bass')) {
+          for (const region of regionsForRole(p, g, s, role)) {
+            const i = sections.findIndex((x) => x.start === region.start);
+            const ctx = ctxs[i];
+            for (const n of region.notes) {
+              const pitch = n.pitch - plans[i].shift;
+              // the chords the note sounds over (a bass note only its own)
+              const end = role.kind === 'bass' ? n.start + 0.02 : n.start + n.duration - 0.02;
+              for (const e of ctx.chords.filter((c) => c.start < end && c.start + c.length > n.start + 0.02)) {
+                const tones = chordPitchClasses(e.chord);
+                const foreign = tones.filter((t) => !isInScale(t, ctx.key.root, ctx.key.mode));
+                if (!foreign.length) continue;
+                chromatic++;
+                if (tones.includes(((pitch % 12) + 12) % 12)) continue;
+                for (const f of foreign) expect([1, 11]).not.toContain((((pitch - f) % 12) + 12) % 12);
+              }
+            }
+          }
+        }
+      }
+    }
+    expect(chromatic).toBeGreaterThan(50);
   });
 });
 

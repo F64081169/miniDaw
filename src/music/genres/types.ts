@@ -37,6 +37,7 @@ export interface ProgressionDef {
   name: string;
   prog: string; // see parseProgression
   chorus?: string; // optional different progression for chorus / drop
+  bridge?: string; // optional progression for the bridge (genres whose bridge turns use vi–IV–I–V otherwise)
   note: string;
 }
 

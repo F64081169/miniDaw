@@ -5,9 +5,11 @@ import { useMemo, useState } from 'react';
 import { engine } from '../audio/engine';
 import { CATEGORY_INFO, getPatch } from '../audio/instruments/patches';
 import type { CoachState } from '../core/types';
-import { applyAll, applyStep, buildSteps, clearGenre, patchOptions, progressionPreview, progressionSymbols, selectGenre, setCoachOption, toggleStepDone } from '../music/coach';
+import { applyAll, applyStep, buildSteps, clearGenre, emotionMap, patchOptions, progressionPreview, progressionSymbols, selectGenre, setCoachOption, toggleStepDone } from '../music/coach';
+import { sectionColor } from '../music/sections';
 import { BREATHING_GUIDE, BREATHING_SOURCES } from '../music/breathing';
 import { SECTION_LABEL } from '../music/generate/common';
+import { MOVES, MOVE_SOURCES } from '../music/generate/moves';
 import { GENRES, getGenre } from '../music/genres';
 import CLASSICS from '../music/genres/classics.json';
 import type { GenreDef, StepId } from '../music/genres/types';
@@ -228,7 +230,58 @@ function Options({ g, s }: { g: GenreDef; s: CoachState }) {
   );
 }
 
-function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<typeof buildSteps>[number]; index: number; done: boolean; open: boolean; onToggle: () => void; g: GenreDef }) {
+/** What the current version does emotionally, section by section (read from the plan it was generated from). */
+function EmotionMapView({ g, s }: { g: GenreDef; s: CoachState }) {
+  const generated = useDaw((st2) => st2.project.tracks.some((t) => t.role?.startsWith(`${g.id}:`) && t.regions.length > 0));
+  const bpm = useDaw((st2) => st2.project.bpm);
+  const timeSig = useDaw((st2) => st2.project.timeSig);
+  const map = useMemo(() => (generated ? emotionMap(st().project, g, s) : []), [generated, bpm, timeSig, g, s]);
+  if (!generated) return <p className="step-hint">一鍵生成（或生成鼓、和弦與旋律）之後，這裡會畫出這一版的「情緒地圖」：每一段在整首歌裡負責什麼情緒、用了哪些手法，以及這一版挑了哪幾招大師的招。</p>;
+  return (
+    <div className="emotion-map">
+      <h4>這一版的情緒地圖</h4>
+      <ol>
+        {map.map((e, i) => (
+          <li key={i} className="emotion-stop">
+            <div className="emotion-head">
+              <span className="emotion-label">{e.label}</span>
+              <span className="emotion-role">{e.role}</span>
+              <span className="emotion-bars num">{e.bars} 小節</span>
+            </div>
+            <div className="emotion-bar" role="img" aria-label={`能量 ${Math.round(e.energy * 100)}%`}>
+              <span style={{ width: `${Math.round(e.energy * 100)}%`, background: sectionColor(e.type) }} />
+            </div>
+            {e.devices.length > 0 && (
+              <ul className="emotion-devices">
+                {e.devices.map((d, k) => (
+                  <li key={k}>{d}</li>
+                ))}
+              </ul>
+            )}
+            {e.moves.length > 0 && (
+              <ul className="emotion-moves">
+                {e.moves.map((m, k) => (
+                  <li key={k}>
+                    <span className="move-badge">招</span>
+                    <div className="move-body">
+                      <span className="move-name">{m.name}</span>：{m.detail}
+                      <div className="move-why">
+                        {m.effect}。<span className="move-origin">出處：{m.origin}</span>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ol>
+      <p className="step-hint">情緒地圖依生成時的設計整理，修改音符後不會跟著變；再按一次一鍵生成會換成新的設計。</p>
+    </div>
+  );
+}
+
+function StepCard({ step, index, done, open, onToggle, g, s }: { step: ReturnType<typeof buildSteps>[number]; index: number; done: boolean; open: boolean; onToggle: () => void; g: GenreDef; s: CoachState }) {
   const extra = (id: StepId) => {
     if (id === 'record')
       return (
@@ -267,6 +320,7 @@ function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<t
           {step.body.split('\n\n').map((para, i) => (
             <p key={i}>{para}</p>
           ))}
+          {step.id === 'arrange' && <EmotionMapView g={g} s={s} />}
           {step.roles.length > 0 && (
             <ul className="role-list">
               {step.roles.map((r) => {
@@ -304,6 +358,15 @@ function StepCard({ step, index, done, open, onToggle, g }: { step: ReturnType<t
   );
 }
 
+/** One click, then say which of the masters' moves this version uses. */
+function generateAll(g: GenreDef) {
+  applyAll();
+  const p = st().project;
+  if (!p.coach) return;
+  const names = [...new Set(emotionMap(p, g, p.coach).flatMap((e) => e.moves.map((m) => m.name)))];
+  if (names.length) st().toast(`這一版用了大師的招：${names.join('、')}（在哪裡、怎麼用，看「編曲動態檢查」的情緒地圖）`);
+}
+
 function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
   const [tab, setTab] = useState<'steps' | 'traits' | 'classics' | 'tips'>('steps');
   const project = useDaw((st2) => st2.project);
@@ -328,7 +391,7 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
       </div>
       <Options g={g} s={s} />
       <div className="coach-all">
-        <button type="button" className="btn btn-primary btn-big" onClick={applyAll}>
+        <button type="button" className="btn btn-primary btn-big" onClick={() => generateAll(g)}>
           <Icon name="sparkle" size={18} /> 一鍵生成完整編曲
         </button>
         <span className="muted small">依目前的調性、進行與曲式建立所有音軌。每按一次都是新的版本（鼓手的演奏、過門、旋律、貝斯與伴奏都會換），喜歡上一版可以復原（⌘Z）。會取代教練先前生成的音軌，你自己的音軌與錄音會保留。</span>
@@ -354,7 +417,7 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
           </div>
           <ol className="steps-list">
             {steps.map((step, i) => (
-              <StepCard key={step.id} g={g} step={step} index={i} done={doneFlags[i]} open={current === step.id} onToggle={() => setOpenId(current === step.id ? ('__none' as StepId) : step.id)} />
+              <StepCard key={step.id} g={g} s={s} step={step} index={i} done={doneFlags[i]} open={current === step.id} onToggle={() => setOpenId(current === step.id ? ('__none' as StepId) : step.id)} />
             ))}
           </ol>
         </>
@@ -424,6 +487,26 @@ function GenreView({ g, s }: { g: GenreDef; s: CoachState }) {
             <summary>這些原則參考的公開資料</summary>
             <ul>
               {BREATHING_SOURCES.map((s2) => (
+                <li key={s2.url}>
+                  <a href={s2.url} target="_blank" rel="noreferrer">
+                    {s2.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+          <h3>大師的招（一鍵生成每一版會挑幾招）</h3>
+          <ul className="breathing">
+            {Object.values(MOVES).map((m) => (
+              <li key={m.name}>
+                <strong>{m.name}</strong>：{m.effect}。<span className="muted">（{m.origin}）</span>
+              </li>
+            ))}
+          </ul>
+          <details className="small muted">
+            <summary>招式的出處</summary>
+            <ul>
+              {MOVE_SOURCES.map((s2) => (
                 <li key={s2.url}>
                   <a href={s2.url} target="_blank" rel="noreferrer">
                     {s2.title}

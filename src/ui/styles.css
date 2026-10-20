@@ -2804,3 +2804,107 @@ fieldset.field {
   max-height: 220px;
   overflow: auto;
 }
+
+/* ---- emotion map (coach: arrange step) */
+.emotion-map {
+  margin: 10px 0 4px;
+}
+.emotion-map h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--gc);
+}
+.emotion-map ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.emotion-stop {
+  padding: 8px 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+.emotion-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.emotion-label {
+  font-weight: 600;
+  color: var(--fg);
+}
+.emotion-role {
+  color: var(--fg-2);
+  font-size: 12px;
+  flex: 1;
+  min-width: 0;
+}
+.emotion-bars {
+  color: var(--fg-3);
+  font-size: 11px;
+}
+.emotion-bar {
+  height: 4px;
+  margin: 6px 0 4px;
+  border-radius: 2px;
+  background: var(--surface-3);
+  overflow: hidden;
+}
+.emotion-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+}
+.emotion-devices {
+  margin: 4px 0 0;
+  padding-left: 16px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+.emotion-moves {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.emotion-moves li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--fg);
+}
+.move-badge {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gc);
+  background: color-mix(in srgb, var(--gc) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gc) 40%, transparent);
+}
+.move-body {
+  min-width: 0;
+}
+.move-name {
+  font-weight: 600;
+}
+.move-why {
+  color: var(--fg-2);
+}
+.move-origin {
+  color: var(--fg-3);
+}

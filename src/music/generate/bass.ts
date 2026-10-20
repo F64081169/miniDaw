@@ -443,7 +443,24 @@ export function generateBass(style: BassStyle, ctx: SectionCtx, kicks: number[] 
     default:
       notes = KICK_LOCKED.has(style) && kicks.length && ctx.energy >= 0.45 ? kickLocked(style, ctx, kicks, rng) : patternBass(style, ctx, rng);
   }
+  notes = notes.map((n) => ({ ...n, pitch: clearOfChord(n.pitch, chordAtBeat(ctx, n.start + 0.01).chord, ctx) }));
   notes = notes.map((n) => ({ ...n, start: swingTime(n.start, ctx.swing, ctx.swingUnit) }));
   notes = humanizeNotes(notes, ctx.humanize * 0.7, rng, style === 'trap808' || style === 'house' || style === 'edm');
   return clipToSection(notes, ctx);
+}
+
+/**
+ * A passing note a half step from a chord's own out-of-key tone (the B of G7 in E flat, the A
+ * flat of a borrowed F minor in C) rubs against it: it takes that tone instead.
+ */
+function clearOfChord(pitch: number, chord: Chord, ctx: SectionCtx): number {
+  const tones = chordPitchClasses(chord);
+  const pc = ((pitch % 12) + 12) % 12;
+  if (tones.includes(pc)) return pitch;
+  for (const t of tones) {
+    if (isInScale(t, ctx.key.root, ctx.key.mode)) continue;
+    if (((t - pc + 12) % 12) === 1) return pitch + 1;
+    if (((pc - t + 12) % 12) === 1) return pitch - 1;
+  }
+  return pitch;
 }

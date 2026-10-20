@@ -341,9 +341,9 @@ export const PATCHES: PatchDef[] = [
       retrigger: 'cut',
       maxVoices: 24,
     },
-    chain: { amp: { drive: 0.85, cabinet: 'guitar', presence: 3 }, room: { decay: 0.8, damping: 0.6 } },
-    controls: [c('tone', 0.45), c('drive', 0.85), c('room', 0.12)],
-    level: -2.8,
+    chain: { amp: { drive: 0.6, cabinet: 'guitar', presence: 3 }, room: { decay: 0.8, damping: 0.6 } },
+    controls: [c('tone', 0.45), c('drive', 0.6), c('room', 0.12)],
+    level: -1.1,
     trackColor: CATEGORY_INFO.eguitar.color,
   },
 

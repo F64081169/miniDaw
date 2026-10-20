@@ -98,64 +98,65 @@
     "title": "晴天",
     "artist": "周杰倫",
     "year": 2003,
-    "why": "用一段吉他分解和弦動機貫穿全曲，再以電吉他獨奏推上高潮，是華語「樂團式抒情」的代表。",
+    "why": "周杰倫詞、曲、編曲一手包辦的情歌（2003 年 Hit FM 年度百首單曲第二名）：同時帶有華語與西洋流行的寫法，再用帶點破音的吉他加進柔和的另類搖滾色彩。",
     "listen": [
-     "前奏那段反覆的吉他分解和弦就是全曲的招牌動機，一出來就能認出這首歌。",
-     "整首以吉他、貝斯、鼓的樂團編制為骨架，走偏搖滾的抒情路線，而不是鋼琴加弦樂的寫法。",
-     "間奏有一段電吉他獨奏，是全曲情緒最外放的段落之一。",
-     "比較主歌與副歌：鼓的力度與吉他的厚度怎麼變化，讓副歌自然「亮起來」。"
+     "詞、曲、編曲都出自周杰倫本人（收錄於 2003 年 7 月發行的專輯《葉惠美》，長約 4 分 29 秒），配器的取捨全由同一人決定。",
+     "注意吉他的音色：帶著輕微的破音，樂評認為正是這點讓整首在華語與西洋流行之間，多了一層柔和的另類搖滾味道。"
     ],
     "techniques": [
-     "riff-intro",
-     "band-ballad",
-     "guitar-solo",
-     "layering-by-section"
+     "band-ballad"
     ],
-    "sources": []
+    "sources": [
+     "https://zh.wikipedia.org/wiki/%E8%91%89%E6%83%A0%E7%BE%8E",
+     "https://en.wikipedia.org/wiki/Yeh_Hui-Mei",
+     "https://www.sputnikmusic.com/review/6810/Jay-Chou-Ye-Hui-Mei/"
+    ]
    },
    {
     "title": "十年",
     "artist": "陳奕迅",
     "year": 2003,
-    "why": "華語敘事型抒情的典型：主歌克制、把空間讓給咬字，副歌才把情緒放開。",
+    "why": "同一段旋律的國語版：粵語版〈明年今日〉2002 年推出後橫掃香港各大頒獎禮，隔年改填國語詞成為〈十年〉，作詞、作曲與編曲都是原班人馬，最適合拿來比較「同一首歌、兩種語言」。",
     "listen": [
-     "這首與粵語歌〈明年今日〉共用同一段旋律（陳小霞作曲、林夕填詞），可以對照兩個版本的編曲處理。",
-     "主歌伴奏精簡，讓每個字都聽得清楚。",
-     "留意鼓組從哪一段開始完整進來，以及副歌時伴奏厚度增加了多少。",
-     "比較第一次與最後一次副歌，聽聽看最後一次多加了什麼。"
+     "旋律與〈明年今日〉相同（陳小霞作曲、林夕作詞）：〈明年今日〉由陳輝陽編曲兼製作，收錄於 2002 年的《The Line-Up》；〈十年〉收錄於 2003 年的國語專輯《黑·白·灰》，編曲人沒有換。",
+     "依〈明年今日〉的樂曲分析，這段旋律從頭到尾停在降 A 大調、不轉調，段落是 AAB、4/4 拍，最高音與最低音相差九度：起伏不是靠升 Key 做出來的。",
+     "國語版的點子來自作曲人陳小霞；陳奕迅起初不太願意把舊歌換個語言重唱，被說服後才錄了〈十年〉。"
     ],
     "techniques": [
-     "sparse-verse",
-     "space-for-vocal",
-     "build-to-final-chorus"
+     "cross-language-version",
+     "no-key-change"
     ],
-    "sources": []
+    "sources": [
+     "https://zh.wikipedia.org/wiki/%E6%98%8E%E5%B9%B4%E4%BB%8A%E6%97%A5",
+     "https://musicbrainz.org/release/90339139-35ba-4b62-9184-fbe5b1ab856e",
+     "https://musicbrainz.org/release/d72de5e3-352a-40ef-a055-93fade514c92"
+    ]
    },
    {
     "title": "紅豆",
     "artist": "王菲",
     "year": 1998,
-    "why": "示範「少即是多」：輕柔的伴奏加上王菲輕盈的唱腔，讓留白本身成為情緒。",
+    "why": "林夕作詞、柳重言作曲的情歌：柳重言說寫這首時腦中一直想著王菲的嗓音會怎麼唱，旋律幾分鐘就成形，是自己寫得最快的一首。",
     "listen": [
-     "伴奏一直維持輕柔，不走越唱越大聲的爆發路線，人聲始終站在最前面。",
-     "聽聽看副歌比主歌多了什麼：差異可能比想像中小，情緒主要靠旋律與唱腔推動。",
-     "留意句與句之間的空隙，伴奏沒有急著把每個空拍填滿。"
+     "編曲是 Alex San，製作人是梁榮駿與王菲；收錄於 1998 年 10 月發行的專輯《唱遊》，長約 4 分 19 秒。",
+     "同一段旋律另有林夕填詞的粵語版〈償還〉，編曲同樣出自 Alex San，收在《唱遊》的部分版本裡：可以對照國、粵語兩版，聽咬字與語感的差別。"
     ],
     "techniques": [
-     "minimal-arrangement",
-     "space-for-vocal",
-     "subtle-dynamics"
+     "cross-language-version"
     ],
-    "sources": []
+    "sources": [
+     "https://zh.wikipedia.org/wiki/%E7%B4%85%E8%B1%86_(%E6%AD%8C%E6%9B%B2)",
+     "https://zh.wikipedia.org/wiki/%E5%94%B1%E9%81%8A",
+     "https://www.chinanews.com.cn/yl/2013/12-20/5644894.shtml"
+    ]
    }
   ],
   "lessons": [
-   "華語抒情以人聲與歌詞為核心：主歌伴奏精簡、讓咬字清楚，副歌再用鼓、貝斯與弦樂把情緒放大。",
-   "一個好記的前奏動機（吉他或鋼琴）可以在前奏、間奏、尾奏重複出現，把整首歌串起來。",
-   "高潮通常放在間奏獨奏或最後一次副歌，前面要刻意保留力氣。",
-   "留白也是編曲：不必把每個空拍填滿，給人聲呼吸的空間。"
-  ],
-  "verified": false
+   "同一段旋律可以換語言再發行一次：〈明年今日〉與〈十年〉、〈紅豆〉與〈償還〉都沿用同一位編曲人，對照兩版最容易聽出語言與歌詞怎麼改變一首歌的感覺。",
+   "不轉調也能撐完整首：〈明年今日〉／〈十年〉從頭到尾不轉調、用 AAB 段落，情緒起伏要靠旋律、演唱與配器本身。",
+   "華語抒情可以借用西洋搖滾的音色：〈晴天〉在華語與西洋流行的寫法之間，用帶輕微破音的吉他加上柔和的另類搖滾色彩。",
+   "旋律可以為歌手量身打造：〈紅豆〉是作曲者一邊想像王菲的聲音一邊寫成的。"
+  ]
  },
  "ballad": {
   "songs": [
@@ -677,63 +678,72 @@
     "title": "Don't Cry",
     "artist": "J Dilla",
     "year": 2006,
-    "why": "把一段靈魂樂人聲剪碎重組成循環，示範 Lo-fi／beat tape 美學的源頭：取樣怎麼「切」本身就是編曲。",
+    "why": "出自 J Dilla 生前發行的最後一張專輯《Donuts》（2006 年 2 月 7 日、Dilla 32 歲生日當天發行，三天後 Dilla 過世）。整張專輯源自一捲 beat tape，也有樂評把 Dilla 和 Nujabes 並列為 lo-fi hip hop 的開創者；這首示範「怎麼切取樣」本身就是編曲。",
     "listen": [
-     "取樣來自 The Escorts〈I Can't Stand (To See You Cry)〉，人聲被切成短片段反覆，切點本身就成了旋律與節奏。",
-     "整首很短，像一段循環的素描，不走完整的主副歌結構；收錄於 Dilla 生前發行的最後一張專輯《Donuts》。",
-     "跟著鼓數拍，感受鼓與取樣之間微妙的不對齊，這種鬆緊感正是 Dilla 律動的關鍵。"
+     "取樣來源是 The Escorts 翻唱的〈I Can't Stand (To See You Cry)〉（原唱是 The Whatnauts）；開頭大約 40 秒，幾乎是把原曲片段原樣接起來播，之後才轉進 Dilla 重組過的 beat。",
+     "Dilla 以八分音符為單位切取樣，從整首歌的不同位置挑出極短的片段，多半是人聲樂句結尾、只剩大鼓小鼓的瞬間，再重新拼接；聽起來像唱針在唱片上到處跳，連貝斯線都是拼出來的新旋律。",
+     "取樣先被放慢、再被加快，上面疊著鋼琴與和聲；整首只有 1 分 59 秒，在專輯裡由前一首〈Two Can Win〉無縫接進來。"
     ],
     "techniques": [
+     "sample-then-flip",
      "chopped-vocal-sample",
      "loop-based",
-     "short-form",
-     "swing-drums"
+     "short-form"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/Donuts_(album)",
+     "https://tinysubversions.com/essays/dontcry/",
+     "https://www.cornellsun.com/article/2025/03/nujabes-artistry-a-musical-snapshot-of-his-seminal-tracks"
+    ]
    },
    {
     "title": "Aruarian Dance",
     "artist": "Nujabes",
     "year": 2004,
-    "why": "Nujabes 以爵士和聲、柔和旋律與穩定律動交織的器樂 beat，是今天 Lo-fi 讀書音樂最常被追溯的源頭之一。",
+    "why": "動畫《混沌武士（Samurai Champloo）》原聲帶裡的器樂曲：這張原聲帶、尤其是這首，被視為 lo-fi hip hop 的早期範例，也有樂評稱它是 Nujabes 最廣為人知的作品。",
     "listen": [
-     "出自動畫《混沌武士（Samurai Champloo）》的原聲帶，是純器樂曲，由旋律取代人聲站在最前面。",
-     "比較鼓與旋律的音量關係：鼓柔和、退在後面，整體偏放鬆而不搶耳。",
-     "跟著循環聽：哪些元素一直都在、哪些會暫時離開再回來，這就是 Lo-fi 的「段落」。"
+     "收錄於 2004 年 6 月 23 日發行的原聲帶《Samurai Champloo Music Record: Departure》（第 3 首，4 分 10 秒，Nujabes 製作）；全曲沒有歌詞，由柔和的吉他與小提琴旋律撐起情緒。",
+     "核心旋律取樣自巴西吉他手 Laurindo Almeida 1969 年錄的吉他改編版，原曲是 Ravel 1899 年的〈Pavane pour une infante défunte〉；Bandcamp Daily 形容這段旋律源自 19 世紀的印象派。",
+     "《Departure》由 Nujabes 與 Fat Jon 共同製作，整張以柔和、慢速的曲子為主。"
     ],
     "techniques": [
-     "instrumental-beat",
-     "loop-based",
-     "jazz-harmony",
-     "soft-drums"
+     "instrumental-beat"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/Music_of_Samurai_Champloo",
+     "https://www.cornellsun.com/article/2025/03/nujabes-artistry-a-musical-snapshot-of-his-seminal-tracks",
+     "https://vietcetera.com/vn/sample-hay-la-mo-vang-de-nghe-si-khai-thac",
+     "https://daily.bandcamp.com/lists/nujabes-tribute-feature"
+    ]
    },
    {
     "title": "Feather",
     "artist": "Nujabes feat. Cise Starr & Akin",
     "year": 2005,
-    "why": "示範爵士嘻哈／Lo-fi 怎麼在柔和的循環上承載饒舌：beat 保持溫和穩定，讓人聲說故事。",
+    "why": "示範 lo-fi／爵士嘻哈怎麼在一段寧靜的鋼琴循環上承載饒舌：取樣只用了短短幾秒，兩位饒舌歌手在上面各自說故事。",
     "listen": [
-     "收錄於 2005 年專輯《Modal Soul》，由 Cise Starr 與 Akin 兩位饒舌歌手輪流演出。",
-     "beat 以溫和反覆的循環為主，段落感主要來自兩位饒舌歌手的交替。",
-     "聽聽看旋律元素在饒舌時如何保持低調，在段落之間才浮上來。"
+     "專輯《Modal Soul》（2005 年 11 月 11 日由 Nujabes 自己的廠牌 Hydeout Productions 發行）的第一首，長 2 分 55 秒；客座的是 CYNE 團的兩位饒舌歌手 Cise Starr 與 Akin。",
+     "整首建立在一段寧靜、反覆的鋼琴循環上，好記又讓人放鬆；兩位饒舌歌手在上面唸各自的主歌。",
+     "取樣來源是 Yusef Lateef 1961 年錄的版本，原曲是 Newman 在 1953 年寫的〈Love Theme〉；Nujabes 只取了其中大約 6 秒。"
     ],
     "techniques": [
-     "loop-based",
-     "vocal-over-loop",
-     "jazz-harmony"
+     "jazz-piano-loop",
+     "short-sample-loop",
+     "vocal-over-loop"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/Modal_Soul",
+     "https://www.cornellsun.com/article/2025/03/nujabes-artistry-a-musical-snapshot-of-his-seminal-tracks",
+     "https://vietcetera.com/vn/sample-hay-la-mo-vang-de-nghe-si-khai-thac"
+    ]
    }
   ],
   "lessons": [
-   "Lo-fi 的骨架是循環：幾小節的和弦或取樣反覆到底，變化靠元素的進出，而不是換和弦或換段落。",
-   "鼓不必完全對齊格線：帶一點人味的搖擺（Dilla 式的鬆散律動）比精準更重要。",
-   "爵士和聲（七和弦、九和弦）加上柔和音色營造放鬆感，鼓的音量往後退一點。",
-   "歌可以很短、像素描：一個好循環加上一點點變化就足以成立。"
-  ],
-  "verified": false
+   "取樣怎麼切就是編曲：〈Don't Cry〉以八分音符為單位，從原曲各處挑出極短的片段重新拼接，連貝斯線都是拼出來的新旋律。",
+   "可以先讓聽眾聽見原始素材再翻轉：〈Don't Cry〉開頭約 40 秒幾乎原樣播放取樣，之後才切碎重組。",
+   "幾秒鐘的素材就能撐起一首歌：〈Feather〉的取樣只用了約 6 秒，整首就建立在一段反覆的鋼琴循環上，饒舌再疊在上面。",
+   "歌可以很短、像素描：〈Don't Cry〉不到兩分鐘、〈Feather〉不到三分鐘；器樂曲則讓旋律取代人聲站到最前面（Aruarian Dance）。"
+  ]
  },
  "rnb": {
   "songs": [
@@ -1388,55 +1398,73 @@
     "title": "プラスティック・ラブ (Plastic Love)",
     "artist": "竹内まりや (Mariya Takeuchi)",
     "year": 1984,
-    "why": "City Pop 全球復興的代表曲：竹內瑪莉亞作詞作曲、山下達郎編曲，把舞曲律動和都會感的旋律結合在一起。",
+    "why": "City Pop 全球復興的代表曲：竹內瑪莉亞作詞作曲、山下達郎編曲兼製作；竹內瑪莉亞說當初就是想寫一首能跳舞、16 beat、描寫都會生活的歌。",
     "listen": [
-     "編曲由山下達郎操刀，以帶 Funk／Disco 感的鼓與貝斯律動為核心，人聲飄在穩定的 groove 上。",
-     "1985 年另外發行的 12 吋單曲收錄加長的 Extended Club Mix，可以對照學習同一首歌如何為舞池拉長純器樂段落。"
+     "編曲與製作都是山下達郎，和聲也由山下達郎親自唱；1984 年在東京銀座的 Onkio Haus 錄音、混音，收錄於專輯《Variety》。",
+     "放克味的貝斯線加上華麗的銅管，托起高亢的人聲；輕快的編曲和憂傷的歌詞形成反差。",
+     "歌詞大多是日文，但副歌裡的「Don't worry」「I'm sorry」和結尾反覆唱的段落換成英文。",
+     "1985 年 3 月 25 日以 12 吋黑膠單曲發行，收錄加長的「Extended Club Mix」：可以對照專輯版，聽同一首歌怎麼為舞池延長。",
+     "2017 年上傳到 YouTube、後來爆紅的 8 分鐘版本並不是官方混音，而是歌迷把原曲的幾段反覆接長的剪輯。"
     ],
     "techniques": [
      "groove-first",
      "extended-club-mix"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/Plastic_Love",
+     "https://wmg.jp/mariya/discography/3531/"
+    ]
    },
    {
     "title": "SPARKLE",
     "artist": "山下達郎 (Tatsuro Yamashita)",
     "year": 1982,
-    "why": "City Pop 吉他 cutting 的代名詞：專輯《FOR YOU》的開場曲，以招牌的電吉他 cutting 前奏與緊密的節奏組聞名。",
+    "why": "專輯《FOR YOU》（1982 年 1 月）的開場曲，也被樂評視為這張代表作的核心：醒目的吉他 cutting 開場，巡演磨合過的節奏組加上熱鬧的銅管，一路把能量往上推。",
     "listen": [
-     "前奏由山下達郎自己的電吉他 cutting 開場，16 分音符的切音刷弦就是整首的律動引擎。",
-     "節奏組是他當時的固定班底（鼓手青山純、貝斯手伊藤廣規），鼓與貝斯緊密咬合，吉他 cutting 疊在上面。"
+     "一開頭就是山下達郎自己彈的電吉他 cutting，接著奔馳的節奏與熱鬧的銅管一起進來，把前奏的情緒拉高；人聲進來後再往上推一層。",
+     "節奏組是巡演班底：鼓青山純、貝斯伊藤廣規、鍵盤難波弘之（鋼琴與合成器）；錄音前剛跑完長期巡演，合奏默契是在現場磨出來的。",
+     "銅管組是兩把小號、兩把長號，加上次中音與上低音薩克斯風，另有土岐英史的中音薩克斯風獨奏；山下達郎同時負責電鋼琴、打擊樂與和聲。",
+     "作詞的吉田美奈子也親自唱和聲，有力的靈魂樂式合音讓高潮更熱。"
     ],
     "techniques": [
      "riff-intro",
      "guitar-cutting",
-     "tight-rhythm-section"
+     "tight-rhythm-section",
+     "sax-solo"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/For_You_(Tatsuro_Yamashita_album)",
+     "https://realsound.jp/2021/09/post-851172.html"
+    ]
    },
    {
     "title": "君は天然色",
     "artist": "大滝詠一 (Eiichi Ohtaki)",
     "year": 1981,
-    "why": "專輯《A LONG VACATION》的開場曲，示範 Phil Spector 式「音牆」在 City Pop 的用法：用大量樂器疊出厚實又明亮的聲響。",
+    "why": "專輯《A LONG VACATION》的開場曲：大滝詠一動用大批樂手錄音，做出流行又厚實的「日本版音牆」。大滝說第一次在錄音時聽到樂團奏出前奏，終於覺得多年鑽研的 Phil Spector 聲響成了自己的。",
     "listen": [
-     "以音牆（Wall of Sound）手法錄製：多件同類樂器同時演奏、重疊，融成一整團厚實的聲音，而不是每件樂器各自清楚分開。",
-     "和 SPARKLE 這類節奏組清楚、留白多的編曲對照聽，可以分辨 City Pop 裡「疊厚」與「留白」兩種配器取向。"
+     "專輯版一開始先是樂手調音、數拍的聲音，接著整個樂團「鏘」一聲進來；同一天發行的單曲版把這段調音到數拍剪掉了。",
+     "錄音動用大批樂手，錄音工程由吉田保負責；整張專輯的樂手名單光吉他手就列了十一位。",
+     "伴奏原本是副歌往上轉一個全音，但配上歌詞後聽起來太彆扭，大滝便用 Harmonizer 只把副歌降一個全音；降音後流失的高頻，再疊錄一層打擊樂的鈴聲補回來。",
+     "降調前的原始伴奏（Original Basic Track）收錄在 2011 年的《A LONG VACATION 30th Edition》，可以和正式版對照。",
+     "編曲署名「多羅尾伴內」其實是大滝本人的化名；作詞是松本隆。"
     ],
     "techniques": [
      "wall-of-sound",
-     "unison-layering"
+     "harmonizer-pitch-shift"
     ],
-    "sources": []
+    "sources": [
+     "https://ja.wikipedia.org/wiki/%E5%90%9B%E3%81%AF%E5%A4%A9%E7%84%B6%E8%89%B2",
+     "https://en.wikipedia.org/wiki/A_Long_Vacation"
+    ]
    }
   ],
   "lessons": [
-   "律動組是骨架：鼓、貝斯與 16 分音符吉他 cutting 緊密咬合，其他配器都疊在這個 groove 上。",
-   "配器可以「疊厚」也可以「留白」：音牆式的多樂器重疊（君は天然色）與乾淨的節奏組（SPARKLE）是兩種不同取向。",
-   "舞曲感很重要：可以像 Plastic Love 的 12 吋版一樣，另外做加長的 Club Mix，把純器樂段落拉長給舞池。"
-  ],
-  "verified": false
+   "律動組是骨架：〈SPARKLE〉由巡演磨合過的鼓、貝斯、鍵盤加上吉他 cutting 打底，銅管與和聲再疊上去把情緒推高。",
+   "要厚就大方地疊：〈君は天然色〉動用大批樂手錄音，追求日本版的 Spector 音牆。",
+   "後製也是編曲：〈君は天然色〉用 Harmonizer 把副歌降一個全音，再補一層鈴聲找回高頻。",
+   "為舞池另做一個版本：〈Plastic Love〉1985 年的 12 吋單曲收錄加長的 Extended Club Mix；輕快的律動也能承載憂傷的歌詞。"
+  ]
  },
  "reggae": {
   "songs": [
@@ -1444,67 +1472,79 @@
     "title": "King Tubby Meets Rockers Uptown",
     "artist": "Augustus Pablo",
     "year": 1976,
-    "why": "Dub 的經典：King Tubby 把 Jacob Miller〈Baby I Love You So〉的伴奏帶在混音台上重新「編曲」，示範抽掉與放回樂器、回音與殘響如何製造起伏。",
+    "why": "Dub 的經典，樂評認為是入門 Dub 的最佳起點：King Tubby 把 Augustus Pablo 製作的 Jacob Miller〈Baby I Love You So〉伴奏，在混音台上重新「編」成一首新曲，示範抽掉與放回樂器、甩出回音如何製造起伏。",
     "listen": [
-     "這是 Jacob Miller〈Baby I Love You So〉的 Dub 版本：同一份伴奏帶，經 King Tubby 在混音台上重新處理成新作品。",
-     "樂器會突然被抽掉又放回來，鼓與貝斯被推到最前面成為主角。",
-     "大量回音（Echo／Delay）與殘響甩尾，把單一聲響拉成空間感，取代傳統的過門。",
-     "原曲人聲只剩零星片段，偶爾才浮現。"
+     "這是〈Baby I Love You So〉的 Dub 版，和原曲分別放在同一張 45 轉單曲的兩面，1976 年再收進同名專輯；專輯的伴奏都在金斯敦的 Randy's 錄音室錄好，再由 Pablo 把母帶交給 King Tubby 混音。",
+     "律動從頭到尾都在，但幾乎每件樂器和 Miller 的歌聲都會在混音裡忽然消失、又忽然冒出來，King Tubby 則把回音大把大把地甩出去。",
+     "最上層飄著 Pablo 吹的口風琴（melodica）；底下是低沉的貝斯、零星散落的小鼓與陰暗的殘響，原曲旋律還認得出來，但只剩模糊的影子。",
+     "專輯樂手包括鼓手 Carlton Barrett、貝斯手 Robbie Shakespeare 與 Aston Barrett、吉他手 Earl「Chinna」Smith；Pablo 本人彈鋼琴、風琴、Clavinet 並吹口風琴。"
     ],
     "techniques": [
      "dub-mix",
      "drop-out-mute",
      "echo-throw",
-     "bass-and-drums-forward",
      "vocal-fragments"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/King_Tubbys_Meets_Rockers_Uptown",
+     "https://www.rollingstone.com/music/music-lists/best-songs-of-all-time-1224767/augustus-pablo-king-tubbys-meets-rockers-uptown-1225072/",
+     "https://www.standard.co.uk/culture/music/working-from-home-album-king-tubbys-meets-rockers-uptown-a4426121.html"
+    ]
    },
    {
     "title": "No Woman, No Cry (Live)",
     "artist": "Bob Marley & The Wailers",
     "year": 1975,
-    "why": "現場版雷鬼抒情曲的經典：在慢速律動上，靠和聲與全場大合唱一路把情緒推高。",
+    "why": "這首歌最知名的版本，也是現場版雷鬼抒情曲的經典：慢慢鋪陳的律動、風琴與和聲，加上全場觀眾的歌聲，把情緒一路推高。",
     "listen": [
-     "1975 年倫敦 Lyceum 劇院的現場錄音，比前一年《Natty Dread》的錄音室版長得多，留出大量呼吸空間。",
-     "風琴帶出前奏，樂團再進入慢速的雷鬼律動。",
-     "I Threes 的和聲圍繞 Marley 的主唱，加厚副歌。",
-     "觀眾跟著大合唱，群眾的聲音本身也成了編曲的一部分。"
+     "1975 年 7 月 17 日在倫敦 Lyceum 劇院用 Rolling Stones 的行動錄音室錄下，長 7 分 07 秒，將近前一年《Natty Dread》錄音室版（3 分 46 秒、用鼓機）的兩倍。",
+     "前奏是一段拉長的風琴（Tyrone Downie）引子，Marley 還沒開口，觀眾就先跟著唱起副歌。",
+     "Aston「Family Man」Barrett 的貝斯撐住律動，伴唱的「oooh」和聲墊在後面（I Threes 這兩場只來了兩位）。",
+     "副歌先把歌名唱在小調色彩上、旋律貼著根音走，再換到大調唱一次、旋律升到四度，聽起來從憂傷轉向希望；第二段主歌裡「everything's gonna be alright」突然冒出來，氣氛跟著衝高。",
+     "錄音沒有事後修飾：第一段主歌還聽得到一下麥克風回授聲，觀眾的聲音貫穿整整七分鐘。"
     ],
     "techniques": [
      "organ-intro",
      "slow-groove",
      "harmony-vocals",
      "crowd-singalong",
-     "live-dynamics"
+     "live-dynamics",
+     "minor-to-major-shift"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/No_Woman,_No_Cry",
+     "https://www.udiscovermusic.com/bob-marley/bob-marley-live/",
+     "https://faroutmagazine.co.uk/bob-marleys-no-woman-no-cry/",
+     "https://www.bbc.co.uk/radio2/soldonsong/songlibrary/indepth/nowomannocry.shtml"
+    ]
    },
    {
     "title": "Stir It Up",
     "artist": "Bob Marley & The Wailers",
     "year": 1973,
-    "why": "收錄於《Catch a Fire》的經典雷鬼情歌（1972 年先由 Johnny Nash 唱紅），可以聽到 Wailers 節奏組與和聲的基本配置。",
+    "why": "收錄於《Catch a Fire》的雷鬼情歌（Marley 1967 年寫成；1972 年 Johnny Nash 的翻唱先打進英美排行榜）。這張專輯的牙買加原始混音與倫敦加錄版都已發行，是學「加層前後差在哪」最好的對照。",
     "listen": [
-     "鼓（Carlton Barrett）與貝斯（Aston「Family Man」Barrett）兄弟打底，吉他與鍵盤在反拍刷出短促的 skank。",
-     "Marley 主唱，Peter Tosh 與 Bunny Wailer 的和聲在旁呼應。",
-     "專輯《Catch a Fire》曾在倫敦加錄吉他與鍵盤，好讓搖滾樂迷更容易入耳；後來的豪華版附上牙買加的原始混音，可以對照加層前後的差別。"
+     "1972 年在金斯敦錄成八軌母帶；鼓是 Carlton Barrett，但這首的貝斯由 Robbie Shakespeare 彈（專輯其他多數歌曲是 Aston「Family Man」Barrett），風琴是 Tyrone Downie。",
+     "Marley 把母帶帶到倫敦交給 Chris Blackwell，在 Island 錄音室重新混音並加錄；這首疊上了 Muscle Shoals 錄音室吉他手 Wayne Perkins 的吉他主奏線條。",
+     "Rolling Stone 的樂評指出，加錄的風琴與電吉他偏向獨奏，稍微脫離雷鬼慣用的反拍「chink」刷法；再加上當時搖滾與 R&B 常用的掃頻濾波與殘響，整體聽起來更寬敞。",
+     "2001 年豪華版的第一張收錄未加錄的「牙買加原始版本」：這首原版約 3 分 37 秒，正式專輯版約 5 分 32 秒，可以前後對照。"
     ],
     "techniques": [
      "offbeat-skank",
-     "bass-and-drums-foundation",
-     "harmony-vocals",
      "overdub-comparison"
     ],
-    "sources": []
+    "sources": [
+     "https://en.wikipedia.org/wiki/Catch_a_Fire",
+     "https://en.wikipedia.org/wiki/Stir_It_Up",
+     "https://www.rollingstone.com/music/music-album-reviews/catch-a-fire-deluxe-edition-251607/"
+    ]
    }
   ],
   "lessons": [
-   "節奏組是地基：鼓與貝斯撐起律動，吉他與鍵盤只在反拍短促地刷，留下大量空間。",
-   "Dub 把混音台當成編曲工具：抽掉與放回樂器、用回音與殘響甩尾來取代段落變化（King Tubby Meets Rockers Uptown）。",
-   "慢速不等於平淡：靠和聲與群眾合唱，同一個律動也能一路堆高情緒（No Woman, No Cry）。",
-   "同一份伴奏可以有不同版本：對照加錄前後的版本，學習加層如何改變一首歌的風格定位（Stir It Up）。"
-  ],
-  "verified": false
+   "Dub 把混音台當成樂器：讓樂器與人聲忽進忽出、大量甩出回音，同一份伴奏就能變成一首新作品（King Tubby Meets Rockers Uptown）。",
+   "慢慢鋪陳也是力量：拉長的風琴前奏、穩住律動的貝斯與和聲，再加上觀眾的歌聲，同一個律動就能一路堆高（No Woman, No Cry）。",
+   "副歌從小調色彩換到大調再唱一次，能把情緒從憂傷帶向希望（No Woman, No Cry）。",
+   "先錄乾淨、留有空間的節奏組，之後才有地方加層：對照 Stir It Up 的牙買加原版與倫敦加錄版，聽加錄的吉他、風琴與殘響如何把雷鬼帶給英美聽眾。"
+  ]
  }
 }
